@@ -1,0 +1,78 @@
+{
+  "schema_version": "dose-temperature-calibration-v1",
+  "generated_at_utc": "2026-07-23T13:46:25.469799+00:00",
+  "target": "fsh",
+  "model": "UI-reduced GRU(AddGate) holdout",
+  "method": "scalar_temperature_scaling",
+  "labels": [
+    "low_or_none",
+    "moderate",
+    "high"
+  ],
+  "selection_split": "valid",
+  "evaluation_split": "test",
+  "acceptance_rule": "validation NLL and multiclass Brier must both be non-worse; at least one must improve; test is not used for selection",
+  "fitted_temperature": 1.0546124343319068,
+  "deployed_temperature": 1.0546124343319068,
+  "calibration_applied": true,
+  "calibration_status": "accepted_on_validation_proper_scores",
+  "checkpoint_path": "outputs/paper_audit_fsh3_20260723/checkpoints/parsimonious_clinical_gru_addgate_fsh3_holdout.pt",
+  "checkpoint_sha256": "826d26f2c8c262a36387d6e4e6fbc3b86530df26123efa829c842eb58bd4e4a3",
+  "split_manifest_path": "data/splits/split_manifest_v1.csv",
+  "split_manifest_sha256": "3c85e82f3e0779bea609273af58858a30d18d32a265039751e9532e00dc47243",
+  "metrics": {
+    "valid": {
+      "raw": {
+        "n": 7343,
+        "nll": 0.5378422651781382,
+        "brier": 0.33001802893629434,
+        "top_label_ece_15bin": 0.020389708900435666,
+        "accuracy": 0.7656271278768896,
+        "weighted_f1": 0.7649789142321197
+      },
+      "fitted_temperature": {
+        "n": 7343,
+        "nll": 0.5372178301600071,
+        "brier": 0.32953589157630714,
+        "top_label_ece_15bin": 0.012922773384643815,
+        "accuracy": 0.7656271278768896,
+        "weighted_f1": 0.7649789142321197
+      },
+      "deployed": {
+        "n": 7343,
+        "nll": 0.5372178301600071,
+        "brier": 0.32953589157630714,
+        "top_label_ece_15bin": 0.012922773384643815,
+        "accuracy": 0.7656271278768896,
+        "weighted_f1": 0.7649789142321197
+      }
+    },
+    "test": {
+      "raw": {
+        "n": 7351,
+        "nll": 0.6127632212316368,
+        "brier": 0.3706650152344686,
+        "top_label_ece_15bin": 0.045782935573192546,
+        "accuracy": 0.7305128553938239,
+        "weighted_f1": 0.7287970994310027
+      },
+      "fitted_temperature": {
+        "n": 7351,
+        "nll": 0.6086587334577226,
+        "brier": 0.36923792750086204,
+        "top_label_ece_15bin": 0.035270243675075065,
+        "accuracy": 0.7305128553938239,
+        "weighted_f1": 0.7287970994310027
+      },
+      "deployed": {
+        "n": 7351,
+        "nll": 0.6086587334577226,
+        "brier": 0.36923792750086204,
+        "top_label_ece_15bin": 0.035270243675075065,
+        "accuracy": 0.7305128553938239,
+        "weighted_f1": 0.7287970994310027
+      }
+    }
+  },
+  "argmax_preserved_by_method": true
+}

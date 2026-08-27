@@ -1,0 +1,63 @@
+feature,feature_name,mean_abs_shap,targets
+previous_gn_dose,Previous total Gn dose,0.35970810354246185,3
+mean_follicle_diameter,Mean follicle diameter,0.34464800681957014,3
+previous_fsh_daily_dose,Previous FSH dose,0.3054336877960983,3
+max_follicle_diameter,Maximum follicle diameter,0.2548869505695895,3
+previous_hmg_daily_dose,Previous HMG dose,0.21300763451196122,3
+previous_lh_like_hmg_daily_dose,Previous LH-like dose,0.18692236434125273,3
+current_fsh,FSH,0.16044570421687807,3
+previous_lh_daily_dose,Previous LH dose,0.1526977134382016,3
+delta_fsh,Change in FSH dose,0.13508541965625528,3
+visits_seen,Number of visits,0.13154759276484965,3
+monitoring_order,Monitoring visit order,0.12898571762958697,3
+baseline_only_feature_row,Baseline-only record,0.11887423434952667,3
+evaluation_day,Evaluation day,0.11400312541931958,3
+Day,Stimulation day,0.11350868096760112,3
+right_follicle_count,Right follicle count,0.10670178353552585,3
+current_lh,LH,0.10421089518054699,3
+growing_follicle_count,Growing follicle count,0.10258122882675769,3
+total_follicle_count,Total follicle count,0.09856761238392857,3
+days_since_previous_visit,Visit interval,0.09595072221951301,3
+gn_day,Gn day,0.09575224530849018,3
+follicle_count_lt_10,Follicles <10 mm,0.09505011696568827,3
+bmi,BMI,0.09397832199650076,3
+left_follicle_count,Left follicle count,0.09351528046096774,3
+age,Age,0.09211080961408091,3
+male_factor_infertility_flag,Male factor infertility,0.09131093060786878,3
+amh,AMH,0.09115720858489991,3
+current_endometrium,Endometrial thickness,0.0877134543923603,3
+e2_per_weighted_follicle,E2 per weighted follicle,0.08762987768473209,3
+p_lh_ratio,P/LH ratio,0.08663754624758359,3
+follicle_count_10_12,Follicles 10-12 mm,0.08068685984795675,3
+follicle_maturity_index,Follicle maturity index,0.07883135637542081,3
+follicle_size_weighted_count,Weighted follicle count,0.07739722922772489,3
+current_e2,E2,0.07692910884791572,3
+mature_follicle_share,Mature follicle share,0.07532965663452745,3
+ohss_follicle_load_score,Follicle load score,0.07224121033319453,3
+delta_e2,Change in E2,0.07083126346954831,3
+mid_follicle_share,Mid-size follicle share,0.06982838844424501,3
+afc,AFC,0.06509240935181258,3
+follicle_count_13_15,Follicles 13-15 mm,0.06392554262333822,3
+mature_follicle_count,Mature follicle count,0.06362112967520564,3
+delta_p_per_day,Change in P per day,0.06131071814238224,3
+medium_plus_follicle_count,Follicles >=13 mm,0.0606096545212721,3
+current_p,Progesterone,0.06047011222982999,3
+male_age,Male age,0.058759213893390554,3
+basal_lh,Basal LH,0.05744349550690075,3
+delta_p,Change in progesterone,0.05674881530931675,3
+infertility_duration,Infertility duration,0.05596005515444388,3
+basal_fsh,Basal FSH,0.055953927971311664,3
+delta_lh,Change in LH,0.055917442510206555,3
+follicle_count_16_18,Follicles 16-18 mm,0.05585919222715569,3
+delta_endometrium,Change in endometrium,0.05136591592338657,3
+large_follicle_share,Large follicle share,0.04650321942759587,3
+delta_lh_per_day,Change in LH per day,0.04469491390912581,3
+cycle_day,Cycle day,0.04340126305025319,3
+large_to_mature_follicle_ratio,Large-to-mature ratio,0.04226952380129337,3
+basal_e2,Basal E2,0.03632437681633787,3
+e2_per_mature_follicle,E2 per mature follicle,0.035955509235388795,3
+follicle_count_gt_18,Follicles >18 mm,0.026707138973726213,3
+dominant_follicle_count,Dominant follicle count,0.024866645691733538,3
+basal_p,Basal P,0.018286398264045337,3
+fresh_treatment_count,Fresh cycle count,0.0021417289442895887,3
+treatment_count,Treatment count,0.0,3

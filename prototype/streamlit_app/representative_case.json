@@ -1,0 +1,201 @@
+{
+  "case_version": "phase870_manuscript_case_v2_curve_selected",
+  "patient": {
+    "patient_id": "Case-P01",
+    "cycle_uid": "paper_case_01",
+    "age": 39,
+    "bmi": 21.4,
+    "years": 14,
+    "infertility": "原发不孕",
+    "diagnosis": "原发不孕",
+    "amh": 1.82,
+    "afc": 3,
+    "basal_fsh": 6.19,
+    "basal_lh": 5.4,
+    "basal_e2": 48.0,
+    "basal_p": 0.29,
+    "protocol": "GnRH-a 超长方案",
+    "fertilization_method": "IVF",
+    "male_factor_infertility": "是",
+    "sperm_source_group": "自体",
+    "male_age": 40,
+    "treatment_count": 1,
+    "initial_gn": 0.0,
+    "initial_fsh": 0.0,
+    "initial_lh": 0.0,
+    "initial_hmg": 0.0,
+    "initial_gn_source": "pending_first_monitoring_prediction"
+  },
+  "monitoring_records": [
+    {
+      "visit": 1,
+      "stim_day": 1,
+      "days_since_previous_visit": 0,
+      "monitoring_date": "2026-06-18",
+      "e2": 11.0,
+      "lh_value": 0.3,
+      "p": 0.29,
+      "serum_fsh": 1.23,
+      "current_endometrium": 3.2,
+      "total_follicles": 9,
+      "left_follicles": 4,
+      "right_follicles": 5,
+      "max_f": 4.0,
+      "mean_f": 3.61,
+      "f_lt10": 9,
+      "f_10_12": 0,
+      "f_13_15": 0,
+      "f_16_18": 0,
+      "f_gt18": 0,
+      "current_fsh": 150.0,
+      "current_lh": 0.0,
+      "current_hmg": 0.0
+    },
+    {
+      "visit": 2,
+      "stim_day": 7,
+      "days_since_previous_visit": 6,
+      "monitoring_date": "2026-06-24",
+      "e2": 16.0,
+      "lh_value": 0.2,
+      "p": 0.26,
+      "serum_fsh": 13.73,
+      "current_endometrium": 3.5,
+      "total_follicles": 7,
+      "left_follicles": 4,
+      "right_follicles": 3,
+      "max_f": 6.0,
+      "mean_f": 5.29,
+      "f_lt10": 7,
+      "f_10_12": 0,
+      "f_13_15": 0,
+      "f_16_18": 0,
+      "f_gt18": 0,
+      "current_fsh": 200.0,
+      "current_lh": 0.0,
+      "current_hmg": 75.0
+    },
+    {
+      "visit": 3,
+      "stim_day": 9,
+      "days_since_previous_visit": 2,
+      "monitoring_date": "2026-06-26",
+      "e2": 68.0,
+      "lh_value": 0.1,
+      "p": 0.28,
+      "serum_fsh": 18.06,
+      "current_endometrium": 4.9,
+      "total_follicles": 8,
+      "left_follicles": 5,
+      "right_follicles": 3,
+      "max_f": 8.0,
+      "mean_f": 6.06,
+      "f_lt10": 8,
+      "f_10_12": 0,
+      "f_13_15": 0,
+      "f_16_18": 0,
+      "f_gt18": 0,
+      "current_fsh": 250.0,
+      "current_lh": 75.0,
+      "current_hmg": 75.0
+    },
+    {
+      "visit": 4,
+      "stim_day": 12,
+      "days_since_previous_visit": 3,
+      "monitoring_date": "2026-06-29",
+      "e2": 757.0,
+      "lh_value": 0.8,
+      "p": 0.37,
+      "serum_fsh": 22.39,
+      "current_endometrium": 8.0,
+      "total_follicles": 12,
+      "left_follicles": 6,
+      "right_follicles": 6,
+      "max_f": 13.0,
+      "mean_f": 10.13,
+      "f_lt10": 4,
+      "f_10_12": 7,
+      "f_13_15": 1,
+      "f_16_18": 0,
+      "f_gt18": 0
+    }
+  ],
+  "audit": {
+    "data_split": "test",
+    "source_cycle_uid": "source_cycle_masked",
+    "source_visit_uid": "source_visit_masked",
+    "decision_day": 12,
+    "actual_next_dose_iu_per_day": {
+      "fsh": 175.0,
+      "lh": 75.0,
+      "hmg": 150.0
+    },
+    "actual_next_dose_category": {
+      "fsh": ">160",
+      "lh": "75",
+      "hmg": "150"
+    },
+    "model_recommended_dose_iu_per_day": {
+      "fsh": 200.0,
+      "lh": 75.0,
+      "hmg": 150.0
+    },
+    "model_recommended_category": {
+      "fsh": ">160",
+      "lh": "75",
+      "hmg": "150"
+    },
+    "exact_category_matches": 3,
+    "absolute_dose_error_iu": 25.0,
+    "predicted_oocytes": 12.0,
+    "predicted_mii": 11.196334,
+    "predicted_modsev_ohss_probability": 0.010482,
+    "ideal_curve_axes": 2,
+    "balanced_curve_axes": 3,
+    "curve_balance": {
+      "fsh": {
+        "strategy_reference_dose": 200.0,
+        "recommended_mii_near_max": true,
+        "recommended_ohss_near_min": true,
+        "interior_turning_point": false
+      },
+      "lh": {
+        "strategy_reference_dose": 75.0,
+        "recommended_mii_near_max": true,
+        "recommended_ohss_near_min": true,
+        "interior_turning_point": true
+      },
+      "hmg": {
+        "strategy_reference_dose": 150.0,
+        "recommended_mii_near_max": true,
+        "recommended_ohss_near_min": true,
+        "interior_turning_point": true
+      }
+    },
+    "knn_max_selection_rate": 0.54,
+    "knn_min_top_selection_rate": 0.44,
+    "knn_mean_top_selection_rate": 0.48,
+    "knn_min_top_success_rate": 0.7037,
+    "knn_mean_top_success_rate": 0.753,
+    "knn_mean_success_rate": 0.790544,
+    "knn_top_groups": {
+      "fsh": {
+        "dose": "80-160",
+        "selection_rate": 0.44,
+        "success_rate": 0.7727
+      },
+      "lh": {
+        "dose": "75",
+        "selection_rate": 0.46,
+        "success_rate": 0.7826
+      },
+      "hmg": {
+        "dose": "150",
+        "selection_rate": 0.54,
+        "success_rate": 0.7037
+      }
+    },
+    "selection_note": "Illustrative held-out case selected under prespecified display criteria; not a population performance estimate."
+  }
+}

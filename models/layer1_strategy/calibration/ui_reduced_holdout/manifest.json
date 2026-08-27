@@ -1,0 +1,24 @@
+{
+  "schema_version": "dose-temperature-calibration-manifest-v1",
+  "generated_at_utc": "2026-07-23T13:46:25.473732+00:00",
+  "targets": {
+    "fsh": {
+      "artifact": "fsh_temperature.json",
+      "fitted_temperature": 1.0546124343319068,
+      "deployed_temperature": 1.0546124343319068,
+      "calibration_status": "accepted_on_validation_proper_scores"
+    },
+    "lh": {
+      "artifact": "lh_temperature.json",
+      "fitted_temperature": 0.9618634631958698,
+      "deployed_temperature": 1.0,
+      "calibration_status": "identity_retained_validation_noninferiority_failed"
+    },
+    "hmg": {
+      "artifact": "hmg_temperature.json",
+      "fitted_temperature": 0.9990928526444042,
+      "deployed_temperature": 1.0,
+      "calibration_status": "identity_retained_validation_noninferiority_failed"
+    }
+  }
+}

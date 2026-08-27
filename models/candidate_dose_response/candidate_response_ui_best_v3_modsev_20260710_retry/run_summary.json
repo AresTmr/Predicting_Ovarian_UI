@@ -1,0 +1,75 @@
+{
+  "run_id": "candidate_response_ui_best_v3_modsev_20260710_retry",
+  "n_rows": 18551,
+  "split_counts": {
+    "train": 13065,
+    "valid": 2743,
+    "test": 2743
+  },
+  "strict_modsev_positive_rows": 445,
+  "strict_modsev_positive_rate": 0.02398792517923562,
+  "feature_count": 104,
+  "selected_models": [
+    {
+      "task": "layer2_oocytes",
+      "task_label": "获卵数",
+      "model_name": "Extreme gradient boosting regressor",
+      "selection_rule": "valid_rmse_then_mae",
+      "valid_n": 2743,
+      "valid_mae": 3.7818844134990988,
+      "valid_rmse": 5.099358628622542,
+      "valid_r2": 0.42412330263954123,
+      "valid_mean_observed": 12.995989792198323,
+      "valid_mean_predicted": 13.079687277939561,
+      "test_n": 2743,
+      "test_mae": 3.7561747165565893,
+      "test_rmse": 5.022837680530508,
+      "test_r2": 0.4547146380271402,
+      "test_mean_observed": 13.184834123222748,
+      "test_mean_predicted": 12.890960611742516
+    },
+    {
+      "task": "layer2_mii",
+      "task_label": "MII",
+      "model_name": "Extreme gradient boosting regressor",
+      "selection_rule": "valid_rmse_then_mae",
+      "valid_n": 2743,
+      "valid_mae": 3.386334011687704,
+      "valid_rmse": 4.640976565134583,
+      "valid_r2": 0.38095394065920574,
+      "valid_mean_observed": 11.107911046299671,
+      "valid_mean_predicted": 11.124229682956436,
+      "test_n": 2743,
+      "test_mae": 3.379487156694143,
+      "test_rmse": 4.442769863335756,
+      "test_r2": 0.42743002033130184,
+      "test_mean_observed": 11.117025154939848,
+      "test_mean_predicted": 10.868700252368509
+    },
+    {
+      "task": "layer2_ohss",
+      "task_label": "中重度 OHSS",
+      "model_name": "Random forest classifier",
+      "selection_rule": "valid_pr_auc_then_brier",
+      "valid_n": 2743,
+      "valid_positive_n": 62,
+      "valid_prevalence": 0.022602989427633977,
+      "valid_roc_auc": 0.6684133267557844,
+      "valid_pr_auc": 0.06747885492548444,
+      "valid_brier": 0.021900736067424445,
+      "valid_mean_predicted": 0.022602980105061298,
+      "test_n": 2743,
+      "test_positive_n": 58,
+      "test_prevalence": 0.021144732045205977,
+      "test_roc_auc": 0.627123868233481,
+      "test_pr_auc": 0.027020551351072983,
+      "test_brier": 0.02076800353226018,
+      "test_mean_predicted": 0.021392290143586172
+    }
+  ],
+  "paths": {
+    "run_dir": "models/candidate_dose_response/candidate_response_ui_best_v3_modsev_20260710_retry",
+    "paper_table_root": "paper/tables/paper_claim_validation/phase870_candidate_response_ui_model_comparison",
+    "bundle": "models/candidate_dose_response/candidate_response_ui_best_v3_modsev_20260710_retry/bundle.joblib"
+  }
+}

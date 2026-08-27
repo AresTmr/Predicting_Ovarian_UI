@@ -1,0 +1,17 @@
+{
+  "run_id": "phase8_layer1_splitdose_action_opt_thr75_20260512_192404",
+  "target": "fsh_action",
+  "threshold": 75.0,
+  "best_model": "xgb_recall_balanced",
+  "best_valid_macro_f1": 0.5363442366179427,
+  "best_test_macro_f1": 0.5332238430725964,
+  "best_test_accuracy": 0.7739701057236602,
+  "feature_count": 87,
+  "sample_count": 18551,
+  "decision_weights": {
+    "increase": 0.8,
+    "maintain": 1.1,
+    "decrease": 0.65
+  },
+  "output_dir": "models/artifacts/phase8_layer1_splitdose_action_opt_thr75_20260512_192404/fsh_action"
+}

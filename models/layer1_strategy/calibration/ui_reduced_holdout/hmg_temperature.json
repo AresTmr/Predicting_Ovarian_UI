@@ -1,0 +1,79 @@
+{
+  "schema_version": "dose-temperature-calibration-v1",
+  "generated_at_utc": "2026-07-17T08:50:34.540310+00:00",
+  "target": "hmg",
+  "model": "UI-reduced GRU(AddGate) holdout",
+  "method": "scalar_temperature_scaling",
+  "labels": [
+    "dose_0",
+    "dose_75",
+    "dose_150",
+    "dose_ge225"
+  ],
+  "selection_split": "valid",
+  "evaluation_split": "test",
+  "acceptance_rule": "validation NLL and multiclass Brier must both be non-worse; at least one must improve; test is not used for selection",
+  "fitted_temperature": 0.9990928526444042,
+  "deployed_temperature": 1.0,
+  "calibration_applied": false,
+  "calibration_status": "identity_retained_validation_noninferiority_failed",
+  "checkpoint_path": "outputs/paper_audit_20260715/checkpoints/gru_addgate_hmg_holdout.pt",
+  "checkpoint_sha256": "0035be317708ca354dbc8dd95bcb53f3f0b629f8f318988f65175c4f5f07c640",
+  "split_manifest_path": "data/splits/split_manifest_v1.csv",
+  "split_manifest_sha256": "3c85e82f3e0779bea609273af58858a30d18d32a265039751e9532e00dc47243",
+  "metrics": {
+    "valid": {
+      "raw": {
+        "n": 7343,
+        "nll": 0.4433900127669526,
+        "brier": 0.26524603139471536,
+        "top_label_ece_15bin": 0.01300382698857355,
+        "accuracy": 0.8060738117935449,
+        "weighted_f1": 0.8052463087102563
+      },
+      "fitted_temperature": {
+        "n": 7343,
+        "nll": 0.4433898314294473,
+        "brier": 0.2652491348101854,
+        "top_label_ece_15bin": 0.013457564530492891,
+        "accuracy": 0.8060738117935449,
+        "weighted_f1": 0.8052463087102563
+      },
+      "deployed": {
+        "n": 7343,
+        "nll": 0.4433900127669526,
+        "brier": 0.26524603139471536,
+        "top_label_ece_15bin": 0.01300382698857355,
+        "accuracy": 0.8060738117935449,
+        "weighted_f1": 0.8052463087102563
+      }
+    },
+    "test": {
+      "raw": {
+        "n": 7351,
+        "nll": 0.4858691888465207,
+        "brier": 0.28820259067132015,
+        "top_label_ece_15bin": 0.021548553605937253,
+        "accuracy": 0.7898245136716093,
+        "weighted_f1": 0.7894920359462084
+      },
+      "fitted_temperature": {
+        "n": 7351,
+        "nll": 0.4858964507914781,
+        "brier": 0.2882124299720455,
+        "top_label_ece_15bin": 0.021709144093514574,
+        "accuracy": 0.7898245136716093,
+        "weighted_f1": 0.7894920359462084
+      },
+      "deployed": {
+        "n": 7351,
+        "nll": 0.4858691888465207,
+        "brier": 0.28820259067132015,
+        "top_label_ece_15bin": 0.021548553605937253,
+        "accuracy": 0.7898245136716093,
+        "weighted_f1": 0.7894920359462084
+      }
+    }
+  },
+  "argmax_preserved_by_method": true
+}

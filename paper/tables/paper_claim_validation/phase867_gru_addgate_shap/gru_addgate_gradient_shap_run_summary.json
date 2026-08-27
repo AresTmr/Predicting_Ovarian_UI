@@ -1,0 +1,25 @@
+{
+  "method": "gradient_x_input attribution on held-out OOF fold samples; plotted as global importance plus layered violin SHAP summary panels",
+  "model": "GRU(AddGate) neural softmax backbone",
+  "note": "HMG fold 4 selected a KNN head for prediction, but attribution explains the neural backbone logits for consistency.",
+  "sample_budget_per_target": 1500,
+  "device": "cuda",
+  "targets": [
+    {
+      "target": "fsh",
+      "sampled_daily_rows": 1500,
+      "features": 62
+    },
+    {
+      "target": "lh",
+      "sampled_daily_rows": 1500,
+      "features": 62
+    },
+    {
+      "target": "hmg",
+      "sampled_daily_rows": 1500,
+      "features": 62
+    }
+  ],
+  "figure": "paper/figures/paper_claim_validation/phase867_gru_addgate_shap/figure_gru_addgate_shap_overall_fsh_lh_hmg.png"
+}

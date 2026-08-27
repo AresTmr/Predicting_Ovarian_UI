@@ -1,0 +1,18 @@
+{
+  "run_id": "phase8_layer1_action_lgbm_weight_search_v2_20260512_153048",
+  "base_run_id": "phase8_layer1_action_20260512_152409",
+  "target": "combined_gn_action",
+  "threshold": 37.5,
+  "method": "lightgbm_weight_search_plus_valid_probability_bias_current_code",
+  "best_model_variant": "mid_regularized_balanced",
+  "best_bias": {
+    "increase": 0.7,
+    "maintain": 1.0,
+    "decrease": 0.55
+  },
+  "base_valid_macro_f1": 0.5764004606079294,
+  "base_test_macro_f1": 0.6011259384069155,
+  "calibrated_valid_macro_f1": 0.6204222497633919,
+  "calibrated_test_macro_f1": 0.640820462769892,
+  "output_dir": "models/artifacts/phase8_layer1_action_lgbm_weight_search_v2_20260512_153048/layer1_action"
+}
