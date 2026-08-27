@@ -1,0 +1,99 @@
+{
+  "task": "phase870 UI-reduced daily-expanded Day 1-20 dose category prediction, cycle-grouped 5-fold OOF",
+  "model": "GRU(AddGate)",
+  "labels": {
+    "FSH": [
+      "stop",
+      "low_dose",
+      "medium_low",
+      "medium_high",
+      "high_dose"
+    ],
+    "LH": [
+      "dose_0",
+      "dose_75",
+      "dose_ge150"
+    ],
+    "HMG": [
+      "dose_0",
+      "dose_75",
+      "dose_150",
+      "dose_ge225"
+    ]
+  },
+  "hyperparameters": {
+    "oof_folds": 5,
+    "max_history_days": 16,
+    "hidden_dim": 96,
+    "dropout": 0.15,
+    "epochs": 70,
+    "patience": 12,
+    "batch_size": 1024,
+    "lr": 0.0007,
+    "weight_decay": 0.0002,
+    "seed": 20260701,
+    "selection_metric": "weighted_f1",
+    "focal_gamma": 2.0,
+    "class_weight_power": 0.5
+  },
+  "device": "cuda",
+  "static_features": [
+    "age",
+    "bmi",
+    "amh",
+    "afc",
+    "basal_fsh",
+    "basal_lh",
+    "basal_e2",
+    "basal_p",
+    "infertility_duration",
+    "male_factor_infertility_flag"
+  ],
+  "dynamic_features": [
+    "Day",
+    "monitoring_order",
+    "days_since_previous_visit",
+    "cycle_day",
+    "gn_day",
+    "current_e2",
+    "current_lh",
+    "current_p",
+    "current_fsh",
+    "current_endometrium",
+    "total_follicle_count",
+    "left_follicle_count",
+    "right_follicle_count",
+    "max_follicle_diameter",
+    "mean_follicle_diameter",
+    "follicle_count_lt_10",
+    "follicle_count_10_12",
+    "follicle_count_13_15",
+    "follicle_count_16_18",
+    "follicle_count_gt_18",
+    "growing_follicle_count",
+    "previous_fsh_daily_dose",
+    "previous_lh_daily_dose",
+    "previous_hmg_daily_dose"
+  ],
+  "excluded_by_design": [
+    "initial_gn_dose",
+    "observed_initial_gn_dose",
+    "previous_gn_dose",
+    "previous_lh_like_hmg_daily_dose",
+    "delta_fsh",
+    "delta_e2",
+    "delta_lh",
+    "delta_p",
+    "baseline_only_feature_row",
+    "evaluation_day",
+    "visits_seen"
+  ],
+  "missing_static_requested": [],
+  "missing_dynamic_requested": [],
+  "nonnumeric_static_requested": [],
+  "nonnumeric_dynamic_requested": [],
+  "panel_shape": [
+    49602,
+    128
+  ]
+}
