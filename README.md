@@ -16,6 +16,8 @@ Standalone Streamlit prototype for the IVF/ICSI GnRH-a ultra-long protocol Gn do
 
 ## Run
 
+Recommended runtime: Python 3.10 or 3.11. The bundled model artifacts were produced with scikit-learn 1.3.x, so avoid running them in an unpinned Python 3.12 base environment.
+
 Use the project conda environment if available:
 
 ```bash
