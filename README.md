@@ -18,21 +18,40 @@ Standalone Streamlit prototype for the IVF/ICSI GnRH-a ultra-long protocol Gn do
 
 Use the project conda environment if available:
 
-`ash
+```bash
 conda activate Han_Overian
 streamlit run prototype/streamlit_app/app.py --server.address 127.0.0.1 --server.port 18501
-`
+```
 
-Or create a fresh environment and install dependencies:
+Or create a fresh environment and install dependencies.
 
-`ash
+Windows PowerShell:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+streamlit run prototype/streamlit_app/app.py --server.address 127.0.0.1 --server.port 18501
+```
+
+Linux/macOS:
+
+```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 streamlit run prototype/streamlit_app/app.py --server.address 127.0.0.1 --server.port 18501
-`
+```
 
-Open: http://127.0.0.1:18501/?view=knn
+Open the main decision-curve page:
+
+http://127.0.0.1:18501/?view=knn
+
+Other useful pages:
+
+- Patient input: http://127.0.0.1:18501/?view=input
+- Monitoring result: http://127.0.0.1:18501/?view=monitor
+- Recommendation explanation: http://127.0.0.1:18501/?view=shap
 
 ## Smoke check
 
