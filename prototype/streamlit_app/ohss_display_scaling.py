@@ -28,6 +28,6 @@ def with_ohss_display_fields(row: Mapping[str, Any]) -> dict[str, Any]:
     high = out.get("ohss_risk_threshold_high", 0.12)
     out["ohss_raw_probability"] = raw
     out["ohss_display_probability"] = ohss_visual_display_probability(raw, high_threshold=high)
-    out["ohss_display_label"] = "\u4e2d\u91cd\u5ea6 OHSS \u98ce\u9669"
+    out["ohss_display_label"] = "Moderate-to-severe OHSS risk"
     out["ohss_display_note"] = "The same strict moderate-to-severe OHSS probability is used for display and candidate ranking; every candidate remains eligible."
     return out

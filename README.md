@@ -2,24 +2,24 @@
 
 Standalone Streamlit prototype for the IVF/ICSI GnRH-a ultra-long protocol Gn dose decision-support UI.
 
-## 师弟使用步骤
+## Setup steps
 
-推荐使用 Python 3.10 或 3.11。不要直接用未固定依赖的 Python 3.12 base 环境运行，因为仓库里的部分模型文件由 scikit-learn 1.3.x 生成，Python 3.12 环境可能出现模型 pickle 兼容问题。
+Recommended Python: 3.10 or 3.11. Do not use an unpinned Python 3.12 base environment directly, because some of the bundled model artifacts were produced with scikit-learn 1.3.x and a Python 3.12 environment may run into model pickle compatibility issues.
 
-### 1. 下载代码
+### 1. Download the code
 
-推荐用 Git 克隆，后续方便修改和提交：
+Recommended: clone with Git so you can edit and commit later:
 
 ```bash
 git clone https://github.com/Haaan1011/Predicting_Ovarian_UI.git
 cd Predicting_Ovarian_UI
 ```
 
-如果只是查看界面，也可以在 GitHub 页面点击 `Code` -> `Download ZIP`，解压后进入项目文件夹。
+If you only want to look at the UI, you can also click `Code` -> `Download ZIP` on the GitHub page and unzip it into the project folder.
 
-### 2. 创建环境并安装依赖
+### 2. Create an environment and install dependencies
 
-Windows PowerShell：
+Windows PowerShell:
 
 ```powershell
 python -m venv .venv
@@ -27,7 +27,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Linux/macOS：
+Linux/macOS:
 
 ```bash
 python -m venv .venv
@@ -35,34 +35,34 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-如果电脑上已经有原项目环境，也可以直接使用：
+If you already have the original project environment on your machine, you can activate it directly:
 
 ```bash
 conda activate Han_Overian
 ```
 
-### 3. 启动界面
+### 3. Launch the interface
 
 ```bash
 streamlit run prototype/streamlit_app/app.py --server.address 127.0.0.1 --server.port 18501
 ```
 
-启动后在浏览器打开：
+Open the following URL in your browser after launch:
 
 ```text
 http://127.0.0.1:18501/?view=knn
 ```
 
-常用页面地址：
+Common page URLs:
 
-- 患者录入页：`http://127.0.0.1:18501/?view=input`
-- 监测结果页：`http://127.0.0.1:18501/?view=monitor`
-- 决策曲线页：`http://127.0.0.1:18501/?view=knn`
-- 推荐解释页：`http://127.0.0.1:18501/?view=shap`
+- Patient Input page: `http://127.0.0.1:18501/?view=input`
+- Monitoring Results page: `http://127.0.0.1:18501/?view=monitor`
+- Decision Curve page: `http://127.0.0.1:18501/?view=knn`
+- Recommendation Explanation page: `http://127.0.0.1:18501/?view=shap`
 
-### 4. 修改 UI 代码
+### 4. Modify the UI code
 
-主要修改下面几个文件：
+The main files to edit are:
 
 ```text
 prototype/streamlit_app/app.py
@@ -71,18 +71,18 @@ prototype/streamlit_app/candidate_response_service.py
 prototype/streamlit_app/dose_recommendation_service.py
 ```
 
-一般只改页面布局、文案、样式时，优先改 `prototype/streamlit_app/app.py`。不要改论文主项目、训练数据、论文结果表或模型训练脚本。
+For layout, copy, or style tweaks, prefer editing `prototype/streamlit_app/app.py`. Do not modify the main paper project, training data, paper result tables, or model training scripts.
 
-### 5. 修改后自检
+### 5. Self-check after editing
 
 ```bash
 python -m py_compile prototype/streamlit_app/app.py prototype/streamlit_app/ui_real_data_sources.py prototype/streamlit_app/dose_recommendation_service.py prototype/streamlit_app/candidate_response_service.py
 python scripts/qa/smoke_check_ui_models.py
 ```
 
-自检通过后再启动 Streamlit 看页面。
+Launch Streamlit to view the UI after the self-check passes.
 
-### 6. 提交修改
+### 6. Commit your changes
 
 ```bash
 git status
@@ -91,7 +91,7 @@ git commit -m "update UI"
 git push
 ```
 
-如果只下载 ZIP 而不是 `git clone`，可以本地修改和运行，但不能直接 `git push` 回 GitHub。
+If you only downloaded the ZIP instead of `git clone`, you can edit and run locally, but you cannot `git push` back to GitHub.
 
 ## What is included
 
@@ -103,48 +103,7 @@ git push
 
 - Raw source spreadsheets or direct patient identifiers.
 - Manuscript drafts, paper figure workflows, and unrelated training outputs.
-- Downstream outcome UI outputs that are outside the current prototype scope. The prototype currently displays predicted oocytes and strict moderate-to-severe OHSS risk only.
-
-## Run
-
-Recommended runtime: Python 3.10 or 3.11. The bundled model artifacts were produced with scikit-learn 1.3.x, so avoid running them in an unpinned Python 3.12 base environment.
-
-Use the project conda environment if available:
-
-```bash
-conda activate Han_Overian
-streamlit run prototype/streamlit_app/app.py --server.address 127.0.0.1 --server.port 18501
-```
-
-Or create a fresh environment and install dependencies.
-
-Windows PowerShell:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-streamlit run prototype/streamlit_app/app.py --server.address 127.0.0.1 --server.port 18501
-```
-
-Linux/macOS:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-streamlit run prototype/streamlit_app/app.py --server.address 127.0.0.1 --server.port 18501
-```
-
-Open the main decision-curve page:
-
-http://127.0.0.1:18501/?view=knn
-
-Other useful pages:
-
-- Patient input: http://127.0.0.1:18501/?view=input
-- Monitoring result: http://127.0.0.1:18501/?view=monitor
-- Recommendation explanation: http://127.0.0.1:18501/?view=shap
+- Downstream outcome UI outputs that are outside the current prototype scope. The prototype currently displays predicted oocyte yield and strict moderate-to-severe OHSS risk only.
 
 ## Smoke check
 
@@ -154,4 +113,4 @@ python scripts/qa/smoke_check_ui_models.py
 
 ## Clinical boundary
 
-This is a clinical decision-support prototype, not an automatic order-entry system. The dose output should be described as model-recommended dose or candidate-dose scenario analysis, and final medication decisions remain with the clinician. SHAP is model attribution; KNN is similar-case evidence; dose-response curves are conditional scenario predictions, not causal effects.
+This is a clinical decision-support prototype, not an automatic order-entry system. The dose output should be described as a model-recommended dose or candidate-dose scenario analysis, and final medication decisions remain with the clinician. SHAP is model attribution; KNN is similar-case evidence; dose-response curves are conditional scenario predictions, not causal effects.

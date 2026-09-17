@@ -209,21 +209,21 @@ def _predict_task(row: pd.Series, bundle: Mapping[str, Any]) -> float:
 
 
 OUTCOME_EXPLANATION_SPECS: tuple[tuple[str, str, str, float], ...] = (
-    ("total_follicle_count", "\u603b\u5375\u6ce1\u6570", "\u4e2a", 12.0),
-    ("mature_follicle_count", "\u226514 mm \u5375\u6ce1\u6570", "\u4e2a", 4.0),
-    ("current_e2", "\u8840\u6e05 E2", "pg/mL", 1200.0),
-    ("current_lh", "\u8840\u6e05 LH", "IU/L", 4.0),
-    ("current_p", "\u8840\u6e05 P", "ng/mL", 0.8),
-    ("max_follicle_diameter", "\u6700\u5927\u5375\u6ce1\u76f4\u5f84", "mm", 16.0),
-    ("mean_follicle_diameter", "\u5e73\u5747\u5375\u6ce1\u76f4\u5f84", "mm", 12.0),
-    ("candidate_total_gn_dose", "\u5019\u9009\u603b Gn \u5242\u91cf", "IU/\u5929", 225.0),
-    ("candidate_gn_per_total_follicle", "\u5019\u9009\u5355\u4f4d\u5375\u6ce1 Gn", "", 18.0),
-    ("candidate_e2_per_gn", "\u5019\u9009\u5355\u4f4d Gn E2", "", 6.0),
+    ("total_follicle_count", "Total follicle count", "", 12.0),
+    ("mature_follicle_count", "Follicle count ≥14 mm", "", 4.0),
+    ("current_e2", "Serum E2", "pg/mL", 1200.0),
+    ("current_lh", "Serum LH", "IU/L", 4.0),
+    ("current_p", "Serum P", "ng/mL", 0.8),
+    ("max_follicle_diameter", "Max follicle diameter", "mm", 16.0),
+    ("mean_follicle_diameter", "Mean follicle diameter", "mm", 12.0),
+    ("candidate_total_gn_dose", "Candidate total Gn dose", "IU/day", 225.0),
+    ("candidate_gn_per_total_follicle", "Candidate Gn per follicle", "", 18.0),
+    ("candidate_e2_per_gn", "Candidate E2 per Gn", "", 6.0),
     ("amh", "AMH", "ng/mL", 2.0),
-    ("afc", "AFC", "\u4e2a", 12.0),
-    ("age", "\u5e74\u9f84", "\u5c81", 32.0),
-    ("bmi", "BMI", "kg/m\u00b2", 22.0),
-    ("gn_day", "\u4fc3\u6392\u65e5", "\u5929", 8.0),
+    ("afc", "AFC", "", 12.0),
+    ("age", "Age", "years", 32.0),
+    ("bmi", "BMI", "kg/m²", 22.0),
+    ("gn_day", "Stimulation day", "days", 8.0),
 )
 
 
@@ -300,7 +300,7 @@ def explain_candidate_response(
                 "reference_label": _format_explanation_value(reference_value, unit),
                 "mean_abs_shap": abs(contribution),
                 "mean_shap": contribution,
-                "direction": "\u589e\u52a0\u9884\u6d4b" if contribution > 0 else "\u964d\u4f4e\u9884\u6d4b",
+                "direction": "Higher prediction" if contribution > 0 else "Lower prediction",
                 "source": f"candidate_response_local_perturbation_{task}",
             }
         )

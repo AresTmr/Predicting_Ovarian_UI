@@ -81,10 +81,10 @@ except Exception as exc:
     UI_REAL_DATA_AVAILABLE = False
     UI_REAL_DATA_ERROR = str(exc)
 
-st.set_page_config(page_title="Gn 剂量辅助系统", page_icon="⚕", layout="wide", initial_sidebar_state="collapsed")
-PAGES = ["患者录入", "监测结果", "决策曲线", "推荐解释"]
-LEGACY = {"信息输入":"患者录入", "结果输出":"监测结果", "患者信息输入":"患者录入", "推荐方案":"监测结果", "KNN 曲线":"决策曲线", "recommend":"监测结果"}
-PAGE_SLUGS = {"首页":"home", "患者录入":"input", "决策曲线":"knn", "推荐解释":"shap", "监测结果":"monitor"}
+st.set_page_config(page_title="Gn Dose Support System", page_icon="⚕", layout="wide", initial_sidebar_state="collapsed")
+PAGES = ["Patient Input", "Monitoring Results", "Decision Curve", "Recommendation Explanation"]
+LEGACY = {"Info input":"Patient Input", "Result output":"Monitoring Results", "Patient info input":"Patient Input", "Recommended plan":"Monitoring Results", "KNN curve":"Decision Curve", "recommend":"Monitoring Results"}
+PAGE_SLUGS = {"Home":"home", "Patient Input":"input", "Decision Curve":"knn", "Recommendation Explanation":"shap", "Monitoring Results":"monitor"}
 SLUG_PAGES = {v: k for k, v in PAGE_SLUGS.items()}
 MAIN_LOCAL_SHAP_LIMIT = 6
 KNN_CURVE_SENSITIVITY_GAIN = float(os.getenv("KNN_CURVE_SENSITIVITY_GAIN", "1.0"))
@@ -103,17 +103,17 @@ DEFAULT = dict(
     age=32,
     bmi=21.2,
     years=3,
-    infertility="继发不孕",
-    diagnosis="继发不孕",
+    infertility="Secondary infertility",
+    diagnosis="Secondary infertility",
     amh=2.1,
     afc=12,
     basal_fsh=7.2,
     basal_lh=4.8,
     basal_e2=42.0,
     basal_p=0.5,
-    protocol="GnRH-a 长方案",
+    protocol="GnRH-a Long protocol",
     fertilization_method="IVF",
-    male_factor_infertility="否",
+    male_factor_infertility="No",
     sperm_source_group="PESA/TESA",
     male_age=38,
     treatment_count=1,
@@ -158,44 +158,44 @@ OHSS_RISK_DEFAULTS = dict(
         "results/ohss_safety_warning/current/predictions.csv",
     ),
 )
-OHSS_UI_DISCLAIMER = "\u8be5\u7ed3\u679c\u4e3a\u4fc3\u6392\u9636\u6bb5\u4e2d\u91cd\u5ea6 OHSS \u98ce\u9669\u5206\u5c42\u548c\u5b89\u5168\u9884\u8b66\u53c2\u8003\uff0c\u4e0d\u4f5c\u4e3a\u8bca\u65ad\u7ed3\u8bba\u6216\u81ea\u52a8\u533b\u5631\u3002"
+OHSS_UI_DISCLAIMER = "This result is a stimulation-phase moderate-to-severe OHSS risk-stratification and safety-alert reference; it is not a diagnosis or an automated prescription."
 OHSS_FEATURE_LABELS = {
-    "current_e2":"\u8840\u6e05 E2", "current_lh":"\u8840\u6e05 LH", "current_p":"\u8840\u6e05 P",
-    "basal_e2":"\u57fa\u7840 E2", "basal_lh":"\u57fa\u7840 LH", "basal_fsh":"\u57fa\u7840 FSH", "basal_p":"\u57fa\u7840 P",
-    "total_follicle_count":"\u603b\u5375\u6ce1\u6570", "mature_follicle_count":"\u226514 mm \u5375\u6ce1\u6570", "medium_plus_follicle_count":"\u226513 mm \u5375\u6ce1\u6570", "dominant_follicle_count":"\u4f18\u52bf\u5375\u6ce1\u6570",
-    "follicle_count_lt_10":"<10 mm \u5375\u6ce1\u6570", "follicle_count_10_12":"10-12 mm \u5375\u6ce1\u6570", "follicle_count_gt_18":">18 mm \u5375\u6ce1\u6570", "follicle_count_16_18":"16-18 mm \u5375\u6ce1\u6570", "follicle_count_13_15":"13-15 mm \u5375\u6ce1\u6570", "growing_follicle_count":"\u751f\u957f\u5375\u6ce1\u6570",
-    "left_follicle_count":"\u5de6\u4fa7\u5375\u6ce1\u6570", "right_follicle_count":"\u53f3\u4fa7\u5375\u6ce1\u6570",
-    "max_follicle_diameter":"\u6700\u5927\u5375\u6ce1\u76f4\u5f84", "mean_follicle_diameter":"\u5e73\u5747\u5375\u6ce1\u76f4\u5f84",
-    "current_gn_dose":"\u5f53\u524d\u603b Gn \u5242\u91cf", "current_fsh_daily_dose":"\u5f53\u524d FSH \u5242\u91cf", "current_lh_daily_dose":"\u5f53\u524d LH \u5242\u91cf", "current_hmg_daily_dose":"\u5f53\u524d HMG \u5242\u91cf", "current_lh_like_hmg_daily_dose":"\u5f53\u524d LH/HMG \u7c7b Gn \u5242\u91cf", "initial_gn_dose":"\u8d77\u59cb Gn \u5242\u91cf",
-    "current_fsh":"\u8840\u6e05 FSH", "previous_fsh_daily_dose":"\u65e2\u5f80 FSH \u5242\u91cf", "previous_lh_daily_dose":"\u65e2\u5f80 LH \u5242\u91cf", "previous_hmg_daily_dose":"\u65e2\u5f80 HMG \u5242\u91cf", "days_since_previous_visit":"\u8ddd\u4e0a\u6b21\u76d1\u6d4b\u5929\u6570",
-    "amh":"AMH", "afc":"AFC", "age":"\u5e74\u9f84", "bmi":"BMI", "gn_day":"\u4fc3\u6392\u65e5", "monitoring_order":"\u76d1\u6d4b\u6b21\u6570", "visits_seen":"\u5df2\u76d1\u6d4b\u6b21\u6570",
-    "e2_per_mature_follicle":"\u5355\u4f4d\u6210\u719f\u5375\u6ce1 E2", "e2_per_weighted_follicle":"\u5355\u4f4d\u52a0\u6743\u5375\u6ce1 E2", "gn_per_total_follicle":"\u5355\u4f4d\u5375\u6ce1 Gn \u5242\u91cf", "current_e2_per_gn":"\u5355\u4f4d Gn E2", "large_follicle_share":"\u5927\u5375\u6ce1\u6bd4\u4f8b", "mature_follicle_share":"\u6210\u719f\u5375\u6ce1\u6bd4\u4f8b", "ohss_follicle_load_score":"\u5375\u6ce1\u8d1f\u8377\u8bc4\u5206", "p_lh_ratio":"P/LH \u6bd4\u503c", "infertility_duration":"\u4e0d\u5b55\u5e74\u9650", "current_endometrium":"\u5185\u819c\u539a\u5ea6",
+    "current_e2":"Serum E2", "current_lh":"Serum LH", "current_p":"Serum P",
+    "basal_e2":"Basal E2", "basal_lh":"Basal LH", "basal_fsh":"Basal FSH", "basal_p":"Basal P",
+    "total_follicle_count":"Total follicle count", "mature_follicle_count":"Follicle count ≥14 mm", "medium_plus_follicle_count":"Follicle count ≥13 mm", "dominant_follicle_count":"Dominant follicle count",
+    "follicle_count_lt_10":"Follicle count <10 mm", "follicle_count_10_12":"Follicle count 10-12 mm", "follicle_count_gt_18":"Follicle count >18 mm", "follicle_count_16_18":"Follicle count 16-18 mm", "follicle_count_13_15":"Follicle count 13-15 mm", "growing_follicle_count":"Growing follicle count",
+    "left_follicle_count":"Left follicle count", "right_follicle_count":"Right follicle count",
+    "max_follicle_diameter":"Max follicle diameter", "mean_follicle_diameter":"Mean follicle diameter",
+    "current_gn_dose":"Current total Gn dose", "current_fsh_daily_dose":"Current FSH dose", "current_lh_daily_dose":"Current LH dose", "current_hmg_daily_dose":"Current HMG dose", "current_lh_like_hmg_daily_dose":"Current LH/HMG-class Gn dose", "initial_gn_dose":"Initial Gn dose",
+    "current_fsh":"Serum FSH", "previous_fsh_daily_dose":"Prior FSH dose", "previous_lh_daily_dose":"Prior LH dose", "previous_hmg_daily_dose":"Prior HMG dose", "days_since_previous_visit":"Days since previous monitoring",
+    "amh":"AMH", "afc":"AFC", "age":"Age", "bmi":"BMI", "gn_day":"Stimulation day", "monitoring_order":"Monitoring visit", "visits_seen":"Visits seen",
+    "e2_per_mature_follicle":"E2 per mature follicle", "e2_per_weighted_follicle":"E2 per weighted follicle", "gn_per_total_follicle":"Gn dose per follicle", "current_e2_per_gn":"E2 per Gn dose", "large_follicle_share":"Large follicle share", "mature_follicle_share":"Mature follicle share", "ohss_follicle_load_score":"Follicle load score", "p_lh_ratio":"P/LH ratio", "infertility_duration":"Infertility duration", "current_endometrium":"Endometrial thickness",
 }
-OHSS_FEATURE_UNITS = {"current_e2":"pg/mL","basal_e2":"pg/mL","current_lh":"IU/L","basal_lh":"IU/L","current_p":"ng/mL","basal_p":"ng/mL","basal_fsh":"IU/L","current_fsh":"IU/L","max_follicle_diameter":"mm","mean_follicle_diameter":"mm","current_endometrium":"mm","current_gn_dose":"IU/\u5929","current_fsh_daily_dose":"IU/\u5929","current_lh_daily_dose":"IU/\u5929","current_hmg_daily_dose":"IU/\u5929","previous_fsh_daily_dose":"IU/\u5929","previous_lh_daily_dose":"IU/\u5929","previous_hmg_daily_dose":"IU/\u5929","current_lh_like_hmg_daily_dose":"IU/\u5929","initial_gn_dose":"IU/\u5929","age":"\u5c81","gn_day":"\u5929","days_since_previous_visit":"\u5929","monitoring_order":"\u6b21","visits_seen":"\u6b21","total_follicle_count":"\u4e2a","left_follicle_count":"\u4e2a","right_follicle_count":"\u4e2a","mature_follicle_count":"\u4e2a","medium_plus_follicle_count":"\u4e2a","dominant_follicle_count":"\u4e2a","follicle_count_lt_10":"\u4e2a","follicle_count_10_12":"\u4e2a","follicle_count_gt_18":"\u4e2a","follicle_count_16_18":"\u4e2a","follicle_count_13_15":"\u4e2a","growing_follicle_count":"\u4e2a"}
+OHSS_FEATURE_UNITS = {"current_e2":"pg/mL","basal_e2":"pg/mL","current_lh":"IU/L","basal_lh":"IU/L","current_p":"ng/mL","basal_p":"ng/mL","basal_fsh":"IU/L","current_fsh":"IU/L","max_follicle_diameter":"mm","mean_follicle_diameter":"mm","current_endometrium":"mm","current_gn_dose":"IU/day","current_fsh_daily_dose":"IU/day","current_lh_daily_dose":"IU/day","current_hmg_daily_dose":"IU/day","previous_fsh_daily_dose":"IU/day","previous_lh_daily_dose":"IU/day","previous_hmg_daily_dose":"IU/day","current_lh_like_hmg_daily_dose":"IU/day","initial_gn_dose":"IU/day","age":"years","gn_day":"days","days_since_previous_visit":"days","monitoring_order":"visits","visits_seen":"visits","total_follicle_count":"","left_follicle_count":"","right_follicle_count":"","mature_follicle_count":"","medium_plus_follicle_count":"","dominant_follicle_count":"","follicle_count_lt_10":"","follicle_count_10_12":"","follicle_count_gt_18":"","follicle_count_16_18":"","follicle_count_13_15":"","growing_follicle_count":""}
 CSS = """
 <style>
 :root{--bg:#f8f9ff;--card:#fff;--ink:#0b1c30;--muted:#64748b;--line:#d8deeb;--p:#4f46e5;--pd:#3525cd;--ps:#eef0ff;--t:#14b8a6;--ts:#dcfbf6;--w:#f59e0b;--ws:#fff7ed;--d:#dc2626;--ds:#fff1f2;--fs-scale:1.5;--fs-scale-2x:2;--fs-scale-tight:1.2}
-html,body,.stApp,[data-testid="stAppViewContainer"],[data-testid="stAppViewBlockContainer"]{background:var(--bg)!important;color:var(--ink)!important;color-scheme:light!important;font-family:"Microsoft YaHei UI","Microsoft YaHei","微软雅黑","PingFang SC",sans-serif!important}header,#MainMenu,footer{visibility:hidden;height:0}.block-container{max-width:1480px;padding:0 28px 82px!important;padding-top:0!important}
-/* ===== 顶部导航栏：sticky 置顶、品牌靠左、页面标签整体水平居中、无边框 =====
-   导航容器 = st.container() 生成的 stVerticalBlock（同时包含 .nav-brand 与 .st-key-page_selector）；
-   品牌 markdown 绝对定位靠左，radio 占满整行后内部居中，四项整体居中。 */
+html,body,.stApp,[data-testid="stAppViewContainer"],[data-testid="stAppViewBlockContainer"]{background:var(--bg)!important;color:var(--ink)!important;color-scheme:light!important;font-family:"Microsoft YaHei UI","Microsoft YaHei","PingFang SC",sans-serif!important}header,#MainMenu,footer{visibility:hidden;height:0}.block-container{max-width:1480px;padding:0 28px 82px!important;padding-top:0!important}
+/* ===== Top navigation bar: sticky at the top, brand on the left, page tabs centred as a group, no border =====
+   The navigation container is the stVerticalBlock produced by st.container() (it holds both .nav-brand and .st-key-page_selector);
+   The brand markdown is absolutely positioned on the left, the radio fills the row and centres its items, so all four tabs are centred. */
 div[data-testid="stVerticalBlock"]:has(.nav-brand):has(.st-key-page_selector){
   position:sticky!important;top:0!important;z-index:100!important;
   background:#fff!important;border:none!important;border-radius:0!important;
   box-shadow:none!important;margin:0 -28px!important;padding:0 28px!important
 }
-/* 清除容器内部 wrapper（stVerticalBlockBorderWrapper / padding 层）的多余留白 */
+/* Remove the extra whitespace of the inner container wrappers (stVerticalBlockBorderWrapper / padding layer) */
 div[data-testid="stVerticalBlock"]:has(.nav-brand):has(.st-key-page_selector) [data-testid="stVerticalBlockBorderWrapper"]{
   padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important
 }
-/* 最外层含导航的 stVerticalBlockBorderWrapper 也清 padding（消除顶部 15px 留白） */
+/* The outermost stVerticalBlockBorderWrapper that holds the navigation also gets its padding cleared (removes the 15px gap at the top) */
 div[data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stVerticalBlock"] .nav-brand){
   padding-top:0!important;border-top:0!important
 }
 div[data-testid="stVerticalBlock"]:has(.nav-brand):has(.st-key-page_selector) [data-testid="stVerticalBlock"]{
   padding:0!important;margin:0!important
 }
-/* 品牌：绝对定位靠左（sticky 容器建立定位上下文） */
+/* Brand: absolutely positioned on the left (the sticky container provides the positioning context) */
 div[data-testid="stVerticalBlock"]:has(.nav-brand):has(.st-key-page_selector) > .stElementContainer:first-child{
   position:absolute!important;left:0!important;top:0!important;height:56px!important;
   display:flex!important;align-items:center!important;z-index:6!important;
@@ -207,7 +207,7 @@ div[data-testid="stVerticalBlock"]:has(.nav-brand):has(.st-key-page_selector) > 
 .nav-brand .mark{width:30px;height:30px;border-radius:8px;background:#EFF4FF;color:#3B82F6;display:grid;place-items:center;font-weight:700;font-size:calc(16px * var(--fs-scale));flex:0 0 auto}
 .nav-brand .brand-name{font-size:calc(18px * var(--fs-scale));font-weight:600;color:#1D2939;white-space:nowrap}
 .nav-brand .sub{font-size:calc(12px * var(--fs-scale));color:#98A2B3;white-space:nowrap;margin-top:2px}
-/* 标签（radio）：占满整行，四项整体水平居中 */
+/* Tabs (radio): fill the whole row, with the four items centred horizontally as a group */
 div[data-testid="stVerticalBlock"]:has(.nav-brand):has(.st-key-page_selector) .st-key-page_selector{
   width:100%!important;height:56px!important;display:flex!important;align-items:center!important;justify-content:center!important;margin:0!important;padding:0!important
 }
@@ -218,10 +218,10 @@ div[data-testid="stVerticalBlock"]:has(.nav-brand):has(.st-key-page_selector) di
 div[data-testid="stVerticalBlock"]:has(.nav-brand):has(.st-key-page_selector) div[role="radiogroup"] input{position:absolute!important;opacity:0!important;width:0!important;height:0!important}
 div[data-testid="stVerticalBlock"]:has(.nav-brand):has(.st-key-page_selector) div[role="radiogroup"] label:hover{color:#1D2939!important}
 div[data-testid="stVerticalBlock"]:has(.nav-brand):has(.st-key-page_selector) div[role="radiogroup"] label:has(input:checked){color:#1D2939!important;font-weight:600!important;box-shadow:inset 0 -2px 0 0 #3B82F6!important}
-/* 隐藏注入的 <style> markdown 残留（无内容、避免占位导致导航下方偏移） */
+/* Hide the leftover markdown of the injected <style> block (it has no content and would otherwise shift everything below the navigation) */
 div[data-testid="stMarkdown"]:has(style){display:none!important}
-/* ===== 页面标题：24px/600/#1D2939，紧贴导航下方，副标题灰色小字 ===== */
-.title{margin:18px 0 22px!important}.title h1{margin:0 0 6px!important;font-size:36px!important;line-height:1.4!important;font-weight:600!important;color:#1D2939!important}.title p{margin:0!important;color:#667085!important;font-size:13px!important;line-height:1.6!important}.card,.sec{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 12px rgba(15,23,42,.04)}.pad{padding:24px}.sec{padding:22px 24px;margin-bottom:20px}.head{display:flex;align-items:center;gap:10px;margin-bottom:18px}.head .ic{width:28px;height:28px;border-radius:8px;background:var(--ps);color:var(--pd);display:grid;place-items:center;font-weight:900}.head h3{margin:0;font-size:calc(20px * var(--fs-scale))}.note{font-size:calc(12px * var(--fs-scale));color:var(--muted);line-height:1.55}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.metric{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}.ml{color:var(--muted);font-size:calc(13px * var(--fs-scale));font-weight:720}.mv{font-size:calc(30px * var(--fs-scale));font-weight:900;line-height:1.25;margin-top:8px;color:var(--pd)}.teal{color:#087d72!important}.warn{color:#d97706!important}.chip{display:inline-flex;border-radius:999px;padding:4px 10px;font-size:calc(12px * var(--fs-scale));font-weight:850;border:1px solid var(--line);background:#f8fafc;color:#475569;white-space:nowrap}.cp{background:var(--ps);border-color:#d7d7ff;color:var(--pd)}.ct{background:var(--ts);border-color:#a9eee4;color:#04786e}.cw{background:var(--ws);border-color:#fed7aa;color:#b45309}.cd{background:var(--ds);border-color:#fecdd3;color:#b91c1c}.cm{background:#f1f5f9;color:#64748b}.sg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.tile{background:#eef3ff;border:1px solid #dbe4fb;border-radius:10px;padding:15px}.tile .k{font-size:calc(12px * var(--fs-scale));color:#475569;font-weight:750}.tile .v{font-family:"Microsoft YaHei UI","Microsoft YaHei","微软雅黑",sans-serif;font-size:calc(26px * var(--fs-scale));font-weight:900;color:var(--pd);margin-top:6px}.summary-overview .tile .k{font-size:calc(12px * var(--fs-scale-2x))!important;font-weight:950;color:#1D2939}.notice,.warning,.danger{border-radius:12px;padding:12px 14px;font-size:calc(13px * var(--fs-scale));line-height:1.65}.notice{border:1px solid #bfe8f3;background:#effbff;color:#164e63}.warning{border:1px solid #fed7aa;background:#fff7ed;color:#9a3412}.danger{border:1px solid #fecdd3;background:#fff1f2;color:#991b1b}.visits{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}.visit{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}.visit.latest{background:#f0f7ff;border-color:#bcd7ff}.vt{display:flex;justify-content:space-between;margin-bottom:10px;font-weight:850}.vb{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.vk{font-size:calc(12px * var(--fs-scale));color:var(--muted)}.vv{font-family:"Microsoft YaHei UI","Microsoft YaHei","微软雅黑",sans-serif;font-weight:850}.mw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:#fff}.matrix{min-width:980px;border-collapse:separate;border-spacing:0;width:100%;font-family:"Microsoft YaHei UI","Microsoft YaHei","微软雅黑",sans-serif}.matrix th,.matrix td{border-right:1px solid var(--line);border-bottom:0;padding:17px 20px;text-align:center}.matrix th{background:#eef3ff;color:#334155;font-size:calc(13px * var(--fs-scale));font-weight:850}.matrix td{font-family:"Microsoft YaHei UI","Microsoft YaHei","微软雅黑",sans-serif;font-weight:800}.matrix th:first-child,.matrix td:first-child{position:sticky;left:0;text-align:left;background:#eef3ff;font-family:inherit;z-index:1;min-width:170px}.matrix th:last-child,.matrix td:last-child{border-right:0}.row-label{font-weight:900}.row-fsh{color:#d94663}.row-lh{color:#f59e0b}.row-hmg{color:#2563eb}.row-e2{color:#0f766e}.row-lhv{color:#7c3aed}.row-p{color:#475569}.row-oocyte{color:#4f46e5}.row-mii{color:#4f46e5}.row-ohss{color:#14b8a6}.today{background:#fff}.pred{background:#f0f5ff;color:#243b75}.pred-note{display:block;margin-top:3px;font-size:calc(11px * var(--fs-scale));color:#64748b;font-weight:700}.future{background:#f6f7fb;color:#94a3b8}.tbl{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}.tbl th{background:#eef3ff;color:#475569;text-align:left;font-size:calc(12px * var(--fs-scale));padding:13px 12px;border-bottom:1px solid var(--line)}.tbl td{padding:14px 12px;border-bottom:1px solid #edf1f7;font-size:calc(13px * var(--fs-scale))}.mono{font-family:"Microsoft YaHei UI","Microsoft YaHei","微软雅黑",sans-serif}.rank{width:28px;height:28px;border-radius:999px;background:var(--p);color:#fff;display:grid;place-items:center;font-weight:900}.alink{display:inline-flex;border:1px solid #d7d7ff;border-radius:8px;color:var(--pd);padding:7px 10px;font-weight:850;background:#fff}.status{position:fixed;left:0;right:0;bottom:0;height:38px;background:#eef3ff;border-top:1px solid var(--line);z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 28px;color:#334155;font-size:calc(12px * var(--fs-scale));font-weight:750}.links{display:flex;gap:24px}.quick{display:grid;grid-template-columns:1.45fr 1fr;gap:20px}.plist{width:100%;border-collapse:collapse}.plist th{font-size:calc(12px * var(--fs-scale));color:#64748b;background:#eef3ff;text-align:left;padding:11px}.plist td{padding:13px 11px;border-bottom:1px solid #edf1f7;font-size:calc(13px * var(--fs-scale))}.qcard{border:1px solid var(--line);border-radius:14px;background:#fff;padding:18px;display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:12px}.curves,.cases,.shap-top,.shap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.curve-sensitivity{border:1px solid #e2e8f0;border-radius:12px;background:#fbfdff;margin:10px 0 12px;overflow:hidden}.curve-s-head,.curve-s-row{display:grid;grid-template-columns:86px repeat(3,minmax(0,1fr));gap:8px;align-items:center}.curve-s-head{background:#eef3ff;color:#475569;font-size:calc(11px * var(--fs-scale));font-weight:900;padding:8px 10px}.curve-s-row{padding:9px 10px;border-top:1px solid #edf1f7}.curve-s-label{font-size:calc(12px * var(--fs-scale));font-weight:900;color:#0b1c30}.curve-s-cell{min-width:0}.curve-s-val{font-size:calc(13px * var(--fs-scale));font-weight:950;color:#0b1c30}.curve-s-dose{display:block;font-size:calc(10px * var(--fs-scale));color:#64748b;font-weight:800;margin-bottom:2px}.curve-s-delta{display:inline-flex;margin-top:3px;border-radius:999px;padding:2px 7px;font-size:calc(11px * var(--fs-scale));font-weight:900;border:1px solid #dbe4fb;background:#fff;color:#64748b}.curve-s-delta.up{border-color:#a9eee4;background:#dcfbf6;color:#04786e}.curve-s-delta.down{border-color:#fecdd3;background:#fff1f2;color:#b91c1c}.curve-s-delta.warn{border-color:#fed7aa;background:#fff7ed;color:#b45309}.curve-s-delta.flat{border-color:#e2e8f0;background:#f8fafc;color:#64748b}.tech-sens{margin-top:18px}.tech-dose-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}.tech-dose-card{border:1px solid #dbe4fb;border-radius:14px;background:#fff;padding:14px;min-width:0}.tech-dose-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}.tech-dose-title{font-size:calc(15px * var(--fs-scale));font-weight:950;color:#0b1c30}.tech-dose-sub{font-size:calc(11px * var(--fs-scale));color:#64748b;margin-top:3px;line-height:1.35}.tech-dose-row{border-top:1px solid #edf1f7;padding:11px 0}.tech-dose-row:first-of-type{border-top:0}.tech-dose-row-title{font-size:calc(12px * var(--fs-scale));font-weight:900;color:#334155;margin-bottom:8px}.tech-dose-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.tech-dose-metric{min-width:0}.tech-dose-top{display:flex;justify-content:space-between;gap:6px;align-items:center;font-size:calc(11px * var(--fs-scale));color:#64748b;font-weight:850}.tech-dose-top b{font-size:calc(11px * var(--fs-scale));color:#0b1c30;white-space:nowrap}.tech-dose-track{height:8px;border-radius:999px;background:#eef2f7;overflow:hidden;margin:5px 0 4px}.tech-dose-fill{height:100%;border-radius:999px;background:#94a3b8}.tech-dose-fill.up{background:var(--t)}.tech-dose-fill.down{background:#ef5f73}.tech-dose-fill.warn{background:var(--w)}.tech-dose-fill.flat{background:#cbd5e1}.tech-dose-value{font-size:calc(10px * var(--fs-scale));color:#64748b;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}@media(max-width:1000px){.tech-dose-grid,.tech-dose-metrics{grid-template-columns:1fr}}.svgcard,.case,.shap-card,.dose-card{border:1px solid var(--line);border-radius:16px;background:#fff;padding:18px}.dose-card{display:flex;justify-content:space-between;align-items:center}.dose-card .value{font-size:calc(30px * var(--fs-scale));font-weight:900;color:var(--pd)}.factor{display:grid;grid-template-columns:132px 1fr;gap:14px;align-items:center;margin:14px 0}.bar{height:10px;background:#eef2f7;border-radius:999px;overflow:hidden}.fill{height:100%;border-radius:999px;background:var(--p)}.fill.t{background:var(--t)}.fill.w{background:var(--w)}.fc{grid-column:2;font-size:calc(12px * var(--fs-scale));color:#64748b;margin-top:-8px}.groups{display:grid;grid-template-columns:1fr 1.05fr;gap:26px;align-items:center}.grow{display:grid;grid-template-columns:178px 1fr;gap:14px;align-items:center;margin:14px 0}.gfill{height:100%;background:linear-gradient(90deg,var(--p),var(--t));border-radius:999px}.field-label{font-size:calc(14px * var(--fs-scale));color:#0f1f33;font-weight:850;margin:0 0 7px;min-height:42px;line-height:1.35}.field-label .req{color:#dc2626;font-weight:950}.monitor-record-title{font-size:calc(17px * var(--fs-scale));font-weight:950;color:#0b1c30;margin:2px 0 16px}.monitor-section-title{font-size:calc(16px * var(--fs-scale));font-weight:950;color:#172554;margin:22px 0 12px;padding:8px 0 8px 12px;border-left:4px solid var(--p);background:#f8fbff;border-radius:8px}.mini-hint{margin:8px 0 4px;padding:9px 11px;border-radius:10px;border:1px solid #fed7aa;background:#fff7ed;color:#9a3412;font-size:calc(12px * var(--fs-scale));font-weight:750}.monitor-empty{border:1.5px dashed #b7c3d8;border-radius:14px;background:#fbfdff;padding:18px;color:#64748b;margin-bottom:16px}.stTextInput input,.stNumberInput input,[data-baseweb="input"] input{background:transparent!important;color:var(--ink)!important;-webkit-text-fill-color:var(--ink)!important;font-weight:720!important}.stTextInput>div>div,.stNumberInput>div>div,[data-baseweb="input"]>div,[data-baseweb="select"]>div{background:#fff!important;border:1px solid #94A3B8!important;border-radius:8px!important;min-height:44px!important;box-shadow:none!important}.stTextInput>div>div:focus-within,.stNumberInput>div>div:focus-within,[data-baseweb="input"]>div:focus-within,[data-baseweb="select"]>div:focus-within{border-color:#475569!important;box-shadow:0 0 0 1px #94A3B8!important}.stTextInput label p,.stNumberInput label p,.stSelectbox label p,.stDateInput label p{font-weight:800!important;color:#334155!important}div[data-testid="stButton"]>button,div[data-testid="stFormSubmitButton"] button{border-radius:9px!important;border:1px solid #c7c4d8!important;background:#fff!important;color:var(--pd)!important;min-height:42px!important;font-weight:850!important;box-shadow:none!important}button[kind="primary"],button[data-testid*="primary"],div[data-testid="stButton"]>button[kind="primary"],div[data-testid="stFormSubmitButton"] button[kind="primary"]{background:var(--p)!important;border-color:var(--p)!important;color:#fff!important}@media(max-width:1000px){div[role="radiogroup"]{justify-content:flex-start;overflow-x:auto;margin-top:0;margin-bottom:20px}.topbar{margin-bottom:12px}.grid4,.sg,.curves,.cases,.shap-top,.shap-grid,.quick,.visits,.groups{grid-template-columns:1fr}.block-container{padding-left:16px!important;padding-right:16px!important}.topbar{margin-left:-16px;margin-right:-16px;padding:0 16px}.status{position:static;margin:28px -16px -82px}}
+/* ===== Page title: 24px/600/#1D2939, right below the navigation, with a small grey subtitle ===== */
+.title{margin:18px 0 22px!important}.title h1{margin:0 0 6px!important;font-size:36px!important;line-height:1.4!important;font-weight:600!important;color:#1D2939!important}.title p{margin:0!important;color:#667085!important;font-size:13px!important;line-height:1.6!important}.card,.sec{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 12px rgba(15,23,42,.04)}.pad{padding:24px}.sec{padding:22px 24px;margin-bottom:20px}.head{display:flex;align-items:center;gap:10px;margin-bottom:18px}.head .ic{width:28px;height:28px;border-radius:8px;background:var(--ps);color:var(--pd);display:grid;place-items:center;font-weight:900}.head h3{margin:0;font-size:calc(20px * var(--fs-scale))}.note{font-size:calc(12px * var(--fs-scale));color:var(--muted);line-height:1.55}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.metric{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}.ml{color:var(--muted);font-size:calc(13px * var(--fs-scale));font-weight:720}.mv{font-size:calc(30px * var(--fs-scale));font-weight:900;line-height:1.25;margin-top:8px;color:var(--pd)}.teal{color:#087d72!important}.warn{color:#d97706!important}.chip{display:inline-flex;border-radius:999px;padding:4px 10px;font-size:calc(12px * var(--fs-scale));font-weight:850;border:1px solid var(--line);background:#f8fafc;color:#475569;white-space:nowrap}.cp{background:var(--ps);border-color:#d7d7ff;color:var(--pd)}.ct{background:var(--ts);border-color:#a9eee4;color:#04786e}.cw{background:var(--ws);border-color:#fed7aa;color:#b45309}.cd{background:var(--ds);border-color:#fecdd3;color:#b91c1c}.cm{background:#f1f5f9;color:#64748b}.sg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.tile{background:#eef3ff;border:1px solid #dbe4fb;border-radius:10px;padding:15px}.tile .k{font-size:calc(12px * var(--fs-scale));color:#475569;font-weight:750}.tile .v{font-family:"Microsoft YaHei UI","Microsoft YaHei",sans-serif;font-size:calc(26px * var(--fs-scale));font-weight:900;color:var(--pd);margin-top:6px}.summary-overview .tile .k{font-size:calc(12px * var(--fs-scale-2x))!important;font-weight:950;color:#1D2939}.notice,.warning,.danger{border-radius:12px;padding:12px 14px;font-size:calc(13px * var(--fs-scale));line-height:1.65}.notice{border:1px solid #bfe8f3;background:#effbff;color:#164e63}.warning{border:1px solid #fed7aa;background:#fff7ed;color:#9a3412}.danger{border:1px solid #fecdd3;background:#fff1f2;color:#991b1b}.visits{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}.visit{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px}.visit.latest{background:#f0f7ff;border-color:#bcd7ff}.vt{display:flex;justify-content:space-between;margin-bottom:10px;font-weight:850}.vb{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.vk{font-size:calc(12px * var(--fs-scale));color:var(--muted)}.vv{font-family:"Microsoft YaHei UI","Microsoft YaHei",sans-serif;font-weight:850}.mw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:#fff}.matrix{min-width:980px;border-collapse:separate;border-spacing:0;width:100%;font-family:"Microsoft YaHei UI","Microsoft YaHei",sans-serif}.matrix th,.matrix td{border-right:1px solid var(--line);border-bottom:0;padding:17px 20px;text-align:center}.matrix th{background:#eef3ff;color:#334155;font-size:calc(13px * var(--fs-scale));font-weight:850}.matrix td{font-family:"Microsoft YaHei UI","Microsoft YaHei",sans-serif;font-weight:800}.matrix th:first-child,.matrix td:first-child{position:sticky;left:0;text-align:left;background:#eef3ff;font-family:inherit;z-index:1;min-width:170px}.matrix th:last-child,.matrix td:last-child{border-right:0}.row-label{font-weight:900}.row-fsh{color:#d94663}.row-lh{color:#f59e0b}.row-hmg{color:#2563eb}.row-e2{color:#0f766e}.row-lhv{color:#7c3aed}.row-p{color:#475569}.row-oocyte{color:#4f46e5}.row-mii{color:#4f46e5}.row-ohss{color:#14b8a6}.today{background:#fff}.pred{background:#f0f5ff;color:#243b75}.pred-note{display:block;margin-top:3px;font-size:calc(11px * var(--fs-scale));color:#64748b;font-weight:700}.future{background:#f6f7fb;color:#94a3b8}.tbl{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}.tbl th{background:#eef3ff;color:#475569;text-align:left;font-size:calc(12px * var(--fs-scale));padding:13px 12px;border-bottom:1px solid var(--line)}.tbl td{padding:14px 12px;border-bottom:1px solid #edf1f7;font-size:calc(13px * var(--fs-scale))}.mono{font-family:"Microsoft YaHei UI","Microsoft YaHei",sans-serif}.rank{width:28px;height:28px;border-radius:999px;background:var(--p);color:#fff;display:grid;place-items:center;font-weight:900}.alink{display:inline-flex;border:1px solid #d7d7ff;border-radius:8px;color:var(--pd);padding:7px 10px;font-weight:850;background:#fff}.status{position:fixed;left:0;right:0;bottom:0;height:38px;background:#eef3ff;border-top:1px solid var(--line);z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 28px;color:#334155;font-size:calc(12px * var(--fs-scale));font-weight:750}.links{display:flex;gap:24px}.quick{display:grid;grid-template-columns:1.45fr 1fr;gap:20px}.plist{width:100%;border-collapse:collapse}.plist th{font-size:calc(12px * var(--fs-scale));color:#64748b;background:#eef3ff;text-align:left;padding:11px}.plist td{padding:13px 11px;border-bottom:1px solid #edf1f7;font-size:calc(13px * var(--fs-scale))}.qcard{border:1px solid var(--line);border-radius:14px;background:#fff;padding:18px;display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:12px}.curves,.cases,.shap-top,.shap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.curve-sensitivity{border:1px solid #e2e8f0;border-radius:12px;background:#fbfdff;margin:10px 0 12px;overflow:hidden}.curve-s-head,.curve-s-row{display:grid;grid-template-columns:86px repeat(3,minmax(0,1fr));gap:8px;align-items:center}.curve-s-head{background:#eef3ff;color:#475569;font-size:calc(11px * var(--fs-scale));font-weight:900;padding:8px 10px}.curve-s-row{padding:9px 10px;border-top:1px solid #edf1f7}.curve-s-label{font-size:calc(12px * var(--fs-scale));font-weight:900;color:#0b1c30}.curve-s-cell{min-width:0}.curve-s-val{font-size:calc(13px * var(--fs-scale));font-weight:950;color:#0b1c30}.curve-s-dose{display:block;font-size:calc(10px * var(--fs-scale));color:#64748b;font-weight:800;margin-bottom:2px}.curve-s-delta{display:inline-flex;margin-top:3px;border-radius:999px;padding:2px 7px;font-size:calc(11px * var(--fs-scale));font-weight:900;border:1px solid #dbe4fb;background:#fff;color:#64748b}.curve-s-delta.up{border-color:#a9eee4;background:#dcfbf6;color:#04786e}.curve-s-delta.down{border-color:#fecdd3;background:#fff1f2;color:#b91c1c}.curve-s-delta.warn{border-color:#fed7aa;background:#fff7ed;color:#b45309}.curve-s-delta.flat{border-color:#e2e8f0;background:#f8fafc;color:#64748b}.tech-sens{margin-top:18px}.tech-dose-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}.tech-dose-card{border:1px solid #dbe4fb;border-radius:14px;background:#fff;padding:14px;min-width:0}.tech-dose-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}.tech-dose-title{font-size:calc(15px * var(--fs-scale));font-weight:950;color:#0b1c30}.tech-dose-sub{font-size:calc(11px * var(--fs-scale));color:#64748b;margin-top:3px;line-height:1.35}.tech-dose-row{border-top:1px solid #edf1f7;padding:11px 0}.tech-dose-row:first-of-type{border-top:0}.tech-dose-row-title{font-size:calc(12px * var(--fs-scale));font-weight:900;color:#334155;margin-bottom:8px}.tech-dose-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.tech-dose-metric{min-width:0}.tech-dose-top{display:flex;justify-content:space-between;gap:6px;align-items:center;font-size:calc(11px * var(--fs-scale));color:#64748b;font-weight:850}.tech-dose-top b{font-size:calc(11px * var(--fs-scale));color:#0b1c30;white-space:nowrap}.tech-dose-track{height:8px;border-radius:999px;background:#eef2f7;overflow:hidden;margin:5px 0 4px}.tech-dose-fill{height:100%;border-radius:999px;background:#94a3b8}.tech-dose-fill.up{background:var(--t)}.tech-dose-fill.down{background:#ef5f73}.tech-dose-fill.warn{background:var(--w)}.tech-dose-fill.flat{background:#cbd5e1}.tech-dose-value{font-size:calc(10px * var(--fs-scale));color:#64748b;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}@media(max-width:1000px){.tech-dose-grid,.tech-dose-metrics{grid-template-columns:1fr}}.svgcard,.case,.shap-card,.dose-card{border:1px solid var(--line);border-radius:16px;background:#fff;padding:18px}.dose-card{display:flex;justify-content:space-between;align-items:center}.dose-card .value{font-size:calc(30px * var(--fs-scale));font-weight:900;color:var(--pd)}.factor{display:grid;grid-template-columns:132px 1fr;gap:14px;align-items:center;margin:14px 0}.bar{height:10px;background:#eef2f7;border-radius:999px;overflow:hidden}.fill{height:100%;border-radius:999px;background:var(--p)}.fill.t{background:var(--t)}.fill.w{background:var(--w)}.fc{grid-column:2;font-size:calc(12px * var(--fs-scale));color:#64748b;margin-top:-8px}.groups{display:grid;grid-template-columns:1fr 1.05fr;gap:26px;align-items:center}.grow{display:grid;grid-template-columns:178px 1fr;gap:14px;align-items:center;margin:14px 0}.gfill{height:100%;background:linear-gradient(90deg,var(--p),var(--t));border-radius:999px}.field-label{font-size:calc(14px * var(--fs-scale));color:#0f1f33;font-weight:850;margin:0 0 7px;min-height:42px;line-height:1.35}.field-label .req{color:#dc2626;font-weight:950}.monitor-record-title{font-size:calc(17px * var(--fs-scale));font-weight:950;color:#0b1c30;margin:2px 0 16px}.monitor-section-title{font-size:calc(16px * var(--fs-scale));font-weight:950;color:#172554;margin:22px 0 12px;padding:8px 0 8px 12px;border-left:4px solid var(--p);background:#f8fbff;border-radius:8px}.mini-hint{margin:8px 0 4px;padding:9px 11px;border-radius:10px;border:1px solid #fed7aa;background:#fff7ed;color:#9a3412;font-size:calc(12px * var(--fs-scale));font-weight:750}.monitor-empty{border:1.5px dashed #b7c3d8;border-radius:14px;background:#fbfdff;padding:18px;color:#64748b;margin-bottom:16px}.stTextInput input,.stNumberInput input,[data-baseweb="input"] input{background:transparent!important;color:var(--ink)!important;-webkit-text-fill-color:var(--ink)!important;font-weight:720!important}.stTextInput>div>div,.stNumberInput>div>div,[data-baseweb="input"]>div,[data-baseweb="select"]>div{background:#fff!important;border:1px solid #94A3B8!important;border-radius:8px!important;min-height:44px!important;box-shadow:none!important}.stTextInput>div>div:focus-within,.stNumberInput>div>div:focus-within,[data-baseweb="input"]>div:focus-within,[data-baseweb="select"]>div:focus-within{border-color:#475569!important;box-shadow:0 0 0 1px #94A3B8!important}.stTextInput label p,.stNumberInput label p,.stSelectbox label p,.stDateInput label p{font-weight:800!important;color:#334155!important}div[data-testid="stButton"]>button,div[data-testid="stFormSubmitButton"] button{border-radius:9px!important;border:1px solid #c7c4d8!important;background:#fff!important;color:var(--pd)!important;min-height:42px!important;font-weight:850!important;box-shadow:none!important}button[kind="primary"],button[data-testid*="primary"],div[data-testid="stButton"]>button[kind="primary"],div[data-testid="stFormSubmitButton"] button[kind="primary"]{background:var(--p)!important;border-color:var(--p)!important;color:#fff!important}@media(max-width:1000px){div[role="radiogroup"]{justify-content:flex-start;overflow-x:auto;margin-top:0;margin-bottom:20px}.topbar{margin-bottom:12px}.grid4,.sg,.curves,.cases,.shap-top,.shap-grid,.quick,.visits,.groups{grid-template-columns:1fr}.block-container{padding-left:16px!important;padding-right:16px!important}.topbar{margin-left:-16px;margin-right:-16px;padding:0 16px}.status{position:static;margin:28px -16px -82px}}
 div[data-testid="stFormSubmitButton"] button[kind*="primary"],div[data-testid="stFormSubmitButton"] button[data-testid*="primary"]{background:var(--p)!important;border-color:var(--p)!important;color:#fff!important}
 .tbl th{border-bottom:0!important}
 .dash-dose{height:44px;border:1.6px solid #b8c5d9;border-radius:8px;background:#f8fbff;display:flex;align-items:center;padding:0 11px;color:#64748b;font-weight:850}.dash-dose b{color:#0b1c30;margin-right:6px}
@@ -249,46 +249,46 @@ div[data-testid="stForm"]{background:#fff!important;border:1px solid var(--line)
 .stApp .stSelectbox [data-baseweb="select"]>div,.stApp .stDateInput [data-baseweb="input"]{min-height:44px!important;box-sizing:border-box!important}
 .stApp .stSelectbox [data-baseweb="select"]>div,[data-baseweb="select"]>div,div[data-testid="stFormSubmitButton"] button{border-radius:8px!important}
 div[data-testid="stFormSubmitButton"] button:hover{border-color:#818cf8!important;background:#f5f6ff!important}
-/* 推荐解释页图表（SHAP 条形图）稍降一档避免长特征名在标签列换行 */
+/* One step smaller on the Recommendation Explanation charts (SHAP bars) so long feature names do not wrap in the label column */
 .bd-card,.tech-shap{--fs-scale:var(--fs-scale-tight)}
 </style>
 """
 
-# 患者临床信息录入页专属覆盖样式：医疗 B 端专业干净风格。
-# 仅通过 patient_page() 注入，切到其他页面时自动移除，不影响监测结果/决策曲线/推荐解释。
+# Overrides used only by the Patient Clinical Information Input page: a clean, professional clinical-tool style.
+# Injected only by patient_page() and removed automatically on the other pages, so Monitoring Results / Decision Curve / Recommendation Explanation are unaffected.
 PATIENT_CSS = """
 <style>
-/* 页面背景 */
+/* Page background */
 html,body,.stApp,[data-testid="stAppViewContainer"],[data-testid="stAppViewBlockContainer"]{background:#F9FAFB!important}
 
-/* 页面标题 20px/600/#1D2939；副标题辅助说明 */
+/* Page title: black and enlarged; subtitle supporting note */
 .title{margin:0 0 20px!important}
-.title h1{font-size:36px!important;font-weight:600!important;color:#1D2939!important;margin:0 0 6px!important;line-height:1.4}
+.title h1{font-size:42px!important;font-weight:600!important;color:#000!important;margin:0 0 6px!important;line-height:1.4}
 .title p{font-size:13px!important;font-weight:400!important;color:#667085!important;line-height:1.6;margin:0!important}
 
-/* 一级模块标题 18px/600/#344054（患者基础信息、监测记录） */
+/* Level-one section titles: black and enlarged (patient baseline information, monitoring record) */
 .head{margin-bottom:14px!important}
 .head .ic{width:24px!important;height:24px!important;border-radius:6px!important;background:#EFF4FF!important;color:#3B82F6!important;font-size:calc(13px * var(--fs-scale))!important}
-.head h3{font-size:calc(18px * var(--fs-scale))!important;font-weight:600!important;color:#344054!important}
+.head h3{font-size:calc(26.4px * var(--fs-scale))!important;font-weight:600!important;color:#000!important}
 
-/* 主表单卡片：白底/10px圆角/1px #E5E7EB/内边距16px */
+/* Main form card: white background / 10px radius / 1px #E5E7EB / 16px padding */
 div[data-testid="stForm"]{background:#fff!important;border:1px solid #E5E7EB!important;border-radius:10px!important;padding:16px!important;box-shadow:none!important}
 
-/* 单条监测记录 = 嵌套子卡片：12px圆角白卡，间距12px */
+/* A single monitoring record = nested sub-card: white card with 12px radius, 12px spacing */
 .stApp [data-testid="stVerticalBlockBorderWrapper"]{background:#fff!important;border:1px solid #E5E7EB!important;border-radius:10px!important;padding:14px 16px!important;box-shadow:none!important;margin-bottom:12px}
 .stApp [data-testid="stVerticalBlockBorderWrapper"]:focus-within{border-color:#D0D5DD!important}
 
-/* “第 N 次监测记录”标题 */
-.monitor-record-title{font-size:calc(14px * var(--fs-scale))!important;font-weight:600!important;color:#344054!important;margin:0 0 12px!important}
+/* “Monitoring record N” title: black and enlarged */
+.monitor-record-title{font-size:calc(20.4px * var(--fs-scale))!important;font-weight:600!important;color:#000!important;margin:0 0 12px!important}
 
-/* 二级分组标题 15px/500/#475467 + 极浅 #F2F4F7 细分隔线 */
-.monitor-section-title{font-size:calc(15px * var(--fs-scale))!important;font-weight:500!important;color:#475467!important;margin:14px 0 10px!important;padding:12px 0 0!important;border-top:1px solid #F2F4F7!important;border-left:0!important;background:transparent!important;border-radius:0!important}
+/* Level-two group titles: black and enlarged + very light #F2F4F7 divider */
+.monitor-section-title{font-size:calc(18px * var(--fs-scale))!important;font-weight:500!important;color:#000!important;margin:14px 0 10px!important;padding:12px 0 0!important;border-top:1px solid #F2F4F7!important;border-left:0!important;background:transparent!important;border-radius:0!important}
 
-/* 表单 label 13px/400/#475467；固定两行高保证同排输入框对齐 */
+/* Form labels 13px/400/#475467; a fixed two-line height keeps inputs in the same row aligned */
 .field-label{font-size:calc(13px * var(--fs-scale))!important;font-weight:400!important;color:#475467!important;margin:0 0 6px!important;min-height:40px;line-height:1.4}
 .field-label .req{color:#F04438!important;font-weight:500!important}
 
-/* 输入框/下拉/日期：统一36px高、6px圆角、默认#D0D5DD、聚焦#3B82F6 */
+/* Inputs / dropdowns / dates: 36px high, 6px radius, #D0D5DD by default and #3B82F6 on focus */
 .stApp .stTextInput [data-baseweb="input"],
 .stApp .stNumberInput [data-baseweb="input"],
 .stApp .stDateInput [data-baseweb="input"],
@@ -304,7 +304,7 @@ div[data-testid="stForm"]{background:#fff!important;border:1px solid #E5E7EB!imp
 .stApp [data-baseweb="select"]>div:focus-within{
   border-color:#3B82F6!important;box-shadow:0 0 0 1px #3B82F6!important;outline:none!important
 }
-/* 清除 BaseWeb 在 [data-baseweb="input"] 上挂的伪元素聚焦光晕（红色） */
+/* Remove the pseudo-element focus glow (red) that BaseWeb attaches to [data-baseweb="input"] */
 .stApp .stTextInput [data-baseweb="input"]::before,
 .stApp .stNumberInput [data-baseweb="input"]::before,
 .stApp .stDateInput [data-baseweb="input"]::before,
@@ -315,7 +315,7 @@ div[data-testid="stForm"]{background:#fff!important;border:1px solid #E5E7EB!imp
 .stApp [data-baseweb="select"]>div::after{
   border:0!important;border-color:transparent!important;background:transparent!important;box-shadow:none!important;outline:none!important
 }
-/* 清除 BaseWeb 新版 [data-baseweb="base-input"] 内层聚焦光晕（这是真正的红色来源） */
+/* Remove the inner focus glow of the newer BaseWeb [data-baseweb="base-input"] (this is the actual source of the red) */
 .stApp .stTextInput [data-baseweb="base-input"],
 .stApp .stNumberInput [data-baseweb="base-input"],
 .stApp .stDateInput [data-baseweb="base-input"],
@@ -351,11 +351,11 @@ div[data-testid="stForm"]{background:#fff!important;border:1px solid #E5E7EB!imp
 }
 .stApp [data-baseweb="select"]{color:#1D2939!important;font-size:calc(14px * var(--fs-scale))!important}
 
-/* ±微调按钮缩小适配36px输入框 */
+/* Shrink the ± stepper buttons so they fit the 36px input */
 .stApp .stNumberInput button{width:22px!important;min-width:22px!important;padding:0!important;border-left:1px solid #E5E7EB!important}
 .stApp .stNumberInput button svg{width:11px;height:11px}
 
-/* 底部按钮：38px高、8px圆角、主蓝#3B82F6、次按钮白底灰边灰字 */
+/* Bottom buttons: 38px high, 8px radius, primary blue #3B82F6, secondary buttons white with grey border and grey text */
 div[data-testid="stFormSubmitButton"] button{
   height:38px!important;min-height:38px!important;border-radius:8px!important;
   font-size:14px!important;font-weight:500!important;
@@ -365,24 +365,24 @@ div[data-testid="stFormSubmitButton"] button[kind="primary"]{background:#3B82F6!
 div[data-testid="stFormSubmitButton"] button[kind="primary"]:hover{background:#2F71E6!important;border-color:#2F71E6!important}
 div[data-testid="stFormSubmitButton"] button:hover{border-color:#98A2B3!important;background:#F9FAFB!important}
 
-/* 列间距统一12px（含底部按钮间距） */
+/* Uniform 12px column spacing (including the bottom buttons) */
 .stApp div[data-testid="stHorizontalBlock"]{gap:12px!important}
 
-/* 辅助提示 12px/#F97316 */
+/* Helper hint 12px/#F97316 */
 .mini-hint{font-size:calc(12px * var(--fs-scale))!important;color:#F97316!important;background:#FFF7ED!important;border:1px solid #FED7AA!important;border-radius:6px!important;font-weight:400!important;padding:8px 10px!important;line-height:1.5}
 
-/* 浏览器原生 <input> 上的 aria-invalid 红 outline 兜底 */
+/* Fallback for the native browser aria-invalid red outline on <input> */
 .stApp .stTextInput input[aria-invalid="true"],
 .stApp .stNumberInput input[aria-invalid="true"],
 .stApp .stDateInput input[aria-invalid="true"]{
   outline:none!important;box-shadow:none!important;border-color:transparent!important;
 }
-/* 精准修复：外层容器 stNumberInputContainer/stTextInputContainer/stDateInputContainer
-   Streamlit 在容器聚焦时给 data-testid="stNumberInputContainer" 等加上 .focused 类，
-   emotion CSS 把它画成红色 (rgb(255,75,75))。这里用 [data-testid] 而非 emotion 类名，
-   避免 emotion cache hash 变化导致失效。
-   关键：内层 [data-baseweb="input"] 在所有状态下都透明边框+无阴影，只让外层显示一条边框
-   （默认灰、聚焦蓝），彻底消除双层边框。 */
+/* Targeted fix: the outer containers stNumberInputContainer/stTextInputContainer/stDateInputContainer
+   Streamlit adds a .focused class to data-testid="stNumberInputContainer" and friends when the container has focus,
+   and the emotion CSS paints it red (rgb(255,75,75)). We target [data-testid] instead of emotion class names here
+   so that a change of the emotion cache hash cannot break it.
+   Key point: the inner [data-baseweb="input"] always keeps a transparent border and no shadow, so only the outer layer draws a border
+   (grey by default, blue on focus), which removes the double border completely. */
 .stApp [data-testid="stNumberInputContainer"],
 .stApp [data-testid="stTextInputContainer"],
 .stApp [data-testid="stDateInputContainer"]{
@@ -396,9 +396,9 @@ div[data-testid="stFormSubmitButton"] button:hover{border-color:#98A2B3!importan
 .stApp [data-testid="stDateInputContainer"]:focus-within{
   border-color:#3B82F6!important;
 }
-/* 内层 [data-baseweb="input"] 永远透明，无论是否聚焦。
-   用 :is() 合并三类输入组件与对应容器 testid，特异性保持 (0,4,2)~(0,4,4)，
-   击败旧 :focus-within 规则 (0,2,2)，避免聚焦时被染回蓝。 */
+/* The inner [data-baseweb="input"] stays transparent whether focused or not.
+   Merging the three input components and their container testids with :is() keeps specificity at (0,4,2)~(0,4,4),
+   which beats the older :focus-within rule (0,2,2) and prevents it turning blue again on focus. */
 .stApp :is(.stNumberInput,.stTextInput,.stDateInput) :is([data-testid="stNumberInputContainer"],[data-testid="stTextInputContainer"],[data-testid="stDateInputContainer"]) [data-baseweb="input"],
 .stApp :is(.stNumberInput,.stTextInput,.stDateInput) :is([data-testid="stNumberInputContainer"],[data-testid="stTextInputContainer"],[data-testid="stDateInputContainer"]):focus-within [data-baseweb="input"],
 .stApp :is(.stNumberInput,.stTextInput,.stDateInput) :is([data-testid="stNumberInputContainer"],[data-testid="stTextInputContainer"],[data-testid="stDateInputContainer"]) [data-baseweb="input"]:focus-within,
@@ -444,13 +444,13 @@ def set_query_page(p):
         except Exception:
             pass
 def set_page(p):
-    p = normalize_page(p) or "患者录入"
+    p = normalize_page(p) or "Patient Input"
     st.session_state.page=p
     st.session_state._pending_page=p
     st.session_state._last_query_page=p
     set_query_page(p); rerun()
 def on_nav_change():
-    p = normalize_page(st.session_state.get("page_selector")) or st.session_state.get("page") or "患者录入"
+    p = normalize_page(st.session_state.get("page_selector")) or st.session_state.get("page") or "Patient Input"
     st.session_state.page = p
     st.session_state._last_query_page = p
     set_query_page(p)
@@ -465,7 +465,7 @@ def init():
     elif query_page is not None and (selector_page is None or query_page != last_query_page):
         p=query_page
     else:
-        p=selector_page or stored_page or query_page or "患者录入"
+        p=selector_page or stored_page or query_page or "Patient Input"
     st.session_state.page=p
     st.session_state.page_selector=p
     if query_page is not None:
@@ -477,17 +477,17 @@ def init():
     st.session_state.setdefault("recs_stale", False)
 def header():
     st.markdown(CSS, unsafe_allow_html=True)
-    # 顶部导航栏：单个容器内「品牌（绝对定位靠左）+ 页面标签 radio（整行居中）」，sticky 置顶
+    # Top navigation bar: one container holds the brand (absolutely positioned left) and the page-tab radio (centred in its row), sticky at the top
     nav = st.container()
     with nav:
-        st.markdown(f'<div class="nav-brand"><div class="mark">⚕</div><div><div class="brand-name">Gn 剂量辅助系统</div><div class="sub">医生端临床辅助决策界面</div></div></div>', unsafe_allow_html=True)
-        selected = st.radio("页面导航", PAGES, horizontal=True, label_visibility="collapsed", key="page_selector", on_change=on_nav_change)
-    selected = normalize_page(selected) or st.session_state.get("page", "患者录入")
+        st.markdown(f'<div class="nav-brand"><div class="mark">⚕</div><div><div class="brand-name">Gn Dose Support System</div><div class="sub">Clinician decision-support interface</div></div></div>', unsafe_allow_html=True)
+        selected = st.radio("Page navigation", PAGES, horizontal=True, label_visibility="collapsed", key="page_selector", on_change=on_nav_change)
+    selected = normalize_page(selected) or st.session_state.get("page", "Patient Input")
     st.session_state.page = selected
     if get_query_page() != selected:
         st.session_state._last_query_page = selected
         set_query_page(selected)
-def statusbar(): st.markdown('<div class="status"><div>Gn 剂量辅助系统 v2.4.1 | 系统状态: 运行正常 (Lab Sync Active)</div><div class="links"><span>隐私政策</span><span>技术支持</span><span>操作手册</span></div></div>', unsafe_allow_html=True)
+def statusbar(): st.markdown('<div class="status"><div>Gn Dose Support System v2.4.1 | System status: Operational (Lab Sync Active)</div><div class="links"><span>Privacy policy</span><span>Technical support</span><span>User manual</span></div></div>', unsafe_allow_html=True)
 def title(h,s): st.markdown(f'<div class="title"><h1>{escape(h)}</h1><p>{escape(s)}</p></div>', unsafe_allow_html=True)
 def head(i,h): st.markdown(f'<div class="head"><div class="ic">{i}</div><h3>{escape(h)}</h3></div>', unsafe_allow_html=True)
 def fmt(x,d=1):
@@ -498,11 +498,11 @@ def pct(x):
     try: return f"{float(x):.0%}"
     except Exception: return "--"
 def fsh_cat(d):
-    if d<80:return("0-80","预测")
-    if d<=160:return("80-160","预测")
-    return(">160","预测")
-def lh_cat(d): return ("0","预测") if d<=0 else ("75","预测") if d<=75 else (">75","预测")
-def hmg_cat(d): return ("0","预测") if d<=0 else ("75","预测") if d<=75 else ("150","预测") if d<=150 else (">150","预测")
+    if d<80:return("0-80","Predicted")
+    if d<=160:return("80-160","Predicted")
+    return(">160","Predicted")
+def lh_cat(d): return ("0","Predicted") if d<=0 else ("75","Predicted") if d<=75 else (">75","Predicted")
+def hmg_cat(d): return ("0","Predicted") if d<=0 else ("75","Predicted") if d<=75 else ("150","Predicted") if d<=150 else (">150","Predicted")
 def dose_class(drug, dose):
     return {"fsh":fsh_cat, "lh":lh_cat, "hmg":hmg_cat}[drug](float(dose))[0]
 def display_dose_category(drug, value):
@@ -521,13 +521,13 @@ def display_dose_category(drug, value):
         return dose_class(drug,float(text))
     except Exception:
         return text
-def pred_cell(label): return f'{escape(str(label))}<span class="pred-note">预测</span>'
+def pred_cell(label): return f'{escape(str(label))}<span class="pred-note">Predicted</span>'
 def field_label(container, text, required=False):
     star='<span class="req">*</span>' if required else ''
     container.markdown(f'<div class="field-label">{escape(text)} {star}</div>', unsafe_allow_html=True)
 def dash_dose(container, text):
     field_label(container, text, False)
-    container.markdown('<div class="dash-dose"><b>-</b><span>由模型预测</span></div>', unsafe_allow_html=True)
+    container.markdown('<div class="dash-dose"><b>-</b><span>Model prediction</span></div>', unsafe_allow_html=True)
 def parse_date(value):
     try: return datetime.strptime(str(value), "%Y-%m-%d").date()
     except Exception:
@@ -722,18 +722,18 @@ def _as_prob(value):
 def risk_label(prob, low=None, high=None, category=None):
     prob=_as_prob(prob)
     if prob is None:
-        return ("\u672a\u8fd4\u56de","cm","Unknown")
+        return ("Not returned","cm","Unknown")
     low=float(OHSS_RISK_DEFAULTS["threshold_low"] if low is None else low)
     high=float(OHSS_RISK_DEFAULTS["threshold_high"] if high is None else high)
     if category:
         key=str(category).strip().lower()
-        if key in ("high","\u9ad8\u98ce\u9669"):
-            return ("\u9ad8\u98ce\u9669","cd","High")
-        if key in ("moderate","medium","\u4e2d\u98ce\u9669"):
-            return ("\u4e2d\u98ce\u9669","cw","Moderate")
-        if key in ("low","\u4f4e\u98ce\u9669"):
-            return ("\u4f4e\u98ce\u9669","ct","Low")
-    return ("\u9ad8\u98ce\u9669","cd","High") if prob>=high else ("\u4e2d\u98ce\u9669","cw","Moderate") if prob>=low else ("\u4f4e\u98ce\u9669","ct","Low")
+        if key in ("high","high risk"):
+            return ("High risk","cd","High")
+        if key in ("moderate","medium","moderate risk"):
+            return ("Moderate risk","cw","Moderate")
+        if key in ("low","low risk"):
+            return ("Low risk","ct","Low")
+    return ("High risk","cd","High") if prob>=high else ("Moderate risk","cw","Moderate") if prob>=low else ("Low risk","ct","Low")
 
 def _ohss_reference_probabilities():
     path=REPO_ROOT / str(OHSS_RISK_DEFAULTS["reference_predictions_path"])
@@ -773,7 +773,7 @@ def ohss_display_profile(row):
     display=_as_prob(enriched.get("ohss_display_probability"))
     if display is None:
         display=raw
-    return dict(raw=raw, display=display, label=enriched.get("ohss_display_label", "模型原始概率"), note=enriched.get("ohss_display_note", ""))
+    return dict(raw=raw, display=display, label=enriched.get("ohss_display_label", "Raw model probability"), note=enriched.get("ohss_display_note", ""))
 
 def ohss_display_pct(row):
     display=ohss_display_profile(row).get("display")
@@ -781,7 +781,7 @@ def ohss_display_pct(row):
 
 def ohss_raw_probability_note(row):
     raw=ohss_display_profile(row).get("raw")
-    return "\u4e25\u683c\u4e2d\u91cd\u5ea6 OHSS \u6a21\u578b\u539f\u59cb\u6821\u51c6\u6982\u7387" if raw is not None else "\u4e2d\u91cd\u5ea6 OHSS \u98ce\u9669 --"
+    return "Raw calibrated probability of the strict moderate-to-severe OHSS model" if raw is not None else "Moderate-to-severe OHSS risk --"
 
 def risk(prob):
     prof=ohss_profile({"ohss_risk_probability":prob})
@@ -791,22 +791,22 @@ def round_step(x,step,mx): return round(clamp(x,0,mx)/step)*step
 def evidence(action): return {"increase":dict(selection=.28, ovarian=.72), "decrease":dict(selection=.18, ovarian=.68)}.get(action, dict(selection=.54, ovarian=.76))
 
 def _dose_model_plan_candidates(ctx, cf, cl, ch):
-    plans=[("\u5f53\u524d\u8bb0\u5f55\u65b9\u6848","\u6bd4\u8f83\u57fa\u51c6",cf,cl,ch,"current")]
+    plans=[("Current recorded plan","Comparison baseline",cf,cl,ch,"current")]
     preds=(ctx or {}).get("predictions") if isinstance(ctx,Mapping) else None
     if not isinstance(preds,Mapping):
-        plans.append(("\u6a21\u578b\u6682\u4e0d\u53ef\u7528","UI-reduced model unavailable",cf,cl,ch,"recommended"))
+        plans.append(("Model unavailable","UI-reduced model unavailable",cf,cl,ch,"recommended"))
         return plans
     rec={drug:as_float(preds[drug].get("dose"),0.0) for drug in ("fsh","lh","hmg") if isinstance(preds.get(drug),Mapping)}
     for drug, fallback in (("fsh",cf),("lh",cl),("hmg",ch)):
         rec.setdefault(drug, fallback)
-    plans.append(("\u5019\u9009 1","UI-reduced GRU(AddGate) \u9996\u9009",rec["fsh"],rec["lh"],rec["hmg"],"recommended"))
+    plans.append(("Candidate 1","UI-reduced GRU(AddGate) top pick",rec["fsh"],rec["lh"],rec["hmg"],"recommended"))
     drug_names={"fsh":"FSH","lh":"LH","hmg":"HMG"}
     rank=2
     for drug in ("fsh","lh","hmg"):
         top=list((preds.get(drug) or {}).get("top_labels") or [])
         for alt in top[1:3]:
             combo=dict(rec); combo[drug]=as_float(alt.get("dose"),combo[drug])
-            plans.append((f"\u5019\u9009 {rank}",f"{drug_names[drug]} \u6b21\u9ad8\u6982\u7387\u7c7b\u522b",combo["fsh"],combo["lh"],combo["hmg"],"candidate")); rank+=1
+            plans.append((f"Candidate {rank}",f"{drug_names[drug]} second-highest-probability category",combo["fsh"],combo["lh"],combo["hmg"],"candidate")); rank+=1
     fsh_levels=[40.0,120.0,200.0]
     hmg_levels=[0.0,75.0,150.0,225.0]
     lh_levels=[0.0,75.0,150.0]
@@ -816,8 +816,8 @@ def _dose_model_plan_candidates(ctx, cf, cl, ch):
     def higher(value, levels):
         higher_values=[x for x in levels if x > value]
         return higher_values[0] if higher_values else value
-    plans.append((f"\u5019\u9009 {rank}","\u5b89\u5168\u4fdd\u5b88\u7ec4\u5408",lower(rec["fsh"],fsh_levels),lower(rec["lh"],lh_levels),lower(rec["hmg"],hmg_levels),"candidate")); rank+=1
-    plans.append((f"\u5019\u9009 {rank}","\u53cd\u5e94\u589e\u5f3a\u7ec4\u5408",higher(rec["fsh"],fsh_levels),higher(rec["lh"],lh_levels),higher(rec["hmg"],hmg_levels),"candidate"))
+    plans.append((f"Candidate {rank}","safety-conservative combination",lower(rec["fsh"],fsh_levels),lower(rec["lh"],lh_levels),lower(rec["hmg"],hmg_levels),"candidate")); rank+=1
+    plans.append((f"Candidate {rank}","response-boosted combination",higher(rec["fsh"],fsh_levels),higher(rec["lh"],lh_levels),higher(rec["hmg"],hmg_levels),"candidate"))
     unique=[]; seen=set()
     for name,tag,f,l,h,role in plans:
         key=(round(f,3),round(l,3),round(h,3),role)
@@ -854,8 +854,8 @@ def _dose_response_curve_plan_candidates(base_fsh, base_lh, base_hmg):
             seen.add(key)
             out.append(
                 dict(
-                    name=f"\u66f2\u7ebf\u5019\u9009 {rank}",
-                    tag=f"{labels[axis]} \u5242\u91cf-\u53cd\u5e94\u66f2\u7ebf情景点",
+                    name=f"Curve candidate {rank}",
+                    tag=f"{labels[axis]} dose-response curve scenario point",
                     f=combo["fsh"],
                     l=combo["lh"],
                     h=combo["hmg"],
@@ -894,7 +894,7 @@ def recommend(v:Mapping[str,Any])->list[dict[str,Any]]:
     else:
         st.session_state["dose_recommendation_error"]=globals().get("DOSE_RECOMMENDATION_ERROR","UI-reduced dose model import failed")
     dose_model_plans=_dose_model_plan_candidates(dose_ctx, cf, cl, ch)
-    current_plan=next((plan for plan in dose_model_plans if plan[5] == "current"), ("当前记录方案","比较基准",cf,cl,ch,"current"))
+    current_plan=next((plan for plan in dose_model_plans if plan[5] == "current"), ("Current recorded plan","Comparison baseline",cf,cl,ch,"current"))
     classifier_anchor=next((plan for plan in dose_model_plans if plan[5] == "recommended"), current_plan)
     _,_,anchor_fsh,anchor_lh,anchor_hmg,_=classifier_anchor
     plan_specs=[dict(name=current_plan[0],tag=current_plan[1],f=current_plan[2],l=current_plan[3],h=current_plan[4],role="current",candidate_family="current",curve_axis="",recommendation_basis="current executed-dose reference")]
@@ -1112,12 +1112,12 @@ def sync_recommendations(force=False, show_status=False, page_label=None, auto_r
             st.session_state.recs_stale=has_recs
             st.session_state.pending_recs_signature=sig
             return st.session_state.get("recs_patient", patient) if has_recs else patient
-        label=escape(str(page_label or "当前页面"))
+        label=escape(str(page_label or "this page"))
         model_patient=recommendation_input_patient(patient, records)
         st.session_state.patient=model_patient
         if show_status:
-            st.markdown(f'<div class="model-running"><span class="model-dot running"></span><span>{label} 正在生成最新推荐结果。</span></div>', unsafe_allow_html=True)
-            with st.spinner("模型计算中"):
+            st.markdown(f'<div class="model-running"><span class="model-dot running"></span><span>Generating the latest recommendation for {label}.</span></div>', unsafe_allow_html=True)
+            with st.spinner("Running model"):
                 rows=recommend(model_patient)
         else:
             rows=recommend(model_patient)
@@ -1133,7 +1133,7 @@ def sync_recommendations(force=False, show_status=False, page_label=None, auto_r
 
 def stale_recommendation_notice():
     if st.session_state.get("recs_stale"):
-        st.markdown('<div class="mini-hint">当前页面使用上一次已生成的推荐结果；患者录入已有新修改，请在录入页点击“生成监测结果”后再刷新此页。</div>', unsafe_allow_html=True)
+        st.markdown('<div class="mini-hint">This page shows the previously generated recommendation; the Patient Input page has newer edits. Click “Generate monitoring results” there, then refresh this page.</div>', unsafe_allow_html=True)
 
 def refresh_page_recommendations(page_label):
     stale=bool(st.session_state.get("recs_stale"))
@@ -1146,10 +1146,10 @@ def refresh_page_recommendations(page_label):
 def recommendation_required_notice(page_label):
     if st.session_state.get("recs"):
         return True
-    label=escape(str(page_label or "当前页面"))
-    st.markdown(f'<div class="warning">{label} 尚未生成监测结果。请先在患者录入页点击“生成监测结果”，或在此处点击下方按钮生成最新监测结果。</div>', unsafe_allow_html=True)
+    label=escape(str(page_label or "this page"))
+    st.markdown(f'<div class="warning">{label} has no monitoring results yet. Click “Generate monitoring results” on the Patient Input page first, or use the button below to generate the latest results here.</div>', unsafe_allow_html=True)
     key="generate_missing_recs_" + str(page_label or "page")
-    if st.button("生成最新监测结果", type="primary", use_container_width=True, key=key):
+    if st.button("Generate latest monitoring results", type="primary", use_container_width=True, key=key):
         sync_recommendations(force=True, show_status=True, page_label=page_label)
         rerun()
     return False
@@ -1180,94 +1180,94 @@ def current_layer1_context():
         return None
 
 def home():
-    title("医生端临床辅助工作台","围绕 IVF/ICSI 促排监测、下一次记录性 Gn 剂量预测、相似决策点与可解释 AI 的低噪声工作界面。")
-    st.markdown('<div class="grid4"><div class="metric"><div class="ml">今日待评估患者</div><div class="mv">12</div><div class="note">较昨日 +3</div></div><div class="metric"><div class="ml">已生成推荐</div><div class="mv teal">8</div><div class="note">均待医生最终确认</div></div><div class="metric"><div class="ml">中重度预警待复核</div><div class="mv warn">2</div><div class="note">需复核安全边界</div></div><div class="metric"><div class="ml">SHAP 已查看</div><div class="mv">6</div><div class="note">解释记录已同步</div></div></div><br>',unsafe_allow_html=True)
+    title("Clinician Decision-Support Workbench","")
+    st.markdown('<div class="grid4"><div class="metric"><div class="ml">Patients to review today</div><div class="mv">12</div><div class="note">+3 vs. yesterday</div></div><div class="metric"><div class="ml">Recommendations generated</div><div class="mv teal">8</div><div class="note">All pending final physician confirmation</div></div><div class="metric"><div class="ml">Moderate-to-severe alerts to review</div><div class="mv warn">2</div><div class="note">Safety boundary review required</div></div><div class="metric"><div class="ml">SHAP reviewed</div><div class="mv">6</div><div class="note">Explanation log synced</div></div></div><br>',unsafe_allow_html=True)
     l,r=st.columns([1.45,1])
-    with l: st.markdown('<div class="sec"><div class="head"><div class="ic">▦</div><h3>最近患者列表</h3></div><table class="plist"><tr><th>匿名病例</th><th>阶段</th><th>最新监测</th><th>风险</th><th>状态</th></tr><tr><td>Case 014</td><td>Gn day 8</td><td>E2 1580 · max 18.0</td><td><span class="chip ct">低风险</span></td><td><span class="chip cp">待医生确认</span></td></tr><tr><td>Case 021</td><td>Gn day 6</td><td>E2 980 · max 14.5</td><td><span class="chip cw">中风险</span></td><td><span class="chip">已保存建议</span></td></tr><tr><td>Case 028</td><td>Gn day 10</td><td>E2 3120 · max 20.5</td><td><span class="chip cd">高风险</span></td><td><span class="chip cp">需复核</span></td></tr></table></div>',unsafe_allow_html=True)
+    with l: st.markdown('<div class="sec"><div class="head"><div class="ic">▦</div><h3>Recent patient list</h3></div><table class="plist"><tr><th>Anonymized case</th><th>Stage</th><th>Latest monitoring</th><th>Risk</th><th>Status</th></tr><tr><td>Case 014</td><td>Gn day 8</td><td>E2 1580 · max 18.0</td><td><span class="chip ct">Low risk</span></td><td><span class="chip cp">Pending physician confirmation</span></td></tr><tr><td>Case 021</td><td>Gn day 6</td><td>E2 980 · max 14.5</td><td><span class="chip cw">Moderate risk</span></td><td><span class="chip">Saved recommendation</span></td></tr><tr><td>Case 028</td><td>Gn day 10</td><td>E2 3120 · max 20.5</td><td><span class="chip cd">High risk</span></td><td><span class="chip cp">Review required</span></td></tr></table></div>',unsafe_allow_html=True)
     with r:
-        st.markdown('<div class="sec"><div class="head"><div class="ic">＋</div><h3>快速入口</h3></div><div class="qcard"><div><b>新建患者记录</b><div class="note">录入基线与监测信息</div></div><span class="chip cp">患者录入</span></div><div class="qcard"><div><b>继续评估</b><div class="note">查看监测结果与下一次记录性预测</div></div><span class="chip ct">监测结果</span></div><div class="qcard"><div><b>解释复核</b><div class="note">查看三药 SHAP 贡献</div></div><span class="chip">SHAP</span></div></div>',unsafe_allow_html=True)
-        if st.button("进入患者录入",type="primary",use_container_width=True): set_page("患者录入")
-        if st.button("查看监测结果",use_container_width=True): set_page("监测结果")
-    st.markdown('<div class="notice">AI 预测仅供临床辅助参考，最终解释权和用药决策权归主管医生。</div>',unsafe_allow_html=True)
+        st.markdown('<div class="sec"><div class="head"><div class="ic">+</div><h3>Quick access</h3></div><div class="qcard"><div><b>New patient record</b><div class="note">Enter baseline and monitoring data</div></div><span class="chip cp">Patient Input</span></div><div class="qcard"><div><b>Continue evaluation</b><div class="note">Review monitoring results and the next recorded prediction</div></div><span class="chip ct">Monitoring Results</span></div><div class="qcard"><div><b>Explanation review</b><div class="note">View three-drug SHAP contributions</div></div><span class="chip">SHAP</span></div></div>',unsafe_allow_html=True)
+        if st.button("Open Patient Input",type="primary",use_container_width=True): set_page("Patient Input")
+        if st.button("View Monitoring Results",use_container_width=True): set_page("Monitoring Results")
+    st.markdown('<div class="notice">AI predictions are for clinical decision support only; the attending physician retains final interpretation and prescribing authority.</div>',unsafe_allow_html=True)
 
 def patient_page():
     st.markdown(PATIENT_CSS, unsafe_allow_html=True)
-    title("患者临床信息录入","录入基线特征、历次监测信息、当前用药和卵泡评估，用于下一次记录性 Gn 剂量预测。")
+    title("Patient Clinical Information Input","")
     if st.session_state.validation_error: st.markdown(f'<div class="danger">{escape(st.session_state.validation_error)}</div>',unsafe_allow_html=True)
     v=st.session_state.patient.copy()
     records=[dict(r) for r in monitoring_records()]
     with st.form("patient_form"):
-        head("▣","患者基础信息")
+        head("▣","Patient baseline information")
         c=st.columns(3)
-        field_label(c[0],"年龄（岁）",True); v["age"]=c[0].number_input("年龄（岁）",18,55,int(v["age"]),label_visibility="collapsed",key="age")
-        field_label(c[1],"BMI（kg/m²）",True); v["bmi"]=c[1].number_input("BMI（kg/m²）",14.0,40.0,float(v["bmi"]),step=.1,label_visibility="collapsed",key="bmi")
-        field_label(c[2],"AMH（ng/mL）",True); v["amh"]=c[2].number_input("AMH（ng/mL）",0.0,20.0,float(v["amh"]),step=.1,label_visibility="collapsed",key="amh")
+        field_label(c[0],"Age (years)",True); v["age"]=c[0].number_input("Age (years)",18,55,int(v["age"]),label_visibility="collapsed",key="age")
+        field_label(c[1],"BMI (kg/m²)",True); v["bmi"]=c[1].number_input("BMI (kg/m²)",14.0,40.0,float(v["bmi"]),step=.1,label_visibility="collapsed",key="bmi")
+        field_label(c[2],"AMH (ng/mL)",True); v["amh"]=c[2].number_input("AMH (ng/mL)",0.0,20.0,float(v["amh"]),step=.1,label_visibility="collapsed",key="amh")
         c=st.columns(3)
-        field_label(c[0],"AFC（个）",True); v["afc"]=c[0].number_input("AFC（个）",0,60,int(v["afc"]),label_visibility="collapsed",key="afc")
-        field_label(c[1],"基础 FSH（IU/L）",True); v["basal_fsh"]=c[1].number_input("基础 FSH（IU/L）",0.0,40.0,float(v["basal_fsh"]),step=.1,label_visibility="collapsed",key="basal_fsh")
-        field_label(c[2],"基础 LH（IU/L）",True); v["basal_lh"]=c[2].number_input("基础 LH（IU/L）",0.0,40.0,float(v["basal_lh"]),step=.1,label_visibility="collapsed",key="basal_lh")
+        field_label(c[0],"AFC (count)",True); v["afc"]=c[0].number_input("AFC (count)",0,60,int(v["afc"]),label_visibility="collapsed",key="afc")
+        field_label(c[1],"Basal FSH (IU/L)",True); v["basal_fsh"]=c[1].number_input("Basal FSH (IU/L)",0.0,40.0,float(v["basal_fsh"]),step=.1,label_visibility="collapsed",key="basal_fsh")
+        field_label(c[2],"Basal LH (IU/L)",True); v["basal_lh"]=c[2].number_input("Basal LH (IU/L)",0.0,40.0,float(v["basal_lh"]),step=.1,label_visibility="collapsed",key="basal_lh")
         c=st.columns(3)
-        field_label(c[0],"基础 E2（pg/mL）",True); v["basal_e2"]=c[0].number_input("基础 E2（pg/mL）",0.0,500.0,float(v["basal_e2"]),label_visibility="collapsed",key="basal_e2")
-        field_label(c[1],"基础 P（ng/mL）",True); v["basal_p"]=c[1].number_input("基础 P（ng/mL）",0.0,10.0,float(v["basal_p"]),step=.1,label_visibility="collapsed",key="basal_p")
-        field_label(c[2],"不孕年限（年）",False); v["years"]=c[2].number_input("不孕年限（年）",0,20,int(v["years"]),label_visibility="collapsed",key="years")
+        field_label(c[0],"Basal E2 (pg/mL)",True); v["basal_e2"]=c[0].number_input("Basal E2 (pg/mL)",0.0,500.0,float(v["basal_e2"]),label_visibility="collapsed",key="basal_e2")
+        field_label(c[1],"Basal P (ng/mL)",True); v["basal_p"]=c[1].number_input("Basal P (ng/mL)",0.0,10.0,float(v["basal_p"]),step=.1,label_visibility="collapsed",key="basal_p")
+        field_label(c[2],"Infertility duration (years)",False); v["years"]=c[2].number_input("Infertility duration (years)",0,20,int(v["years"]),label_visibility="collapsed",key="years")
         c=st.columns(2)
-        protocol_options=["GnRH-a 超长方案","GnRH-a 长方案","拮抗剂方案","其他"]
+        protocol_options=["GnRH-a Ultra-long protocol","GnRH-a Long protocol","Antagonist protocol","Other"]
         protocol_value=str(v.get("protocol", protocol_options[0]))
-        field_label(c[0],"促排方案",True); v["protocol"]=c[0].selectbox("促排方案",protocol_options,index=protocol_options.index(protocol_value) if protocol_value in protocol_options else 0,label_visibility="collapsed",key="protocol")
-        infertility_options=["原发不孕","继发不孕"]
+        field_label(c[0],"Stimulation protocol",True); v["protocol"]=c[0].selectbox("Stimulation protocol",protocol_options,index=protocol_options.index(protocol_value) if protocol_value in protocol_options else 0,label_visibility="collapsed",key="protocol")
+        infertility_options=["Primary infertility","Secondary infertility"]
         infertility_value=str(v.get("infertility", infertility_options[0]))
-        field_label(c[1],"不孕类型",False); v["infertility"]=c[1].selectbox("不孕类型",infertility_options,index=infertility_options.index(infertility_value) if infertility_value in infertility_options else 0,label_visibility="collapsed",key="infertility")
-        head("▤","监测记录")
+        field_label(c[1],"Infertility type",False); v["infertility"]=c[1].selectbox("Infertility type",infertility_options,index=infertility_options.index(infertility_value) if infertility_value in infertility_options else 0,label_visibility="collapsed",key="infertility")
+        head("▤","Monitoring record")
         for idx, rec in enumerate(records):
             rec["visit"] = idx + 1
             with st.container(border=True):
-                st.markdown(f'<div class="monitor-record-title">\u7b2c {idx+1} \u6b21\u76d1\u6d4b\u8bb0\u5f55</div>', unsafe_allow_html=True)
-                st.markdown('<div class="monitor-section-title">\u76d1\u6d4b\u65f6\u95f4</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="monitor-record-title">Monitoring record {idx+1}</div>', unsafe_allow_html=True)
+                st.markdown('<div class="monitor-section-title">Monitoring timing</div>', unsafe_allow_html=True)
                 c=st.columns(3)
-                field_label(c[0],"\u4fc3\u6392\u5929\u6570 / stimulation day",True); rec["stim_day"]=c[0].number_input("\u4fc3\u6392\u5929\u6570 / stimulation day",1,30,int(rec.get("stim_day",idx+1)),label_visibility="collapsed",key=f"stim_day_{idx}")
+                field_label(c[0],"Stimulation day",True); rec["stim_day"]=c[0].number_input("Stimulation day",1,30,int(rec.get("stim_day",idx+1)),label_visibility="collapsed",key=f"stim_day_{idx}")
                 default_gap=0 if idx==0 else max(1, int(rec.get("stim_day", idx+1)) - int(records[idx-1].get("stim_day", idx)))
-                field_label(c[1],"\u8ddd\u4e0a\u6b21\u590d\u8bca\u95f4\u9694\uff08\u5929\uff09",True); rec["days_since_previous_visit"]=c[1].number_input("\u8ddd\u4e0a\u6b21\u590d\u8bca\u95f4\u9694\uff08\u5929\uff09",0,30,int(rec.get("days_since_previous_visit",default_gap)),label_visibility="collapsed",key=f"days_since_previous_visit_{idx}")
-                field_label(c[2],"\u76d1\u6d4b\u65e5\u671f",False); rec["monitoring_date"]=str(c[2].date_input("\u76d1\u6d4b\u65e5\u671f",parse_date(rec.get("monitoring_date",DEFAULT["monitoring_date"])),label_visibility="collapsed",key=f"monitoring_date_{idx}"))
+                field_label(c[1],"Days since previous visit",True); rec["days_since_previous_visit"]=c[1].number_input("Days since previous visit",0,30,int(rec.get("days_since_previous_visit",default_gap)),label_visibility="collapsed",key=f"days_since_previous_visit_{idx}")
+                field_label(c[2],"Monitoring date",False); rec["monitoring_date"]=str(c[2].date_input("Monitoring date",parse_date(rec.get("monitoring_date",DEFAULT["monitoring_date"])),label_visibility="collapsed",key=f"monitoring_date_{idx}"))
 
-                st.markdown('<div class="monitor-section-title">\u6fc0\u7d20\u548c\u5185\u819c\u4fe1\u606f</div>', unsafe_allow_html=True)
+                st.markdown('<div class="monitor-section-title">Hormone and endometrium information</div>', unsafe_allow_html=True)
                 c=st.columns(5)
-                field_label(c[0],"\u5f53\u524d E2\uff08pg/mL\uff09",True); rec["e2"]=c[0].number_input("\u5f53\u524d E2\uff08pg/mL\uff09",0.0,10000.0,float(rec.get("e2",DEFAULT["e2"])),step=10.0,label_visibility="collapsed",key=f"e2_{idx}")
-                field_label(c[1],"\u5f53\u524d LH\uff08IU/L\uff09",True); rec["lh_value"]=c[1].number_input("\u5f53\u524d LH\uff08IU/L\uff09",0.0,80.0,float(rec.get("lh_value",DEFAULT["lh_value"])),step=.1,label_visibility="collapsed",key=f"lh_value_{idx}")
-                field_label(c[2],"\u5f53\u524d P\uff08ng/mL\uff09",True); rec["p"]=c[2].number_input("\u5f53\u524d P\uff08ng/mL\uff09",0.0,20.0,float(rec.get("p",DEFAULT["p"])),step=.1,label_visibility="collapsed",key=f"p_{idx}")
-                field_label(c[3],"\u5f53\u524d FSH\uff08IU/L\uff09",True); rec["serum_fsh"]=c[3].number_input("\u5f53\u524d FSH\uff08IU/L\uff09",0.0,80.0,float(rec.get("serum_fsh",DEFAULT["serum_fsh"])),step=.1,label_visibility="collapsed",key=f"serum_fsh_{idx}")
-                field_label(c[4],"\u5185\u819c\u539a\u5ea6\uff08mm\uff09",True); rec["current_endometrium"]=c[4].number_input("\u5185\u819c\u539a\u5ea6\uff08mm\uff09",0.0,30.0,float(rec.get("current_endometrium",DEFAULT["current_endometrium"])),step=.1,label_visibility="collapsed",key=f"endometrium_{idx}")
+                field_label(c[0],"Current E2 (pg/mL)",True); rec["e2"]=c[0].number_input("Current E2 (pg/mL)",0.0,10000.0,float(rec.get("e2",DEFAULT["e2"])),step=10.0,label_visibility="collapsed",key=f"e2_{idx}")
+                field_label(c[1],"Current LH (IU/L)",True); rec["lh_value"]=c[1].number_input("Current LH (IU/L)",0.0,80.0,float(rec.get("lh_value",DEFAULT["lh_value"])),step=.1,label_visibility="collapsed",key=f"lh_value_{idx}")
+                field_label(c[2],"Current P (ng/mL)",True); rec["p"]=c[2].number_input("Current P (ng/mL)",0.0,20.0,float(rec.get("p",DEFAULT["p"])),step=.1,label_visibility="collapsed",key=f"p_{idx}")
+                field_label(c[3],"Current FSH (IU/L)",True); rec["serum_fsh"]=c[3].number_input("Current FSH (IU/L)",0.0,80.0,float(rec.get("serum_fsh",DEFAULT["serum_fsh"])),step=.1,label_visibility="collapsed",key=f"serum_fsh_{idx}")
+                field_label(c[4],"Endometrial thickness (mm)",True); rec["current_endometrium"]=c[4].number_input("Endometrial thickness (mm)",0.0,30.0,float(rec.get("current_endometrium",DEFAULT["current_endometrium"])),step=.1,label_visibility="collapsed",key=f"endometrium_{idx}")
 
-                st.markdown('<div class="monitor-section-title">\u5375\u6ce1\u4fe1\u606f</div>', unsafe_allow_html=True)
+                st.markdown('<div class="monitor-section-title">Follicle information</div>', unsafe_allow_html=True)
                 c=st.columns(5)
-                field_label(c[0],"\u603b\u5375\u6ce1\u6570\uff08\u4e2a\uff09",True); rec["total_follicles"]=c[0].number_input("\u603b\u5375\u6ce1\u6570\uff08\u4e2a\uff09",0,100,int(rec.get("total_follicles",DEFAULT["total_follicles"])),label_visibility="collapsed",key=f"total_follicles_{idx}")
-                field_label(c[1],"\u5de6\u5375\u6ce1\u6570\uff08\u4e2a\uff09",False); rec["left_follicles"]=c[1].number_input("\u5de6\u5375\u6ce1\u6570\uff08\u4e2a\uff09",0,100,int(rec.get("left_follicles",DEFAULT["left_follicles"])),label_visibility="collapsed",key=f"left_follicles_{idx}")
-                field_label(c[2],"\u53f3\u5375\u6ce1\u6570\uff08\u4e2a\uff09",False); rec["right_follicles"]=c[2].number_input("\u53f3\u5375\u6ce1\u6570\uff08\u4e2a\uff09",0,100,int(rec.get("right_follicles",DEFAULT["right_follicles"])),label_visibility="collapsed",key=f"right_follicles_{idx}")
-                field_label(c[3],"\u6700\u5927\u5375\u6ce1\u5f84\uff08mm\uff09",True); rec["max_f"]=c[3].number_input("\u6700\u5927\u5375\u6ce1\u5f84\uff08mm\uff09",0.0,35.0,float(rec.get("max_f",DEFAULT["max_f"])),step=.5,label_visibility="collapsed",key=f"max_f_{idx}")
-                field_label(c[4],"\u5e73\u5747\u5375\u6ce1\u5f84\uff08mm\uff09",True); rec["mean_f"]=c[4].number_input("\u5e73\u5747\u5375\u6ce1\u5f84\uff08mm\uff09",0.0,30.0,float(rec.get("mean_f",DEFAULT["mean_f"])),step=.1,label_visibility="collapsed",key=f"mean_f_{idx}")
+                field_label(c[0],"Total follicle count",True); rec["total_follicles"]=c[0].number_input("Total follicle count",0,100,int(rec.get("total_follicles",DEFAULT["total_follicles"])),label_visibility="collapsed",key=f"total_follicles_{idx}")
+                field_label(c[1],"Left follicle count",False); rec["left_follicles"]=c[1].number_input("Left follicle count",0,100,int(rec.get("left_follicles",DEFAULT["left_follicles"])),label_visibility="collapsed",key=f"left_follicles_{idx}")
+                field_label(c[2],"Right follicle count",False); rec["right_follicles"]=c[2].number_input("Right follicle count",0,100,int(rec.get("right_follicles",DEFAULT["right_follicles"])),label_visibility="collapsed",key=f"right_follicles_{idx}")
+                field_label(c[3],"Max follicle diameter (mm)",True); rec["max_f"]=c[3].number_input("Max follicle diameter (mm)",0.0,35.0,float(rec.get("max_f",DEFAULT["max_f"])),step=.5,label_visibility="collapsed",key=f"max_f_{idx}")
+                field_label(c[4],"Mean follicle diameter (mm)",True); rec["mean_f"]=c[4].number_input("Mean follicle diameter (mm)",0.0,30.0,float(rec.get("mean_f",DEFAULT["mean_f"])),step=.1,label_visibility="collapsed",key=f"mean_f_{idx}")
                 c=st.columns(5)
-                field_label(c[0],"<10 mm \u5375\u6ce1\u6570",True); rec["f_lt10"]=c[0].number_input("<10 mm \u5375\u6ce1\u6570",0,80,int(rec.get("f_lt10",DEFAULT["f_lt10"])),label_visibility="collapsed",key=f"f_lt10_{idx}")
-                field_label(c[1],"10-12 mm \u5375\u6ce1\u6570",True); rec["f_10_12"]=c[1].number_input("10-12 mm \u5375\u6ce1\u6570",0,80,int(rec.get("f_10_12",DEFAULT["f_10_12"])),label_visibility="collapsed",key=f"f_10_12_{idx}")
-                field_label(c[2],"13-15 mm \u5375\u6ce1\u6570",True); rec["f_13_15"]=c[2].number_input("13-15 mm \u5375\u6ce1\u6570",0,80,int(rec.get("f_13_15",DEFAULT["f_13_15"])),label_visibility="collapsed",key=f"f_13_15_{idx}")
-                field_label(c[3],"16-18 mm \u5375\u6ce1\u6570",True); rec["f_16_18"]=c[3].number_input("16-18 mm \u5375\u6ce1\u6570",0,80,int(rec.get("f_16_18",DEFAULT["f_16_18"])),label_visibility="collapsed",key=f"f_16_18_{idx}")
-                field_label(c[4],"\u226518 mm \u5375\u6ce1\u6570",True); rec["f_gt18"]=c[4].number_input("\u226518 mm \u5375\u6ce1\u6570",0,80,int(rec.get("f_gt18",DEFAULT["f_gt18"])),label_visibility="collapsed",key=f"f_gt18_{idx}")
+                field_label(c[0],"Follicles <10 mm",True); rec["f_lt10"]=c[0].number_input("Follicles <10 mm",0,80,int(rec.get("f_lt10",DEFAULT["f_lt10"])),label_visibility="collapsed",key=f"f_lt10_{idx}")
+                field_label(c[1],"Follicles 10-12 mm",True); rec["f_10_12"]=c[1].number_input("Follicles 10-12 mm",0,80,int(rec.get("f_10_12",DEFAULT["f_10_12"])),label_visibility="collapsed",key=f"f_10_12_{idx}")
+                field_label(c[2],"Follicles 13-15 mm",True); rec["f_13_15"]=c[2].number_input("Follicles 13-15 mm",0,80,int(rec.get("f_13_15",DEFAULT["f_13_15"])),label_visibility="collapsed",key=f"f_13_15_{idx}")
+                field_label(c[3],"Follicles 16-18 mm",True); rec["f_16_18"]=c[3].number_input("Follicles 16-18 mm",0,80,int(rec.get("f_16_18",DEFAULT["f_16_18"])),label_visibility="collapsed",key=f"f_16_18_{idx}")
+                field_label(c[4],"Follicles ≥18 mm",True); rec["f_gt18"]=c[4].number_input("Follicles ≥18 mm",0,80,int(rec.get("f_gt18",DEFAULT["f_gt18"])),label_visibility="collapsed",key=f"f_gt18_{idx}")
                 bin_sum=sum(int(rec.get(key,0)) for key in FOLLICLE_BIN_KEYS)
                 if int(rec.get("total_follicles",0)) != bin_sum:
-                    st.markdown(f'<div class="mini-hint">\u603b\u5375\u6ce1\u6570 {int(rec.get("total_follicles",0))} \u4e0e\u5206\u5c42\u5408\u8ba1 {bin_sum} \u4e0d\u4e00\u81f4\uff0c\u5df2\u4fdd\u7559\u603b\u5375\u6ce1\u6570\u4f5c\u4e3a\u6a21\u578b\u8f93\u5165\u3002</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="mini-hint">The total follicle count {int(rec.get("total_follicles",0))} and the size-bin sum {bin_sum} disagree; the total follicle count is kept as the model input.</div>', unsafe_allow_html=True)
 
                 if idx < len(records) - 1:
-                    st.markdown('<div class="monitor-section-title">\u5f53\u524d\u76d1\u6d4b\u6267\u884c\u7528\u836f\u8bb0\u5f55</div>', unsafe_allow_html=True)
+                    st.markdown('<div class="monitor-section-title">Medication actually administered at this monitoring visit</div>', unsafe_allow_html=True)
                     source=str(rec.get("_executed_dose_default_source", ""))
-                    hint="\u5df2\u6309\u4e0a\u4e00\u8f6e AI \u63a8\u8350\u9884\u586b\uff0c\u8bf7\u6309\u5b9e\u9645\u6267\u884c\u5242\u91cf\u6838\u5bf9\u3002" if source == "previous_ai_recommendation" else "\u8bf7\u586b\u5199\u8be5\u6b21\u76d1\u6d4b\u540e\u5b9e\u9645\u6267\u884c\u7684 FSH/LH/HMG \u5242\u91cf\uff0c\u7528\u4e8e\u4e0b\u4e00\u6b21\u8bb0\u5f55\u6027\u9884\u6d4b\u3002"
+                    hint="Prefilled from the previous AI round; please verify against the dose actually administered." if source == "previous_ai_recommendation" else "Enter the FSH/LH/HMG doses actually administered after this monitoring visit; they feed the next recorded prediction."
                     st.markdown(f'<div class="mini-hint">{hint}</div>', unsafe_allow_html=True)
                     c=st.columns(3)
-                    field_label(c[0],"\u5f53\u524d\u76d1\u6d4b\u6267\u884c FSH \u5242\u91cf\uff08IU/\u5929\uff09",True); rec["current_fsh"]=c[0].number_input("\u5f53\u524d\u76d1\u6d4b\u6267\u884c FSH \u5242\u91cf\uff08IU/\u5929\uff09",0.0,600.0,float(rec.get("current_fsh",DEFAULT["current_fsh"])),step=25.0,label_visibility="collapsed",key=f"current_fsh_{idx}")
-                    field_label(c[1],"\u5f53\u524d\u76d1\u6d4b\u6267\u884c LH \u5242\u91cf\uff08IU/\u5929\uff09",True); rec["current_lh"]=c[1].number_input("\u5f53\u524d\u76d1\u6d4b\u6267\u884c LH \u5242\u91cf\uff08IU/\u5929\uff09",0.0,300.0,float(rec.get("current_lh",DEFAULT["current_lh"])),step=37.5,label_visibility="collapsed",key=f"current_lh_{idx}")
-                    field_label(c[2],"\u5f53\u524d\u76d1\u6d4b\u6267\u884c HMG \u5242\u91cf\uff08IU/\u5929\uff09",True); rec["current_hmg"]=c[2].number_input("\u5f53\u524d\u76d1\u6d4b\u6267\u884c HMG \u5242\u91cf\uff08IU/\u5929\uff09",0.0,450.0,float(rec.get("current_hmg",DEFAULT["current_hmg"])),step=37.5,label_visibility="collapsed",key=f"current_hmg_{idx}")
+                    field_label(c[0],"FSH administered at this visit (IU/day)",True); rec["current_fsh"]=c[0].number_input("FSH administered at this visit (IU/day)",0.0,600.0,float(rec.get("current_fsh",DEFAULT["current_fsh"])),step=25.0,label_visibility="collapsed",key=f"current_fsh_{idx}")
+                    field_label(c[1],"LH administered at this visit (IU/day)",True); rec["current_lh"]=c[1].number_input("LH administered at this visit (IU/day)",0.0,300.0,float(rec.get("current_lh",DEFAULT["current_lh"])),step=37.5,label_visibility="collapsed",key=f"current_lh_{idx}")
+                    field_label(c[2],"HMG administered at this visit (IU/day)",True); rec["current_hmg"]=c[2].number_input("HMG administered at this visit (IU/day)",0.0,450.0,float(rec.get("current_hmg",DEFAULT["current_hmg"])),step=37.5,label_visibility="collapsed",key=f"current_hmg_{idx}")
                 else:
                     for key in DOSE_KEYS:
                         rec.pop(key, None)
                 records[idx]=normalize_monitoring_record(rec)
-        a,b,c,d=st.columns([1,1,1,1.25]); add=a.form_submit_button("+ 添加监测记录",use_container_width=True); save=b.form_submit_button("保存患者记录",use_container_width=True); reset=c.form_submit_button("清空重填",use_container_width=True); sub=d.form_submit_button("生成监测结果",type="primary",use_container_width=True)
+        a,b,c,d=st.columns([1,1,1,1.25]); add=a.form_submit_button("+ Add monitoring record",use_container_width=True); save=b.form_submit_button("Save patient record",use_container_width=True); reset=c.form_submit_button("Reset form",use_container_width=True); sub=d.form_submit_button("Generate monitoring results",type="primary",use_container_width=True)
     if add:
         records=mark_latest_record_as_executed(v, records)
         next_visit,next_stim,next_gap=next_monitoring_timing(records)
@@ -1280,11 +1280,11 @@ def patient_page():
     if reset:
         persist_patient_records(DEFAULT.copy(), default_monitoring_records(), recompute=True); rerun()
     if save:
-        persist_patient_records(v, records, recompute=True); st.success("\u60a3\u8005\u8bb0\u5f55\u5df2\u4fdd\u5b58\uff0c\u4ec5\u7528\u4e8e\u540e\u7eed\u8f85\u52a9\u51b3\u7b56\u3002")
+        persist_patient_records(v, records, recompute=True); st.success("Patient record saved; it is used only for subsequent decision support.")
     if sub:
         persist_patient_records(v, records, recompute=True)
-        sync_recommendations(force=True, show_status=True, page_label="\u60a3\u8005\u5f55\u5165")
-        set_page("\u76d1\u6d4b\u7ed3\u679c")
+        sync_recommendations(force=True, show_status=True, page_label="Patient Input")
+        set_page("Monitoring Results")
 
 
 def _ohss_feature_value(item):
@@ -1314,7 +1314,7 @@ def ohss_breakdown_items(row):
             "value_label": _ohss_feature_value(item),
             "mean_abs_shap": abs(shap),
             "mean_shap": shap,
-            "direction": "\u964d\u4f4e\u98ce\u9669" if shap < 0 else "\u589e\u52a0\u98ce\u9669",
+            "direction": "Lower risk" if shap < 0 else "Higher risk",
             "source": "ohss_safety_warning_local_shap",
         })
     return rows
@@ -1325,11 +1325,11 @@ def ohss_change_text(row):
     prob=ohss_display_profile(row).get("display")
     if base is None or prob is None: return "--"
     delta=(prob-base)*100; sign="+" if delta>=0 else ""
-    return f"{sign}{delta:.1f}% 显示"
+    return f"{sign}{delta:.1f}% display"
 
 def ohss_badge(row, include_prob=False):
     prof=ohss_profile(row); body=prof["category_zh"]
-    if include_prob and prof["prob"] is not None: body=f'{ohss_display_pct(row)} \u00b7 {body}'
+    if include_prob and prof["prob"] is not None: body=f'{ohss_display_pct(row)} · {body}'
     return f'<span class="chip {prof["cls"]}">{escape(body)}</span>'
 
 def visit_ohss_result(records_subset):
@@ -1369,30 +1369,30 @@ def visit_ohss_result(records_subset):
 
 def follicle_load_text(record):
     total=fmt(derived_total_follicles(record)); mid=as_float(record.get("f_13_15",0),0)+as_float(record.get("f_16_18",0),0)+as_float(record.get("f_gt18",0),0); gt18=fmt(record.get("f_gt18"))
-    return escape(f"\u603b {total} / \u226513mm {fmt(mid)} / >18mm {gt18}")
+    return escape(f"Total {total} / ≥13 mm {fmt(mid)} / >18 mm {gt18}")
 
 def ohss_warning_card(row):
     prof=ohss_profile(row)
-    percentile="--" if prof["percentile"] is None else f'\u9ad8\u4e8e\u53c2\u8003\u4eba\u7fa4 {prof["percentile"]}%'
-    st.markdown(f'''<div class="sec"><div class="ohss-card primary"><div class="ohss-title"><div><h3>\u4e2d\u91cd\u5ea6 OHSS \u65e9\u671f\u9884\u8b66</h3><div class="en">Moderate-to-severe OHSS early warning</div></div>{ohss_badge(row)}</div><div class="ohss-main"><div><div class="ohss-k">\u9884\u6d4b\u4e2d\u91cd\u5ea6 OHSS \u98ce\u9669</div><div class="ohss-v">{ohss_display_pct(row)}</div></div><div><div class="ohss-k">\u98ce\u9669\u5206\u7ea7</div><div class="ohss-v">{prof["category_zh"]}</div></div><div><div class="ohss-k">\u53c2\u8003\u4eba\u7fa4\u4f4d\u7f6e</div><div class="ohss-v" style="font-size:calc(22px * var(--fs-scale))">{escape(percentile)}</div></div></div><div class="ohss-sub">\u57fa\u4e8e\u5f53\u524d\u4fc3\u6392\u76d1\u6d4b\u4fe1\u606f\u53ca\u5386\u53f2\u7528\u836f\u8f68\u8ff9\u3002{OHSS_UI_DISCLAIMER}</div></div></div>''',unsafe_allow_html=True)
+    percentile="--" if prof["percentile"] is None else f'Above {prof["percentile"]}% of the reference population'
+    st.markdown(f'''<div class="sec"><div class="ohss-card primary"><div class="ohss-title"><div><h3>Moderate-to-severe OHSS early warning</h3><div class="en">Moderate-to-severe OHSS early warning</div></div>{ohss_badge(row)}</div><div class="ohss-main"><div><div class="ohss-k">Predicted moderate-to-severe OHSS risk</div><div class="ohss-v">{ohss_display_pct(row)}</div></div><div><div class="ohss-k">Risk category</div><div class="ohss-v">{prof["category_zh"]}</div></div><div><div class="ohss-k">Reference percentile</div><div class="ohss-v" style="font-size:calc(22px * var(--fs-scale))">{escape(percentile)}</div></div></div><div class="ohss-sub">Based on the current stimulation monitoring data and the historical dosing trajectory. {OHSS_UI_DISCLAIMER}</div></div></div>''',unsafe_allow_html=True)
 
 
 def ohss_shap_panel(row):
     items=[x for x in (row.get("ohss_contributors") or []) if isinstance(x,Mapping)]
     if not items:
-        st.markdown('<div class="sec"><div class="head"><div class="ic">\u21af</div><h3>\u4e2a\u4f53\u5316\u98ce\u9669\u8d21\u732e\u56e0\u7d20</h3><span class="chip cm">Individual SHAP explanation</span></div><div class="warning">\u5f53\u524d OHSS \u5c40\u90e8 SHAP \u8d21\u732e\u6682\u672a\u8fd4\u56de\uff1b\u8bf7\u68c0\u67e5\u5b89\u5168\u9884\u8b66\u6a21\u578b\u670d\u52a1\u3002</div></div>',unsafe_allow_html=True); return
+        st.markdown('<div class="sec"><div class="head"><div class="ic">↯</div><h3>Individual risk contributors</h3><span class="chip cm">Individual SHAP explanation</span></div><div class="warning">Local OHSS SHAP contributions have not been returned yet; please check the safety-alert model service.</div></div>',unsafe_allow_html=True); return
     pos=sorted([x for x in items if as_float(x.get("shap_value"),0)>0], key=lambda x:abs(as_float(x.get("shap_value"),0)), reverse=True)[:5]
     neg=sorted([x for x in items if as_float(x.get("shap_value"),0)<0], key=lambda x:abs(as_float(x.get("shap_value"),0)), reverse=True)[:5]
     max_abs=max([abs(as_float(x.get("shap_value"),0)) for x in pos+neg] or [1.0])
     def render_group(group, down=False):
-        if not group: return '<div class="note">\u5f53\u524d\u672a\u8fd4\u56de\u8be5\u65b9\u5411\u7684\u4e3b\u8981\u8d21\u732e\u56e0\u7d20\u3002</div>'
+        if not group: return '<div class="note">No major contributors were returned for this direction.</div>'
         rows=[]
         for item in group:
             val=as_float(item.get("shap_value"),0); width=max(8,min(100,abs(val)/max_abs*100)); label=escape(_ohss_feature_label(item)); value=escape(_ohss_feature_value(item))
-            chip='\u964d\u4f4e\u98ce\u9669' if down else '\u589e\u52a0\u98ce\u9669'; cls='down' if down else ''; ccls='ct' if down else 'cd'
+            chip='Lower risk' if down else 'Higher risk'; cls='down' if down else ''; ccls='ct' if down else 'cd'
             rows.append(f'<div class="risk-row"><div><div class="risk-name">{label}</div><div class="risk-val">{value}</div></div><div><div class="risk-track"><div class="risk-fill {cls}" style="width:{width:.0f}%"></div></div></div><div class="risk-meta"><span class="chip {ccls}">{chip}</span><span class="note">SHAP {val:+.3f}</span></div></div>')
         return ''.join(rows)
-    html=f'''<div class="sec"><div class="head"><div class="ic">\u21af</div><h3>\u4e2a\u4f53\u5316\u98ce\u9669\u8d21\u732e\u56e0\u7d20</h3><span class="chip cm">Individual SHAP explanation</span></div><div class="ohss-factor-grid"><div class="ohss-card"><div class="ohss-factor-head">\u589e\u52a0\u98ce\u9669\u7684\u56e0\u7d20</div>{render_group(pos,False)}</div><div class="ohss-card"><div class="ohss-factor-head">\u964d\u4f4e\u98ce\u9669\u7684\u56e0\u7d20</div>{render_group(neg,True)}</div></div><div class="risk-note">SHAP values indicate model-attributed contribution and do not imply causality.</div></div>'''
+    html=f'''<div class="sec"><div class="head"><div class="ic">↯</div><h3>Individual risk contributors</h3><span class="chip cm">Individual SHAP explanation</span></div><div class="ohss-factor-grid"><div class="ohss-card"><div class="ohss-factor-head">Factors increasing risk</div>{render_group(pos,False)}</div><div class="ohss-card"><div class="ohss-factor-head">Factors decreasing risk</div>{render_group(neg,True)}</div></div><div class="risk-note">SHAP values indicate model-attributed contribution and do not imply causality.</div></div>'''
     st.markdown(html,unsafe_allow_html=True)
 
 
@@ -1400,7 +1400,7 @@ def ohss_shap_panel(row):
 def summary(b):
     fl=b["fsh_category"][0]
     st.markdown(
-        f"""<div class="card pad summary-overview"><div class="head"><div class="ic">✦</div><h3>模型推荐总览</h3><span class="chip cp">获卵数 / OHSS 平衡参考</span></div><div class="sg" style="grid-template-columns:repeat(5,minmax(0,1fr))"><div class="tile dose"><div class="k">模型推荐 FSH</div><div class="v">{escape(fl)}</div></div><div class="tile dose"><div class="k">模型推荐 LH</div><div class="v">{fmt(b["lh"])} <span style="font-size:calc(13px * var(--fs-scale))">IU/天</span></div></div><div class="tile dose"><div class="k">模型推荐 HMG</div><div class="v">{fmt(b["hmg"])} <span style="font-size:calc(13px * var(--fs-scale))">IU/天</span></div></div><div class="tile"><div class="k">预测获卵数</div><div class="v">{fmt(b["o"])}</div></div><div class="tile"><div class="k">中重度 OHSS 风险</div><div class="v">{ohss_display_pct(b)}</div>{ohss_badge(b)}</div></div></div>""",
+        f"""<div class="card pad summary-overview"><div class="head"><div class="ic">✦</div><h3>Model recommendation overview</h3><span class="chip cp">Oocytes / OHSS balance reference</span></div><div class="sg" style="grid-template-columns:repeat(5,minmax(0,1fr))"><div class="tile dose"><div class="k">FSH</div><div class="v">{escape(fl)}</div></div><div class="tile dose"><div class="k">LH</div><div class="v">{fmt(b["lh"])} <span style="font-size:calc(13px * var(--fs-scale))">IU/day</span></div></div><div class="tile dose"><div class="k">HMG</div><div class="v">{fmt(b["hmg"])} <span style="font-size:calc(13px * var(--fs-scale))">IU/day</span></div></div><div class="tile"><div class="k">Oocytes retrieved</div><div class="v">{fmt(b["o"])}</div></div><div class="tile"><div class="k">OHSS risk</div><div class="v">{ohss_display_pct(b)}</div>{ohss_badge(b)}</div></div></div>""",
         unsafe_allow_html=True,
     )
 
@@ -1409,17 +1409,17 @@ def matrix(b):
     fl,fr=b["fsh_category"]; ll,lr=b["lh_category"]; hl,hr=b["hmg_category"]
     records=[dict(r) for r in monitoring_records()]
     if not records:
-        st.markdown('<div class="sec"><div class="head"><div class="ic">\u2194</div><h3>\u6a2a\u5411\u52a8\u6001\u76d1\u6d4b\u89c6\u7a97</h3></div><div class="warning">\u5c1a\u672a\u6dfb\u52a0\u76d1\u6d4b\u8bb0\u5f55\u3002\u8bf7\u5148\u5728\u60a3\u8005\u5f55\u5165\u9875\u9762\u70b9\u51fb\u201c\u6dfb\u52a0\u76d1\u6d4b\u8bb0\u5f55\u201d\u3002</div></div>',unsafe_allow_html=True); return
+        st.markdown('<div class="sec"><div class="head"><div class="ic">↔</div><h3>Longitudinal monitoring view</h3></div><div class="warning">No monitoring record has been added yet. Click “Add monitoring record” on the Patient Input page first.</div></div>',unsafe_allow_html=True); return
     history=records[:-1]; today=records[-1]
-    headers=['<th>\u65e5\u671f</th>']
-    headers += [f'<th>\u7b2c {escape(fmt(r.get("stim_day")))} \u5929 / \u7b2c {escape(fmt(r.get("visit")))} \u6b21\u76d1\u6d4b</th>' for r in history]
-    headers += [f'<th class="today">\u7b2c {escape(fmt(today.get("stim_day")))} \u5929\uff08\u4eca\u65e5\uff09</th><th class="pred">\u4e0b\u4e00\u6b21\u8bb0\u5f55\u6027\u9884\u6d4b</th>']
+    headers=['<th>Date</th>']
+    headers += [f'<th>Day {escape(fmt(r.get("stim_day")))} / visit {escape(fmt(r.get("visit")))}</th>' for r in history]
+    headers += [f'<th class="today">Day {escape(fmt(today.get("stim_day")))} (today)</th><th class="pred">Next recorded prediction</th>']
     def hist_values(key, formatter=lambda x: escape(fmt(x))): return [formatter(r.get(key)) for r in history]
     def row(label, cls, hist, today_value, pred_value):
         cells="".join(f"<td>{v}</td>" for v in hist)
         return f'<tr><td><span class="row-label {cls}">{escape(label)}</span></td>{cells}<td class="today">{today_value}</td><td class="pred">{pred_value}</td></tr>'
-    rows=[row("FSH","row-fsh",hist_values("current_fsh",lambda x: escape(dose_class("fsh",x))),"-",pred_cell(fl)), row("LH","row-lh",hist_values("current_lh",lambda x: escape(dose_class("lh",x))),"-",pred_cell(ll)), row("HMG","row-hmg",hist_values("current_hmg",lambda x: escape(dose_class("hmg",x))),"-",pred_cell(hl)), row("\u6fc0\u7d20E2","row-e2",hist_values("e2"),escape(fmt(today.get("e2"))),"--"), row("\u6fc0\u7d20LH","row-lhv",hist_values("lh_value"),escape(fmt(today.get("lh_value"))),"--"), row("\u6fc0\u7d20P","row-p",hist_values("p"),escape(fmt(today.get("p"))),"--"), row("\u83b7\u5375\u6570","row-oocyte",["-" for _ in history],"-",pred_cell(fmt(b["o"]))), row("\u4e2d\u91cd\u5ea6 OHSS \u98ce\u9669","row-ohss",["" for _ in history],"",f'{ohss_badge(b, True)}<span class="pred-note">\u9884\u6d4b</span>')]
-    st.markdown(f'<div class="sec"><div class="head"><div class="ic">\u2194</div><h3>\u6a2a\u5411\u52a8\u6001\u76d1\u6d4b\u89c6\u7a97</h3></div><div class="mw"><table class="matrix"><tr>{"".join(headers)}</tr>{"".join(rows)}</table></div></div>',unsafe_allow_html=True)
+    rows=[row("FSH","row-fsh",hist_values("current_fsh",lambda x: escape(dose_class("fsh",x))),"-",pred_cell(fl)), row("LH","row-lh",hist_values("current_lh",lambda x: escape(dose_class("lh",x))),"-",pred_cell(ll)), row("HMG","row-hmg",hist_values("current_hmg",lambda x: escape(dose_class("hmg",x))),"-",pred_cell(hl)), row("Serum E2","row-e2",hist_values("e2"),escape(fmt(today.get("e2"))),"--"), row("Serum LH","row-lhv",hist_values("lh_value"),escape(fmt(today.get("lh_value"))),"--"), row("Serum P","row-p",hist_values("p"),escape(fmt(today.get("p"))),"--"), row("Oocytes","row-oocyte",["-" for _ in history],"-",pred_cell(fmt(b["o"]))), row("Moderate-to-severe OHSS risk","row-ohss",["" for _ in history],"",f'{ohss_badge(b, True)}<span class="pred-note">Predicted</span>')]
+    st.markdown(f'<div class="sec"><div class="head"><div class="ic">↔</div><h3>Longitudinal monitoring view</h3></div><div class="mw"><table class="matrix"><tr>{"".join(headers)}</tr>{"".join(rows)}</table></div></div>',unsafe_allow_html=True)
 
 
 def cand_table():
@@ -1432,82 +1432,82 @@ def cand_table():
         ),
     )
     for i,x in enumerate(candidates[:8],1):
-        plan=f'情景 {chr(64+i)}'
-        role_chip='<span class="chip cp">模型推荐剂量</span>' if x.get("candidate_role")=="recommended" else ''
+        plan=f'Scenario {chr(64+i)}'
+        role_chip='<span class="chip cp">Model-recommended dose</span>' if x.get("candidate_role")=="recommended" else ''
         fsh_range=display_dose_category("fsh",x["fsh"])
         rows.append(f'<tr><td><span class="rank">{i}</span></td><td>{escape(plan)} {role_chip}</td><td class="mono">{escape(fsh_range)}</td><td class="mono">{fmt(x["lh"])}</td><td class="mono">{fmt(x["hmg"])}</td><td class="mono">{fmt(x["o"])}</td><td class="mono">{ohss_display_pct(x)}</td></tr>')
-    st.markdown(f'<div class="sec"><div class="head"><div class="ic">☷</div><h3>候选剂量情景分析</h3><span class="chip cp">获卵数 / OHSS 平衡排序</span></div><div class="mw"><table class="tbl"><tr><th>Rank</th><th>候选情景</th><th>FSH 范围</th><th>LH</th><th>HMG</th><th>预测获卵数</th><th>中重度 OHSS 风险</th></tr>{"".join(rows)}</table></div></div>',unsafe_allow_html=True)
+    st.markdown(f'<div class="sec"><div class="head"><div class="ic">☷</div><h3>Candidate dose scenario analysis</h3><span class="chip cp">Oocytes / OHSS balance ranking</span></div><div class="mw"><table class="tbl"><tr><th>Rank</th><th>Candidate scenario</th><th>FSH range</th><th>LH</th><th>HMG</th><th>Predicted oocytes</th><th>Moderate-to-severe OHSS risk</th></tr>{"".join(rows)}</table></div></div>',unsafe_allow_html=True)
 
 
 def dose_model_notice():
     err=st.session_state.get("dose_recommendation_error")
     balance_err=st.session_state.get("candidate_balance_error")
     if err:
-        st.markdown(f'<div class="warning">UI-reduced GRU(AddGate) \u5242\u91cf\u6a21\u578b\u6682\u672a\u8fd4\u56de\u6b63\u5f0f\u7ed3\u679c\uff1a{escape(str(err))}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="warning">UI-reduced GRU(AddGate) dose model has not returned a final result yet: {escape(str(err))}</div>', unsafe_allow_html=True)
     if balance_err:
-        st.markdown(f'<div class="warning">获卵数与中重度 OHSS 候选平衡计算暂未完成：{escape(str(balance_err))}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="warning">Oocyte / moderate-to-severe OHSS candidate balance has not finished yet: {escape(str(balance_err))}</div>', unsafe_allow_html=True)
 
 def model_source_strip(page_label):
     ctx=st.session_state.get("dose_recommendation_context") or {}
     err=st.session_state.get("dose_recommendation_error")
     warnings=list(st.session_state.get("dose_recommendation_warnings") or [])
     if err:
-        state="\u6a21\u578b\u7ed3\u679c\u9700\u590d\u6838"
+        state="Model result needs review"
         dot="err"
         state_chip='<span class="chip cw">fallback / review</span>'
     elif warnings:
-        state="\u6a21\u578b\u5df2\u8fd4\u56de\uff0c\u5b58\u5728\u7279\u5f81\u63d0\u793a"
+        state="Model returned with feature warnings"
         dot="warn"
-        state_chip=f'<span class="chip cw">{len(warnings)} \u6761\u6620\u5c04\u63d0\u793a</span>'
+        state_chip=f'<span class="chip cw">{len(warnings)} mapping warnings</span>'
     elif ctx:
-        state="\u6a21\u578b\u8ba1\u7b97\u5df2\u5b8c\u6210"
+        state="Model computation finished"
         dot=""
-        state_chip='<span class="chip ct">\u56fa\u5b9a holdout \u6a21\u578b</span>'
+        state_chip='<span class="chip ct">Fixed holdout model</span>'
     else:
-        state="\u7b49\u5f85\u6a21\u578b\u8ba1\u7b97"
+        state="Waiting for model computation"
         dot="warn"
         state_chip='<span class="chip cm">pending</span>'
     deployment_mode=str(ctx.get("deployment_mode") or "holdout")
     protocol_label=(
-        "\u56fa\u5b9a holdout \u7cbe\u7b80\u6a21\u578b"
+        "Fixed holdout reduced model"
         if deployment_mode == "holdout"
-        else "5 \u6298 OOF \u5ba1\u8ba1\u5bf9\u7167"
+        else "5-fold OOF audit reference"
     )
     task=escape(str(ctx.get("task") or "next-recorded absolute dose category prediction"))
     label=escape(str(page_label))
     st.markdown(
         f'<div class="model-strip"><div class="model-strip-left"><span class="model-dot {dot}"></span>'
-        f'<div><div class="model-strip-title">{label} \u6a21\u578b\u72b6\u6001\uff1a{escape(state)}</div>'
-        f'<div class="model-strip-sub">\u5242\u91cf\u6a21\u578b\uff1aUI-reduced GRU(AddGate) \u00b7 {escape(protocol_label)} \u00b7 {task}</div></div></div>'
-        f'<div class="model-strip-tags">{state_chip}<span class="chip cp">分类模型学习医生剂量</span><span class="chip ct">V2 XGBoost 获卵数</span><span class="chip cw">\u4e2d\u91cd\u5ea6 OHSS \u98ce\u9669</span><span class="chip cp">获卵数 / OHSS Pareto 平衡</span></div></div>',
+        f'<div><div class="model-strip-title">{label} model status: {escape(state)}</div>'
+        f'<div class="model-strip-sub">Dose model: UI-reduced GRU(AddGate) · {escape(protocol_label)} · {task}</div></div></div>'
+        f'<div class="model-strip-tags">{state_chip}<span class="chip cp">Classifier learns physician dose</span><span class="chip ct">V2 XGBoost oocytes</span><span class="chip cw">Moderate-to-severe OHSS risk</span><span class="chip cp">Oocytes / OHSS Pareto balance</span></div></div>',
         unsafe_allow_html=True,
     )
 
 def rec_page(monitor_only=False):
-    title("\u52a8\u6001\u76d1\u6d4b\u4e0e\u7ed3\u679c\u9762\u677f" if monitor_only else "\u63a8\u8350\u65b9\u6848\u4e0e\u76d1\u6d4b\u7ed3\u679c","展示下一次记录性 Gn 剂量预测、预测获卵数、中重度 OHSS 风险和候选联合方案排序。")
-    page_label="\u76d1\u6d4b\u7ed3\u679c" if monitor_only else "\u63a8\u8350\u65b9\u6848"
+    title("Dynamic Monitoring and Results Panel" if monitor_only else "Recommended Plan and Monitoring Results","")
+    page_label="Monitoring Results" if monitor_only else "Recommended plan"
     refresh_page_recommendations(page_label)
     if not recommendation_required_notice(page_label):
         return
     b=best(auto_recompute=False); summary(b); dose_model_notice(); matrix(b)
     if not monitor_only:
-        st.markdown('<div class="notice">模型推荐流程：剂量分类模型生成 FSH、LH、HMG 候选；V2 XGBoost 预测各候选情景的获卵数，中重度 OHSS 模型给出对应风险。系统先保留“获卵数不更低且 OHSS 风险不更高”的 Pareto 候选，再按候选集合内等权归一化距离选择最接近“较高获卵数、较低 OHSS 风险”理想点的平衡参考方案。KNN 仅用于相似历史病例校验。</div>',unsafe_allow_html=True)
+        st.markdown('<div class="notice">Model recommendation flow: the dose classifier proposes FSH, LH and HMG candidates; V2 XGBoost predicts oocytes for each candidate scenario and the moderate-to-severe OHSS model returns the matching risk. The system first keeps the Pareto candidates with “no lower oocyte yield and no higher OHSS risk”, then picks the balanced reference closest to the “higher oocytes, lower OHSS risk” ideal point by equally weighted normalised distance within the candidate set. KNN is used only to cross-check similar historical cases.</div>',unsafe_allow_html=True)
         a,b1,c,d=st.columns([1.35,1,1,1])
-        if a.button("\u4fdd\u5b58 AI \u5efa\u8bae\u4e0e\u533b\u751f\u786e\u8ba4",type="primary",use_container_width=True): st.success("\u5df2\u4fdd\u5b58 AI \u5efa\u8bae\u4e0e\u533b\u751f\u786e\u8ba4\u8bb0\u5f55\uff0c\u4ec5\u4f5c\u4e3a\u8f85\u52a9\u51b3\u7b56\u8bb0\u5f55\u3002")
-        if b1.button("\u533b\u751f\u4fee\u6539\u5242\u91cf",use_container_width=True): st.session_state.show_modify=not st.session_state.get("show_modify",False)
-        if c.button("\u67e5\u770b\u51b3\u7b56\u66f2\u7ebf",use_container_width=True): set_page("\u51b3\u7b56\u66f2\u7ebf")
-        if d.button("\u67e5\u770b SHAP \u89e3\u91ca",use_container_width=True): set_page("\u63a8\u8350\u89e3\u91ca")
+        if a.button("Save AI suggestion and physician confirmation",type="primary",use_container_width=True): st.success("AI suggestion and physician confirmation saved; decision-support record only.")
+        if b1.button("Physician dose adjustment",use_container_width=True): st.session_state.show_modify=not st.session_state.get("show_modify",False)
+        if c.button("View Decision Curve",use_container_width=True): set_page("Decision Curve")
+        if d.button("View SHAP explanation",use_container_width=True): set_page("Recommendation Explanation")
         if st.session_state.get("show_modify"):
             with st.container(border=True):
-                bb=best(); st.markdown("#### \u533b\u751f\u4fee\u6539\u5242\u91cf")
+                bb=best(); st.markdown("#### Physician dose adjustment")
                 x,y,z=st.columns(3)
-                ff=x.number_input("\u6700\u7ec8 FSH \u5242\u91cf",0.0,600.0,float(bb["fsh"]),step=25.0)
-                ll=y.number_input("\u6700\u7ec8 LH \u5242\u91cf",0.0,300.0,float(bb["lh"]),step=37.5)
-                hh=z.number_input("\u6700\u7ec8 HMG \u5242\u91cf",0.0,450.0,float(bb["hmg"]),step=37.5)
+                ff=x.number_input("Final FSH dose",0.0,600.0,float(bb["fsh"]),step=25.0)
+                ll=y.number_input("Final LH dose",0.0,300.0,float(bb["lh"]),step=37.5)
+                hh=z.number_input("Final HMG dose",0.0,450.0,float(bb["hmg"]),step=37.5)
                 ok=abs(ff-bb["fsh"])<1e-9 and abs(ll-bb["lh"])<1e-9 and abs(hh-bb["hmg"])<1e-9
-                relation="\u4e00\u81f4" if ok else "\u5df2\u8c03\u6574"
-                st.markdown(f'<div class="notice">\u533b\u751f\u6700\u7ec8\u5242\u91cf\u4e0e AI \u5efa\u8bae\u5173\u7cfb\uff1a<b>{relation}</b>\u3002\u4fdd\u5b58\u65f6\u8bb0\u5f55 AI recommended dose\u3001doctor final dose\u3001timestamp \u548c operator\u3002</div>',unsafe_allow_html=True)
-    st.markdown('<div class="notice">AI \u4ec5\u63d0\u4f9b\u98ce\u9669\u5206\u5c42\u3001\u5019\u9009\u65b9\u6848\u6bd4\u8f83\u548c\u8f85\u52a9\u89e3\u91ca\uff1b\u5efa\u8bae\u7ed3\u5408\u4e34\u5e8a\u5224\u65ad\u3001E2\u3001\u5375\u6ce1\u8d1f\u8377\u548c\u60a3\u8005\u4e2a\u4f53\u60c5\u51b5\u8bc4\u4f30\u3002</div>',unsafe_allow_html=True)
+                relation="Matches" if ok else "Adjusted"
+                st.markdown(f'<div class="notice">Relationship between the physician final dose and the AI suggestion: <b>{relation}</b>. Saving records the AI recommended dose, doctor final dose, timestamp and operator.</div>',unsafe_allow_html=True)
+    st.markdown('<div class="notice">AI provides risk stratification, candidate comparison and supporting explanations only; combine with clinical judgement, E2, follicle load and the individual patient situation.</div>',unsafe_allow_html=True)
 def _scale(value, low, high, start, end):
     if high == low:
         return (start + end) / 2
@@ -1578,13 +1578,13 @@ def _curve_metric_value(row, key, raw_counts=False):
 def _curve_value_text(value, key):
     if key == "risk":
         return f"{fmt(value, 2)}%"
-    return f"{fmt(value, 1)} 个"
+    return f"{fmt(value, 1)}"
 
 
 def _curve_delta_text(delta, key):
     if key == "risk":
         return f"{delta:+.2f} pp"
-    return f"{delta:+.1f} 个"
+    return f"{delta:+.1f}"
 
 
 def _curve_delta_class(delta, key):
@@ -1601,12 +1601,12 @@ def _curve_sensitivity_html(points, dose_key, anchor):
     ordered = sorted(points, key=lambda r: as_float(r.get(dose_key), 0.0))
     low = ordered[0]
     high = ordered[-1]
-    metrics = [("获卵数", "o"), ("OHSS", "risk")]
+    metrics = [("Oocytes", "o"), ("OHSS", "risk")]
     rows = []
     for label, key in metrics:
         base_value = _curve_metric_value(anchor, key)
         cells = []
-        for point, dose_label in ((low, "低剂量端"), (anchor, "推荐锚点"), (high, "高剂量端")):
+        for point, dose_label in ((low, "Low-dose end"), (anchor, "Recommended anchor"), (high, "High-dose end")):
             value = _curve_metric_value(point, key)
             delta = value - base_value
             delta_cls = _curve_delta_class(delta, key)
@@ -1616,7 +1616,7 @@ def _curve_sensitivity_html(points, dose_key, anchor):
                 f'<span class="curve-s-delta {delta_cls}">{_curve_delta_text(delta, key)}</span></div>'
             )
         rows.append(f'<div class="curve-s-row"><div class="curve-s-label">{label}</div>{"".join(cells)}</div>')
-    return '<div class="curve-sensitivity"><div class="curve-s-head"><span>条件预测对照</span><span>低剂量端</span><span>推荐锚点</span><span>高剂量端</span></div>' + ''.join(rows) + '</div>'
+    return '<div class="curve-sensitivity"><div class="curve-s-head"><span>Conditional prediction comparison</span><span>Low-dose end</span><span>Recommended anchor</span><span>High-dose end</span></div>' + ''.join(rows) + '</div>'
 
 
 def _technical_sensitivity_panel():
@@ -1625,7 +1625,7 @@ def _technical_sensitivity_panel():
         curve_cache={}
     base_row=_recommended_curve_anchor()
     drug_labels={"fsh":"FSH","lh":"LH","hmg":"HMG"}
-    metric_defs=(("获卵数", "o"), ("OHSS", "risk"))
+    metric_defs=(("Oocytes", "o"), ("OHSS", "risk"))
     cards=[]
     for drug,dose_key in (("fsh","fsh"),("lh","lh"),("hmg","hmg")):
         points=curve_cache.get(drug)
@@ -1635,7 +1635,7 @@ def _technical_sensitivity_panel():
             continue
         points=sorted(points,key=lambda r:as_float(r.get(dose_key),0.0))
         anchor=next((r for r in points if r.get("candidate_role")=="recommended"), points[len(points)//2])
-        endpoints=(("低剂量端",points[0]),("高剂量端",points[-1]))
+        endpoints=(("Low-dose end",points[0]),("High-dose end",points[-1]))
         deltas=[]
         for _,point in endpoints:
             for _,metric_key in metric_defs:
@@ -1654,16 +1654,16 @@ def _technical_sensitivity_panel():
                     f'<div class="tech-dose-track"><div class="tech-dose-fill {cls}" style="width:{width:.1f}%"></div></div>'
                     f'<div class="tech-dose-value">{_curve_value_text(value,metric_key)}</div></div>'
                 )
-            rows.append(f'<div class="tech-dose-row"><div class="tech-dose-row-title">{endpoint_label} · {fmt(point.get(dose_key))} IU/天</div><div class="tech-dose-metrics">{"".join(cells)}</div></div>')
+            rows.append(f'<div class="tech-dose-row"><div class="tech-dose-row-title">{endpoint_label} · {fmt(point.get(dose_key))} IU/day</div><div class="tech-dose-metrics">{"".join(cells)}</div></div>')
         cards.append(
-            f'<div class="tech-dose-card"><div class="tech-dose-head"><div><div class="tech-dose-title">{drug_labels[drug]} 技术敏感性</div>'
-            f'<div class="tech-dose-sub">相对推荐锚点 {fmt(anchor.get(dose_key))} IU/天</div></div><span class="chip cm">原始模型差值</span></div>{"".join(rows)}</div>'
+            f'<div class="tech-dose-card"><div class="tech-dose-head"><div><div class="tech-dose-title">{drug_labels[drug]} technical sensitivity</div>'
+            f'<div class="tech-dose-sub">Relative to the recommended anchor {fmt(anchor.get(dose_key))} IU/day</div></div><span class="chip cm">Raw model delta</span></div>{"".join(rows)}</div>'
         )
     if not cards:
         return ""
     return (
-        '<div class="sec tech-sens"><div class="head"><div class="ic">∿</div><h3>技术敏感性参考</h3><span class="chip cw">非临床结论</span></div>'
-        '<div class="notice">该区域仅用于检查候选反应模型对单药剂量扰动是否有方向性响应。条形长度为本卡片内归一化放大；获卵数显示 candidate-response 原始预测差值，OHSS 显示风险刻度差值；曲线与正式候选方案表使用同一严格中重度 OHSS 概率。主曲线直接显示真实条件预测，正式候选方案表使用相同模型输出。</div>'
+        '<div class="sec tech-sens"><div class="head"><div class="ic">∿</div><h3>Technical sensitivity reference</h3><span class="chip cw">Not a clinical conclusion</span></div>'
+        '<div class="notice">This area only checks whether the candidate-response model reacts directionally to single-drug dose perturbations. Bar lengths are normalised within each card; oocytes show the raw candidate-response prediction delta and OHSS shows the risk-scale delta; the curves and the candidate scenario table use the same strict moderate-to-severe OHSS probability. The main curves show the true conditional prediction, and the candidate scenario table uses the same model output.</div>'
         f'<div class="tech-dose-grid">{"".join(cards)}</div></div>'
     )
 
@@ -1793,7 +1793,7 @@ def dose_curve(drug, title_, color):
         points=[r for r in st.session_state.recs if isinstance(r,Mapping)]
         points=sorted(points,key=lambda r:(as_float(r.get(dose_key),0),_role_rank(r.get("candidate_role")),str(r.get("name",""))))
     if not points:
-        return f'<div class="svgcard"><h4>{escape(title_)}</h4><div class="warning">暂无候选方案数据。</div></div>'
+        return f'<div class="svgcard"><h4>{escape(title_)}</h4><div class="warning">No candidate scenario data available.</div></div>'
     anchor=next((r for r in points if r.get("curve_recommended")),
                 next((r for r in points if r.get("candidate_role")=="recommended"), points[len(points)//2]))
     render_points=list(points)
@@ -1859,7 +1859,7 @@ def dose_curve(drug, title_, color):
     anchor_label=escape(display_dose_category(drug, anchor.get("dose_range_label", anchor.get(dose_key))))
     anchor_o=as_float(anchor.get("o"),0.0)
     anchor_risk=risk_prob(anchor)*100
-    return f"""<div class="svgcard" data-axis-ticks="{axis_attr}"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h4 style="margin:0;font-size:calc(20px * var(--fs-scale));line-height:1.25;white-space:nowrap">{escape(title_)}</h4><span class="chip cp">获卵数 / OHSS 平衡</span></div><div class="curve-rec-summary"><span class="dose">模型推荐 {anchor_label}</span><span>获卵数 <b>{fmt(anchor_o)}</b></span><span>OHSS <b>{fmt(anchor_risk,2)}%</b></span></div><svg viewBox="0 0 420 278" width="100%" role="img" aria-label="{escape(title_)}"><g stroke="#dbe3f0" stroke-width="1">{grid}<line x1="{x0}" y1="{y0-h}" x2="{x0}" y2="{y0}"/><line x1="{x0}" y1="{y0}" x2="{x0+w}" y2="{y0}"/><line x1="{x0+w}" y1="{y0-h}" x2="{x0+w}" y2="{y0}"/></g><g fill="#64748b" font-size="10">{rticks}{xticks}<text x="{x0+w/2}" y="264" text-anchor="middle">{drug_label} 剂量（IU/天）</text><text x="15" y="106" transform="rotate(-90 15,106)" text-anchor="middle">预测获卵数（个）</text><text x="407" y="106" transform="rotate(90 407,106)" text-anchor="middle">中重度 OHSS 风险（%）</text></g><polyline points="{oocyte_points}" fill="none" stroke="#14b8a6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="{risk_points}" fill="none" stroke="#f59e0b" stroke-width="3.2" stroke-dasharray="7 5" stroke-linecap="round" stroke-linejoin="round"/>{''.join(markers)}<g font-size="11" font-weight="800"><circle cx="216" cy="22" r="4" fill="#14b8a6"/><text x="224" y="26" fill="#14b8a6">获卵数</text><line x1="276" y1="22" x2="294" y2="22" stroke="#f59e0b" stroke-width="3.2" stroke-dasharray="7 5"/><text x="298" y="26" fill="#d97706">中重度 OHSS 风险</text></g></svg></div>"""
+    return f"""<div class="svgcard" data-axis-ticks="{axis_attr}"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h4 style="margin:0;font-size:calc(20px * var(--fs-scale));line-height:1.25;white-space:nowrap">{escape(title_)}</h4><span class="chip cp">Oocytes / OHSS balance</span></div><div class="curve-rec-summary"><span class="dose">{anchor_label}</span><span>Oocytes <b>{fmt(anchor_o)}</b></span><span>OHSS <b>{fmt(anchor_risk,2)}%</b></span></div><svg viewBox="0 0 420 278" width="100%" role="img" aria-label="{escape(title_)}"><g stroke="#dbe3f0" stroke-width="1">{grid}<line x1="{x0}" y1="{y0-h}" x2="{x0}" y2="{y0}"/><line x1="{x0}" y1="{y0}" x2="{x0+w}" y2="{y0}"/><line x1="{x0+w}" y1="{y0-h}" x2="{x0+w}" y2="{y0}"/></g><g fill="#64748b" font-size="10">{rticks}{xticks}<text x="{x0+w/2}" y="264" text-anchor="middle">{drug_label} dose (IU/day)</text><text x="15" y="106" transform="rotate(-90 15,106)" text-anchor="middle">Predicted oocytes</text><text x="407" y="106" transform="rotate(90 407,106)" text-anchor="middle">Moderate-to-severe OHSS risk (%)</text></g><polyline points="{oocyte_points}" fill="none" stroke="#14b8a6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="{risk_points}" fill="none" stroke="#f59e0b" stroke-width="3.2" stroke-dasharray="7 5" stroke-linecap="round" stroke-linejoin="round"/>{''.join(markers)}<g font-size="11" font-weight="800"><circle cx="216" cy="22" r="4" fill="#14b8a6"/><text x="224" y="26" fill="#14b8a6">Oocytes</text><line x1="276" y1="22" x2="294" y2="22" stroke="#f59e0b" stroke-width="3.2" stroke-dasharray="7 5"/><text x="298" y="26" fill="#d97706">Moderate-to-severe OHSS risk</text></g></svg></div>"""
 
 
 def knn_evidence_panel():
@@ -1881,27 +1881,27 @@ def knn_evidence_panel():
                 for r in rows
             )
             cards.append(
-                f'<div class="knn-drug-card"><div class="knn-drug-title"><span>{label} 相似病例</span></div><table class="knn-mini-table"><tr><th>病例</th><th>剂量</th><th>病例数</th><th>选择率</th><th>成功率</th></tr>{body}</table></div>'
+                f'<div class="knn-drug-card"><div class="knn-drug-title"><span>{label} similar cases</span></div><table class="knn-mini-table"><tr><th>Case</th><th>Dose</th><th>Cases</th><th>Selection rate</th><th>Success rate</th></tr>{body}</table></div>'
             )
         st.markdown(
-            f'<div class="sec"><div class="knn-evidence-head"><div class="ic">≋</div><h3>KNN 相似历史病例支持</h3><span class="chip cm">推荐解释与历史校验</span></div><div class="knn-drug-grid">{"".join(cards)}</div><div class="knn-evidence-note">各药物按选择率与成功率等权综合排序；仅用于解释和历史证据校验，不参与推荐剂量选择。</div></div>',
+            f'<div class="sec"><div class="knn-evidence-head"><div class="ic">≋</div><h3>KNN similar historical case support</h3><span class="chip cm">Recommendation explanation and historical validation</span></div><div class="knn-drug-grid">{"".join(cards)}</div><div class="knn-evidence-note">Each drug is ranked by an equally weighted combination of selection rate and success rate; this is explanatory and historical evidence only and does not affect the recommended dose.</div></div>',
             unsafe_allow_html=True,
         )
     else:
-        detail=escape(st.session_state.get("knn_ui_error") or st.session_state.get("layer1_error") or "未读取到实时 KNN 相似历史病例。")
-        st.markdown(f'<div class="warning">KNN 相似历史病例暂不可用：{detail}</div>',unsafe_allow_html=True)
+        detail=escape(st.session_state.get("knn_ui_error") or st.session_state.get("layer1_error") or "No live KNN similar historical cases were loaded.")
+        st.markdown(f'<div class="warning">KNN similar historical cases are unavailable: {detail}</div>',unsafe_allow_html=True)
 
 
 def knn_page():
-    title("决策曲线","比较候选剂量下的预测获卵数与中重度 OHSS 风险，并查看联合候选剂量情景。")
-    refresh_page_recommendations("决策曲线")
-    if not recommendation_required_notice("决策曲线"):
+    title("Decision Curve","")
+    refresh_page_recommendations("Decision Curve")
+    if not recommendation_required_notice("Decision Curve"):
         return
     st.session_state["knn_curve_points"]={}
     st.session_state["knn_curve_axis_ticks"]={}
     st.session_state["knn_curve_risk_domains"]={}
-    st.markdown('<div class="notice">固定其他患者变量，仅改变单种 Gn 剂量进行条件情景分析；虚线和实心点标出正式模型推荐剂量及其预测结果。</div>',unsafe_allow_html=True)
-    st.markdown('<div class="sec"><div class="head"><div class="ic">∿</div><h3>剂量-反应曲线</h3></div><div class="curves">'+dose_curve("fsh","FSH","#4f46e5")+dose_curve("lh","LH","#0f766e")+dose_curve("hmg","HMG","#4f46e5")+'</div></div>',unsafe_allow_html=True)
+    st.markdown('<div class="notice">All other patient variables are held fixed and only one Gn dose is varied for conditional scenario analysis; the dashed line and solid markers show the final model-recommended dose and its predicted results.</div>',unsafe_allow_html=True)
+    st.markdown('<div class="sec"><div class="head"><div class="ic">∿</div><h3>Dose-response curves</h3></div><div class="curves">'+dose_curve("fsh","FSH","#4f46e5")+dose_curve("lh","LH","#0f766e")+dose_curve("hmg","HMG","#4f46e5")+'</div></div>',unsafe_allow_html=True)
     cand_table()
 
 def factor(items):
@@ -2013,60 +2013,60 @@ def patient_breakdown_items(drug, shap_items, patient):
         "hmg":{"previous_hmg_daily_dose":.022,"mean_follicle_diameter":-.018,"follicle_count_16_18":-.015,"current_e2":-.013},
     }.get(drug,{})
     common=[
-        ("Day","促排天数",.020),
+        ("Day","Stimulation day",.020),
         ("current_e2","E2(pg/mL)",.030),
-        ("current_lh","血清LH(IU/L)",.022),
+        ("current_lh","Serum LH (IU/L)",.022),
         ("current_p","P(ng/mL)",.018),
-        ("current_fsh","血清FSH(IU/L)",.018),
-        ("current_endometrium","内膜(mm)",.017),
-        ("total_follicle_count","总卵泡数",.028),
-        ("max_follicle_diameter","最大卵泡(mm)",.026),
-        ("mean_follicle_diameter","平均卵泡(mm)",.024),
-        ("follicle_count_16_18","16-18mm卵泡",.020),
-        ("follicle_count_gt_18","≥18mm卵泡",.020),
+        ("current_fsh","Serum FSH (IU/L)",.018),
+        ("current_endometrium","Endometrium (mm)",.017),
+        ("total_follicle_count","Total follicle count",.028),
+        ("max_follicle_diameter","Max follicle (mm)",.026),
+        ("mean_follicle_diameter","Mean follicle (mm)",.024),
+        ("follicle_count_16_18","16-18 mm follicles",.020),
+        ("follicle_count_gt_18","≥18 mm follicles",.020),
         ("amh","AMH",.022),
         ("afc","AFC",.022),
-        ("age","年龄",.018),
+        ("age","Age",.018),
         ("bmi","BMI",.018),
-        ("basal_fsh","基础FSH",.014),
-        ("basal_lh","基础LH",.014),
-        ("basal_e2","基础E2",.012),
+        ("basal_fsh","Basal FSH",.014),
+        ("basal_lh","Basal LH",.014),
+        ("basal_e2","Basal E2",.012),
     ]
     drug_specific={
         "fsh":[
-            ("previous_fsh_daily_dose","历史FSH(IU/天)",.026),
+            ("previous_fsh_daily_dose","Prior FSH (IU/day)",.026),
             ("current_e2","E2(pg/mL)",.030),
-            ("total_follicle_count","总卵泡数",.028),
-            ("max_follicle_diameter","最大卵泡(mm)",.026),
-            ("mean_follicle_diameter","平均卵泡(mm)",.024),
-            ("follicle_count_16_18","16-18mm卵泡",.020),
-            ("follicle_count_gt_18","≥18mm卵泡",.020),
+            ("total_follicle_count","Total follicle count",.028),
+            ("max_follicle_diameter","Max follicle (mm)",.026),
+            ("mean_follicle_diameter","Mean follicle (mm)",.024),
+            ("follicle_count_16_18","16-18 mm follicles",.020),
+            ("follicle_count_gt_18","≥18 mm follicles",.020),
             ("amh","AMH",.022),
             ("afc","AFC",.022),
-            ("basal_fsh","基础FSH",.014),
+            ("basal_fsh","Basal FSH",.014),
         ],
         "lh":[
-            ("previous_lh_daily_dose","历史LH(IU/天)",.026),
-            ("current_lh","血清LH(IU/L)",.028),
+            ("previous_lh_daily_dose","Prior LH (IU/day)",.026),
+            ("current_lh","Serum LH (IU/L)",.028),
             ("current_p","P(ng/mL)",.020),
             ("current_e2","E2(pg/mL)",.024),
-            ("Day","促排天数",.020),
-            ("current_endometrium","内膜(mm)",.017),
-            ("total_follicle_count","总卵泡数",.022),
-            ("basal_lh","基础LH",.014),
+            ("Day","Stimulation day",.020),
+            ("current_endometrium","Endometrium (mm)",.017),
+            ("total_follicle_count","Total follicle count",.022),
+            ("basal_lh","Basal LH",.014),
             ("amh","AMH",.020),
             ("afc","AFC",.020),
         ],
         "hmg":[
-            ("previous_hmg_daily_dose","历史HMG(IU/天)",.030),
-            ("previous_lh_like_hmg_daily_dose","历史LH+HMG",.026),
-            ("mean_follicle_diameter","平均卵泡(mm)",.026),
-            ("max_follicle_diameter","最大卵泡(mm)",.024),
-            ("follicle_count_13_15","13-15mm卵泡",.021),
-            ("follicle_count_16_18","16-18mm卵泡",.020),
-            ("follicle_count_gt_18","≥18mm卵泡",.020),
+            ("previous_hmg_daily_dose","Prior HMG (IU/day)",.030),
+            ("previous_lh_like_hmg_daily_dose","Prior LH+HMG",.026),
+            ("mean_follicle_diameter","Mean follicle (mm)",.026),
+            ("max_follicle_diameter","Max follicle (mm)",.024),
+            ("follicle_count_13_15","13-15 mm follicles",.021),
+            ("follicle_count_16_18","16-18 mm follicles",.020),
+            ("follicle_count_gt_18","≥18 mm follicles",.020),
             ("current_e2","E2(pg/mL)",.023),
-            ("total_follicle_count","总卵泡数",.022),
+            ("total_follicle_count","Total follicle count",.022),
             ("bmi","BMI",.018),
         ],
     }
@@ -2183,14 +2183,14 @@ def breakdown_card(
         neg=mean<0
         if is_ohss_local:
             risk_up=mean>0
-            chip="\u589e\u52a0\u98ce\u9669" if risk_up else "\u964d\u4f4e\u98ce\u9669"
+            chip="Higher risk" if risk_up else "Lower risk"
         elif is_candidate_local:
             risk_up=neg
-            chip="\u964d\u4f4e\u9884\u6d4b" if neg else "\u589e\u52a0\u9884\u6d4b"
+            chip="Lower prediction" if neg else "Higher prediction"
         else:
             risk_up=neg
-            chip=str(item.get("direction") or ("\u8d1f\u5411\u8d21\u732e" if neg else "\u6b63\u5411\u8d21\u732e"))
-            chip=chip.replace("\u5e73\u5747", "\u5c40\u90e8") if is_local else chip
+            chip=str(item.get("direction") or ("Negative contribution" if neg else "Positive contribution"))
+            chip=chip.replace("Average", "Local") if is_local else chip
         fill_cls="bd-fill neg" if risk_up else "bd-fill"
         chip_cls="bd-chip neg" if risk_up else "bd-chip"
         score_html=f'<div class="bd-meta"><span class="{chip_cls}">{chip}</span><span class="bd-score">{escape(plus_num(mean))}{escape(contribution_unit)}</span></div>'
@@ -2205,23 +2205,23 @@ def breakdown_card(
         other=other_value
         other_width=max(18,min(96,int(round(28+64*(abs(other)/max_abs if max_abs else 0)))))
         if abs(other)<1e-12:
-            other_chip="贡献接近 0"
+            other_chip="Contribution near 0"
             other_chip_class="bd-chip neutral"
             other_fill_class="bd-fill neutral"
         elif is_ohss_local:
-            other_chip="增加风险" if other>0 else "降低风险"
+            other_chip="Higher risk" if other>0 else "Lower risk"
             other_chip_class="bd-chip neg" if other>0 else "bd-chip"
             other_fill_class="bd-fill neg" if other>0 else "bd-fill"
         elif is_candidate_local:
-            other_chip="增加预测" if other>0 else "降低预测"
+            other_chip="Higher prediction" if other>0 else "Lower prediction"
             other_chip_class="bd-chip" if other>0 else "bd-chip neg"
             other_fill_class="bd-fill" if other>0 else "bd-fill neg"
         else:
-            other_chip="局部正向" if other>0 else "局部负向"
+            other_chip="Local positive" if other>0 else "Local negative"
             other_chip_class="bd-chip" if other>0 else "bd-chip neg"
             other_fill_class="bd-fill" if other>0 else "bd-fill neg"
         other_score=f"{escape(plus_num(other))}{escape(contribution_unit)}"
-        other_detail=f"其余 {len(detail_items)} 个录入变量的贡献合计"
+        other_detail=f"Combined contribution of the other {len(detail_items)} entered variables"
         detail_scores=[as_float(item.get("mean_shap"),0.0) for item in detail_items]
         detail_rows=[]
         for item,detail_score in zip(detail_items,detail_scores):
@@ -2230,15 +2230,15 @@ def breakdown_card(
             value=str(item.get("value_label") or feature_value_text(feature,patient))
             if is_ohss_local:
                 risk_increase=as_float(item.get("mean_shap"),0.0)>0
-                detail_chip="增加风险" if risk_increase else "降低风险"
+                detail_chip="Higher risk" if risk_increase else "Lower risk"
                 detail_chip_class="bd-mini-chip down" if risk_increase else "bd-mini-chip up"
             elif is_candidate_local:
                 detail_up=detail_score>=0
-                detail_chip="增加预测" if detail_up else "降低预测"
+                detail_chip="Higher prediction" if detail_up else "Lower prediction"
                 detail_chip_class="bd-mini-chip up" if detail_up else "bd-mini-chip down"
             else:
                 detail_up=detail_score>=0
-                detail_chip="局部正向" if detail_up else "局部负向"
+                detail_chip="Local positive" if detail_up else "Local negative"
                 detail_chip_class="bd-mini-chip up" if detail_up else "bd-mini-chip down"
             detail_score_text=f"{detail_score:+.3f}{contribution_unit}"
             detail_rows.append(
@@ -2248,36 +2248,36 @@ def breakdown_card(
                 f'<strong>{escape(detail_score_text)}</strong>'
                 f'</div>'
             )
-        detail_body="".join(detail_rows) if detail_rows else '<div class="bd-other-empty">暂无可展开的单项归因</div>'
+        detail_body="".join(detail_rows) if detail_rows else '<div class="bd-other-empty">No individual attributions to expand</div>'
         rows.append(
             f'<details class="bd-other-details">'
             f'<summary class="bd-row other">'
-            f'<div><div class="bd-lab">其他因素总和</div><div class="bd-val">{escape(other_detail)}</div></div>'
+            f'<div><div class="bd-lab">others</div><div class="bd-val">{escape(other_detail)}</div></div>'
             f'<div class="bd-track"><div class="{other_fill_class}" style="width:{other_width}%"></div></div>'
-            f'<div class="bd-meta"><span class="{other_chip_class}">{other_chip}</span><span class="bd-score">{other_score}</span><span class="bd-other-toggle"><span class="closed">展开明细</span><span class="opened">收起明细</span></span></div>'
+            f'<div class="bd-meta"><span class="{other_chip_class}">{other_chip}</span><span class="bd-score">{other_score}</span><span class="bd-other-toggle"><span class="closed">Expand</span><span class="opened">Collapse</span></span></div>'
             f'</summary>'
             f'<div class="bd-other-list">{detail_body}</div>'
             f'</details>'
         )
     if is_ohss_local:
-        note="严格中重度 OHSS 候选模型正类的校准后 Tree SHAP 贡献；青绿色和负号降低风险，红色和正号增加风险。仅展示患者页面真实录入字段，不使用隐藏项补齐预测概率。"
+        note="Calibrated Tree SHAP contribution towards the positive class of the strict moderate-to-severe OHSS candidate model; teal and negative signs lower the risk, red and positive signs raise it. Only fields actually entered on the patient page are shown; hidden fields are not used to complete the predicted probability."
     elif is_candidate_local:
-        note=f"展示贡献最高的 {MAIN_LOCAL_SHAP_LIMIT} 个当前促排录入字段；条形长度为当前 V2 candidate-response 模型的 Tree SHAP 贡献，青绿色增加预测，红色降低预测。仅汇总其余真实录入字段，不使用隐藏项补齐结果。"
+        note=f"Shows the {MAIN_LOCAL_SHAP_LIMIT} highest-contributing entered stimulation fields; bar length is the Tree SHAP contribution of the current V2 candidate-response model, teal raises the prediction and red lowers it. Only the remaining entered fields are aggregated; hidden fields are not used to complete the result."
     elif is_local:
-        note=f"仅展示当前页面真实录入字段；数值为条件背景到当前推荐类别概率的积分梯度贡献（pp），青绿色为局部正向，红色为局部负向。非录入模型上下文在基准与当前患者间保持不变，不参与贡献补齐。"
+        note=f"Only fields actually entered on this page are shown; the value is the integrated-gradient contribution (pp) from the conditional background to the current recommended-category probability, teal is local positive and red is local negative. Non-entered model context is held fixed between the baseline and the current patient and does not take part in completing the contributions."
     else:
-        note=f"\u5c55\u793a\u8d21\u732e\u6700\u9ad8\u7684 {MAIN_LOCAL_SHAP_LIMIT} \u4e2a\u60a3\u8005\u5b57\u6bb5\uff1b\u6761\u5f62\u957f\u5ea6\u8868\u793a\u5f53\u524d\u60a3\u8005\u5b57\u6bb5\u5339\u914d\u5230\u7684\u76f8\u5bf9 SHAP \u8d21\u732e\u5f3a\u5ea6\uff0c\u9752\u7eff\u8272\u4e3a\u5e73\u5747\u6b63\u5411\u8d21\u732e\uff0c\u7ea2\u8272\u4e3a\u5e73\u5747\u8d1f\u5411\u8d21\u732e\u3002"
+        note=f"Shows the {MAIN_LOCAL_SHAP_LIMIT} highest-contributing patient fields; bar length shows the relative SHAP contribution strength matched for this patient, teal is an average positive contribution and red an average negative contribution."
     badge=escape(str(badge_label)) if badge_label is not None else f"{float(probability)*100:.1f}%"
     if baseline_probability is not None:
         baseline_pct=clamp(as_float(baseline_probability,0.0),0.0,1.0)*100
         prediction_pct=clamp(as_float(probability,0.0),0.0,1.0)*100
-        probability_display=(f'<div class="bd-prob-flow"><div class="bd-base" title="保持非录入模型上下文为患者当前值，仅将真实录入字段置于匹配训练背景后的条件预测"><span>基准预测值</span><strong>{baseline_pct:.1f}%</strong></div><span class="bd-arrow">&#8594;</span><span class="chip cp">{prediction_pct:.1f}%</span></div>')
+        probability_display=(f'<div class="bd-prob-flow"><div class="bd-base" title="Conditional prediction after placing only the actually entered fields on the matched training background, keeping non-entered model context at the current patient values"><span>Baseline prediction</span><strong>{baseline_pct:.1f}%</strong></div><span class="bd-arrow">&#8594;</span><span class="chip cp">{prediction_pct:.1f}%</span></div>')
     elif baseline_display is not None:
-        probability_display=(f'<div class="bd-prob-flow"><div class="bd-base" title="保持非录入模型上下文和候选剂量为当前情景，仅将真实录入字段置于训练参考值后的条件预测"><span>基准预测值</span><strong>{escape(str(baseline_display))}</strong></div><span class="bd-arrow">&#8594;</span><span class="chip cp">{badge}</span></div>')
+        probability_display=(f'<div class="bd-prob-flow"><div class="bd-base" title="Conditional prediction after placing only the actually entered fields on the training reference values, keeping non-entered model context and the candidate dose at the current scenario"><span>Baseline prediction</span><strong>{escape(str(baseline_display))}</strong></div><span class="bd-arrow">&#8594;</span><span class="chip cp">{badge}</span></div>')
     else:
         probability_display=f'<span class="chip cp">{badge}</span>'
     card_class=" probability-card" if baseline_probability is not None else " outcome-card" if show_other else ""
-    return f'<div class="bd-card{card_class}"><div class="bd-head"><div><div class="bd-title">{escape(str(drug))} \u4e2a\u4f53\u5316\u8d21\u732e</div><div class="bd-target">\u9884\u6d4b\u76ee\u6807: {escape(str(prediction_label))}</div></div>{probability_display}</div><div class="bd-stack">{"".join(rows)}</div></div>'
+    return f'<div class="bd-card{card_class}"><div class="bd-head"><div><div class="bd-title">{escape(str(drug))}</div><div class="bd-target">Prediction target: {escape(str(prediction_label))}</div></div>{probability_display}</div><div class="bd-stack">{"".join(rows)}</div></div>'
 
 
 def technical_shap_details(local_targets):
@@ -2298,7 +2298,7 @@ def technical_shap_details(local_targets):
             rows.append(
                 f'<div class="tech-row">'
                 f'<div><div class="tech-label">{escape(label)}</div><div class="tech-value">{escape(value)}</div></div>'
-                f'<span class="chip {"cd" if neg else "ct"}">{"局部负向" if neg else "局部正向"}</span>'
+                f'<span class="chip {"cd" if neg else "ct"}">{"Local negative" if neg else "Local positive"}</span>'
                 f'<div class="tech-score {"neg" if neg else ""}">{escape(plus_num(mean))}</div>'
                 f'</div>'
             )
@@ -2309,16 +2309,16 @@ def technical_shap_details(local_targets):
         return ""
     return (
         '<details class="tech-shap">'
-        '<summary><span>模型派生特征（技术详情）</span><span class="chip cm">默认收起</span></summary>'
+        '<summary><span>Model-derived features (technical detail)</span><span class="chip cm">Collapsed by default</span></summary>'
         f'<div class="tech-grid">{"".join(cards)}</div>'
-        '<div class="bd-note" style="padding:0 16px 16px;margin-top:0">主界面优先展示医生录入字段；这里保留未在主卡展示的高贡献派生特征，便于技术复核。</div>'
+        '<div class="bd-note" style="padding:0 16px 16px;margin-top:0">The main cards prioritise physician-entered fields; high-contribution derived features that are not shown on the main card are kept here for technical review.</div>'
         '</details>'
     )
 
 def shap_page():
-    title("\u4e0b\u4e00\u6b21 Gn \u5242\u91cf\u4e0e\u7ed3\u5c40\u98ce\u9669\u89e3\u91ca","解释当前患者快照下 FSH、LH、HMG 推荐类别、预测获卵数及严格中重度 OHSS 风险的真实模型归因。")
-    patient_ctx=refresh_page_recommendations("\u63a8\u8350\u89e3\u91ca")
-    if not recommendation_required_notice("\u63a8\u8350\u89e3\u91ca"):
+    title("Next Gn Dose and Outcome Risk Explanation","")
+    patient_ctx=refresh_page_recommendations("Recommendation Explanation")
+    if not recommendation_required_notice("Recommendation Explanation"):
         return
     b=best(auto_recompute=False); fl,fr=b["fsh_category"]; ll,lr=b["lh_category"]; hl,hr=b["hmg_category"]
     shap_data={"is_real":False,"targets":{},"groups":[]}
@@ -2328,9 +2328,9 @@ def shap_page():
         except Exception as exc:
             st.session_state["shap_ui_error"]=str(exc)
     targets=shap_data.get("targets",{}) if isinstance(shap_data,Mapping) else {}
-    fsh_all=targets.get("fsh",{}).get("items") or [("E2 level","\u539f\u578b\u5360\u4f4d",78,"t","ct"),("\u226514 mm follicle count","\u539f\u578b\u5360\u4f4d",62,"t","ct"),("previous FSH dose","\u539f\u578b\u5360\u4f4d",56,"","cp"),("AMH","\u539f\u578b\u5360\u4f4d",38,"w","cw")]
-    lh_all=targets.get("lh",{}).get("items") or [("serum LH","\u539f\u578b\u5360\u4f4d",70,"t","ct"),("E2 change","\u539f\u578b\u5360\u4f4d",48,"w","cw"),("monitoring visit order","\u539f\u578b\u5360\u4f4d",43,"","cp"),("P level","\u539f\u578b\u5360\u4f4d",38,"t","ct")]
-    hmg_all=targets.get("hmg",{}).get("items") or [("previous HMG dose","\u539f\u578b\u5360\u4f4d",68,"","cp"),("mean follicle diameter","\u539f\u578b\u5360\u4f4d",56,"t","ct"),("\u226518 mm follicle count","\u539f\u578b\u5360\u4f4d",45,"t","ct"),("BMI","\u539f\u578b\u5360\u4f4d",34,"w","cw")]
+    fsh_all=targets.get("fsh",{}).get("items") or [("E2 level","placeholder",78,"t","ct"),("≥14 mm follicle count","placeholder",62,"t","ct"),("previous FSH dose","placeholder",56,"","cp"),("AMH","placeholder",38,"w","cw")]
+    lh_all=targets.get("lh",{}).get("items") or [("serum LH","placeholder",70,"t","ct"),("E2 change","placeholder",48,"w","cw"),("monitoring visit order","placeholder",43,"","cp"),("P level","placeholder",38,"t","ct")]
+    hmg_all=targets.get("hmg",{}).get("items") or [("previous HMG dose","placeholder",68,"","cp"),("mean follicle diameter","placeholder",56,"t","ct"),("≥18 mm follicle count","placeholder",45,"t","ct"),("BMI","placeholder",34,"w","cw")]
     local_shap={"is_local":False,"targets":{}}
     if UI_REAL_DATA_AVAILABLE and load_phase867_local_dose_shap_for_patient is not None:
         try:
@@ -2377,7 +2377,7 @@ def shap_page():
     lh_display,lh_probability,lh_baseline,lh_shap_abs_sum=dose_explanation_values("lh",ll,clamp((sel+succ)/2,.05,.95))
     hmg_display,hmg_probability,hmg_baseline,hmg_shap_abs_sum=dose_explanation_values("hmg",hl,clamp((safe+score)/2,.05,.95))
     ohss_prof=ohss_profile(b)
-    ohss_target=f"中重度 OHSS 风险 / {ohss_prof['category_zh']}"
+    ohss_target=f"Moderate-to-severe OHSS risk / {ohss_prof['category_zh']}"
     oocyte_explanation={}; ohss_explanation={}
     snap=None
     if CANDIDATE_RESPONSE_AVAILABLE and explain_candidate_response_shap is not None and patient_form_to_snapshot is not None:
@@ -2409,14 +2409,14 @@ def shap_page():
     if oocyte_breakdown:
         oocyte_baseline=oocyte_explanation.get("baseline_prediction")
         oocyte_prediction=oocyte_explanation.get("prediction",b.get("o"))
-        outcome_cards.append(breakdown_card("\u83b7\u5375\u6570",f"\u9884\u6d4b\u83b7\u5375\u6570 = {fmt(oocyte_prediction)}",0,oocyte_breakdown,patient_ctx,badge_label=f"{fmt(oocyte_prediction)} \u4e2a",baseline_display=f"{oocyte_baseline:.1f} \u4e2a" if oocyte_baseline is not None else "--",other_items=oocyte_breakdown[MAIN_LOCAL_SHAP_LIMIT:],show_other=True,contribution_unit=" \u4e2a"))
+        outcome_cards.append(breakdown_card("Oocytes individual contribution",f"Predicted oocytes = {fmt(oocyte_prediction)}",0,oocyte_breakdown,patient_ctx,badge_label=f"{fmt(oocyte_prediction)}",baseline_display=f"{oocyte_baseline:.1f}" if oocyte_baseline is not None else "--",other_items=oocyte_breakdown[MAIN_LOCAL_SHAP_LIMIT:],show_other=True,contribution_unit=""))
     if ohss_breakdown:
         ohss_baseline=ohss_explanation.get("baseline_prediction")
         ohss_prediction=clamp(as_float(ohss_explanation.get("prediction"),ohss_display_profile(b).get("display") or 0),0,1)
-        outcome_cards.append(breakdown_card("OHSS",ohss_target,ohss_prediction,ohss_breakdown,patient_ctx,badge_label=f"{ohss_prediction*100:.2f}%",baseline_display=f"{ohss_baseline*100:.2f}%" if ohss_baseline is not None else "--",other_items=ohss_breakdown[MAIN_LOCAL_SHAP_LIMIT:],show_other=True,contribution_unit=" pp"))
+        outcome_cards.append(breakdown_card("OHSS individual contribution",ohss_target,ohss_prediction,ohss_breakdown,patient_ctx,badge_label=f"{ohss_prediction*100:.2f}%",baseline_display=f"{ohss_baseline*100:.2f}%" if ohss_baseline is not None else "--",other_items=ohss_breakdown[MAIN_LOCAL_SHAP_LIMIT:],show_other=True,contribution_unit=" pp"))
     gn_breakdown_html="".join(gn_cards)
     outcome_breakdown_html="".join(outcome_cards)
-    outcome_html=(f'<div class="breakdown-row-title outcome-title">\u7ed3\u5c40\u4e0e\u98ce\u9669\u4e2a\u4f53\u5316\u89e3\u91ca</div><div class="breakdown-grid outcome-explain-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">{outcome_breakdown_html}</div>') if outcome_cards else ""
+    outcome_html=(f'<div class="breakdown-row-title outcome-title">Individual explanation of outcomes and risk</div><div class="breakdown-grid outcome-explain-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">{outcome_breakdown_html}</div>') if outcome_cards else ""
     technical_html=""
     if local_shap.get("is_local"):
         matched_meta=" | ".join(
@@ -2424,24 +2424,24 @@ def shap_page():
             for key in ("fsh","lh","hmg")
             if local_targets.get(key,{})
         )
-        local_chip='<span class="chip ct">\u771f\u5b9e\u5c40\u90e8\u5f52\u56e0</span>'
-        local_density_chip=f'<span class="chip cm">Top {MAIN_LOCAL_SHAP_LIMIT} \u4e34\u5e8a\u5b57\u6bb5</span>'
-        local_notice=f'\u5df2\u63a5\u5165 Phase 8.67 per-sample attribution long \u8868\uff1b\u5f53\u524d\u60a3\u8005\u5feb\u7167\u4f1a\u5339\u914d\u6700\u63a5\u8fd1\u7684\u771f\u5b9e OOF \u5c40\u90e8\u5f52\u56e0\u6837\u672c\uff0c\u5e76\u7528\u8be5\u6837\u672c\u5b9e\u9645 shap_value \u6e32\u67d3 Gn \u5242\u91cf\u8fdb\u5ea6\u6761\u3002{escape(matched_meta)}'
+        local_chip='<span class="chip ct">True local attribution</span>'
+        local_density_chip=f'<span class="chip cm">Top {MAIN_LOCAL_SHAP_LIMIT} clinical fields</span>'
+        local_notice=f'The Phase 8.67 per-sample attribution long table is connected; the current patient snapshot is matched to the closest real OOF local-attribution sample and that sample actual shap_value renders the Gn dose bars. {escape(matched_meta)}'
     else:
-        local_chip='<span class="chip cw">\u5168\u5c40\u6c47\u603b\u56de\u9000</span>'
+        local_chip='<span class="chip cw">Global summary fallback</span>'
         local_density_chip=""
-        local_notice='\u672a\u8bfb\u53d6\u5230\u53ef\u5339\u914d\u7684 per-sample attribution long \u8868\uff0c\u5f53\u524d Gn \u5242\u91cf\u89e3\u91ca\u56de\u9000\u4e3a\u60a3\u8005\u5b57\u6bb5 + \u5168\u5c40 SHAP \u6c47\u603b\u5f3a\u5ea6\u3002'
-    ohss_chip='<span class="chip cw">\u4e2d\u91cd\u5ea6 OHSS \u65e9\u671f\u9884\u8b66</span>' if ohss_breakdown else ''
-    st.markdown(f'<div class="sec"><div class="head"><div class="ic">&plusmn;</div><h3>\u4e2a\u4f53\u5316\u8d21\u732e</h3></div><div class="breakdown-row-title">Gn \u5242\u91cf\u4e2a\u4f53\u5316\u89e3\u91ca</div><div class="breakdown-grid gn-explain-grid">{gn_breakdown_html}</div>{outcome_html}{technical_html}</div>',unsafe_allow_html=True)
+        local_notice='No matchable per-sample attribution long table was loaded; the current Gn dose explanation falls back to patient fields plus global SHAP summary strength.'
+    ohss_chip='<span class="chip cw">Moderate-to-severe OHSS early warning</span>' if ohss_breakdown else ''
+    st.markdown(f'<div class="sec"><div class="head"><div class="ic">&plusmn;</div><h3>Individual contribution</h3></div><div class="breakdown-row-title">Individual explanation of the Gn dose</div><div class="breakdown-grid gn-explain-grid">{gn_breakdown_html}</div>{outcome_html}{technical_html}</div>',unsafe_allow_html=True)
     knn_evidence_panel()
 
 def main():
     init(); header(); p=st.session_state.page
-    if p=="首页": home()
-    elif p=="患者录入": patient_page()
-    elif p=="决策曲线": knn_page()
-    elif p=="推荐解释": shap_page()
-    elif p=="监测结果": rec_page(True)
+    if p=="Home": home()
+    elif p=="Patient Input": patient_page()
+    elif p=="Decision Curve": knn_page()
+    elif p=="Recommendation Explanation": shap_page()
+    elif p=="Monitoring Results": rec_page(True)
     statusbar(); st.markdown('<div style="height:42px"></div>',unsafe_allow_html=True)
 
 if __name__ == "__main__": main()

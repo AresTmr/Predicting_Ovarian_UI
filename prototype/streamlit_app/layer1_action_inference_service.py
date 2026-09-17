@@ -20,7 +20,7 @@ CURRENT_LAYER1_ACTION_RUN_POINTER = REPO_ROOT / "models" / "artifacts" / "curren
 CURRENT_LAYER1_SPLIT_ACTION_REGISTRY = REPO_ROOT / "models" / "artifacts" / "current_layer1_split_action_runs.json"
 SPLIT_ACTION_TARGETS = ("fsh_action", "lh_action", "hmg_action")
 SPLIT_ACTION_CN = {"fsh_action": "FSH", "lh_action": "LH", "hmg_action": "HMG"}
-ACTION_CN = {"increase": "加量", "maintain": "维持", "decrease": "减量"}
+ACTION_CN = {"increase": "Increase dose", "maintain": "Maintain dose", "decrease": "Decrease dose"}
 ACTION_CLASS = {"increase": "up", "maintain": "keep", "decrease": "down"}
 
 
@@ -186,7 +186,7 @@ def patient_form_to_snapshot(form: Mapping[str, Any]) -> pd.Series:
         "age": _to_float(form.get("age")),
         "bmi": _to_float(form.get("bmi")),
         "infertility_duration": _to_float(form.get("years", form.get("infertility_duration"))),
-        "diagnosis_primary_secondary": form.get("diagnosis", form.get("infertility", "未知")),
+        "diagnosis_primary_secondary": form.get("diagnosis", form.get("infertility", "Unknown")),
         "afc": _to_float(form.get("afc")),
         "amh": _to_float(form.get("amh")),
         "initial_gn_dose": _to_float(form.get("initial_gn", form.get("initial_gn_dose")), current_total),
@@ -194,7 +194,7 @@ def patient_form_to_snapshot(form: Mapping[str, Any]) -> pd.Series:
         "basal_lh": _to_float(form.get("basal_lh")),
         "basal_e2": _to_float(form.get("basal_e2")),
         "basal_p": _to_float(form.get("basal_p")),
-        "male_factor_infertility_flag": 0 if str(form.get("male_factor_infertility", "否")) in {"否", "0", "False"} else 1,
+        "male_factor_infertility_flag": 0 if str(form.get("male_factor_infertility", "No")) in {"No", "no", "0", "False", "false"} else 1,
         "male_age": _to_float(form.get("male_age"), np.nan),
         "sperm_source_group": form.get("sperm_source_group", "Unknown"),
         "fertilization_method": form.get("fertilization_method", "Unknown"),
@@ -371,7 +371,7 @@ def predict_layer1_split_action_contexts(
 
 def split_action_summary_text(contexts: Mapping[str, Mapping[str, Any]] | None) -> str:
     if not contexts:
-        return "FSH/LH/HMG 拆分 action bundle 未读取，当前使用前端候选剂量规则。"
+        return "The FSH/LH/HMG split action bundles were not loaded; the front-end candidate dose rules are used instead."
     parts = []
     for target in SPLIT_ACTION_TARGETS:
         ctx = contexts.get(target, {}) if isinstance(contexts, Mapping) else {}
@@ -380,9 +380,9 @@ def split_action_summary_text(contexts: Mapping[str, Mapping[str, Any]] | None) 
         probs = ctx.get("probabilities", {}) if isinstance(ctx.get("probabilities"), Mapping) else {}
         parts.append(
             f"{drug}: {ACTION_CN.get(action, action)} "
-            f"(加 {float(probs.get('increase', 0.0)):.2f}/维 {float(probs.get('maintain', 0.0)):.2f}/减 {float(probs.get('decrease', 0.0)):.2f})"
+            f"(inc {float(probs.get('increase', 0.0)):.2f}/keep {float(probs.get('maintain', 0.0)):.2f}/dec {float(probs.get('decrease', 0.0)):.2f})"
         )
-    return "；".join(parts)
+    return "; ".join(parts)
 
 
 def dose_delta_from_action(action: str, *, drug: str) -> float:
@@ -399,7 +399,7 @@ def evidence_for_action(context: Mapping[str, Any] | None, action: str) -> dict[
         "ovarian": np.nan,
         "mii": np.nan,
         "ohss_free": np.nan,
-        "text": "当前未读取到实时相似病例统计，需检查 Layer1 action artifacts 和 KNN 历史库。",
+        "text": "No live similar-case statistics were loaded; check the Layer1 action artifacts and the KNN history store.",
     }
     if not context:
         return fallback
@@ -414,9 +414,9 @@ def evidence_for_action(context: Mapping[str, Any] | None, action: str) -> dict[
     mii = row.get("mii_success_rate", np.nan)
     ohss_free = row.get("ohss_free_rate", np.nan)
     if action == context.get("recommended_action"):
-        text = f"在 KNN 相似历史病例中，该动作选择率为 {selection:.0%}，可作为当前模型推荐的历史参考依据。"
+        text = f"This action was selected in {selection:.0%} of the KNN similar historical cases and supports the current model recommendation."
     else:
-        text = f"该候选动作在 KNN 相似历史病例中的选择率为 {selection:.0%}，用于对比参考。"
+        text = f"This candidate action was selected in {selection:.0%} of the KNN similar historical cases; shown for comparison."
     return {
         "selection": selection,
         "ovarian": float(row.get("ovarian_response_success_rate", np.nan)),

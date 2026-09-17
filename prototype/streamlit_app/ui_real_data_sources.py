@@ -33,69 +33,69 @@ DOSE_PROBABILITY_COLUMNS = {
 TARGET_LABELS = {"fsh": "FSH", "lh": "LH", "hmg": "HMG"}
 TECHNICAL_DETAIL_LIMIT = 4
 FEATURE_LABELS_CN = {
-    "Day": "促排天数",
-    "gn_day": "促排天数",
-    "evaluation_day": "评估天数",
-    "cycle_day": "周期天数",
-    "monitoring_order": "监测序次",
-    "visits_seen": "已监测次数",
-    "days_since_previous_visit": "距上次监测天数",
-    "previous_fsh_daily_dose": "既往 FSH 剂量",
-    "previous_lh_daily_dose": "既往 LH 剂量",
-    "previous_hmg_daily_dose": "既往 HMG 剂量",
-    "previous_lh_like_hmg_daily_dose": "既往 LH-like 剂量",
-    "previous_gn_dose": "既往总 Gn 剂量",
+    "Day": "Stimulation day",
+    "gn_day": "Stimulation day",
+    "evaluation_day": "Evaluation day",
+    "cycle_day": "Cycle day",
+    "monitoring_order": "Monitoring order",
+    "visits_seen": "Visits seen",
+    "days_since_previous_visit": "Days since previous visit",
+    "previous_fsh_daily_dose": "Prior FSH dose",
+    "previous_lh_daily_dose": "Prior LH dose",
+    "previous_hmg_daily_dose": "Prior HMG dose",
+    "previous_lh_like_hmg_daily_dose": "Prior LH-like dose",
+    "previous_gn_dose": "Prior total Gn dose",
     "current_e2": "E2",
-    "current_lh": "血清 LH",
+    "current_lh": "Serum LH",
     "current_p": "P",
-    "current_fsh": "血清 FSH",
-    "current_endometrium": "内膜厚度",
-    "delta_e2": "E2 变化",
-    "delta_lh": "LH 变化",
-    "delta_p": "P 变化",
-    "delta_fsh": "FSH 变化",
-    "delta_endometrium": "内膜变化",
-    "total_follicle_count": "总卵泡数",
-    "left_follicle_count": "左侧卵泡数",
-    "right_follicle_count": "右侧卵泡数",
-    "mean_follicle_diameter": "平均卵泡直径",
-    "max_follicle_diameter": "最大卵泡直径",
-    "mature_follicle_count": "成熟卵泡数",
-    "mature_follicle_share": "成熟卵泡占比",
-    "large_follicle_share": "大卵泡占比",
-    "dominant_follicle_count": "优势卵泡数",
-    "follicle_count_lt_10": "<10mm 卵泡数",
-    "follicle_count_10_12": "10-12mm 卵泡数",
-    "follicle_count_13_15": "13-15mm 卵泡数",
-    "follicle_count_16_18": "16-18mm 卵泡数",
-    "follicle_count_gt_18": "≥18mm 卵泡数",
-    "growing_follicle_count": "生长卵泡数",
-    "medium_plus_follicle_count": "中大卵泡数",
-    "ohss_follicle_load_score": "卵泡负荷评分",
-    "follicle_size_weighted_count": "卵泡直径加权数",
-    "follicle_maturity_index": "卵泡成熟指数",
-    "mid_follicle_share": "中等卵泡占比",
-    "large_to_mature_follicle_ratio": "大/成熟卵泡比",
-    "e2_per_mature_follicle": "单成熟卵泡 E2",
-    "e2_per_weighted_follicle": "加权卵泡 E2",
-    "p_lh_ratio": "P/LH 比值",
-    "delta_p_per_day": "每日 P 变化",
-    "delta_lh_per_day": "每日 LH 变化",
-    "age": "年龄",
+    "current_fsh": "Serum FSH",
+    "current_endometrium": "Endometrial thickness",
+    "delta_e2": "E2 change",
+    "delta_lh": "LH change",
+    "delta_p": "P change",
+    "delta_fsh": "FSH change",
+    "delta_endometrium": "Endometrial change",
+    "total_follicle_count": "Total follicle count",
+    "left_follicle_count": "Left follicle count",
+    "right_follicle_count": "Right follicle count",
+    "mean_follicle_diameter": "Mean follicle diameter",
+    "max_follicle_diameter": "Max follicle diameter",
+    "mature_follicle_count": "Mature follicle count",
+    "mature_follicle_share": "Mature follicle share",
+    "large_follicle_share": "Large follicle share",
+    "dominant_follicle_count": "Dominant follicle count",
+    "follicle_count_lt_10": "Follicles <10 mm",
+    "follicle_count_10_12": "Follicles 10-12 mm",
+    "follicle_count_13_15": "Follicles 13-15 mm",
+    "follicle_count_16_18": "Follicles 16-18 mm",
+    "follicle_count_gt_18": "Follicles ≥18 mm",
+    "growing_follicle_count": "Growing follicle count",
+    "medium_plus_follicle_count": "Medium-plus follicle count",
+    "ohss_follicle_load_score": "Follicle load score",
+    "follicle_size_weighted_count": "Size-weighted follicle count",
+    "follicle_maturity_index": "Follicle maturity index",
+    "mid_follicle_share": "Mid follicle share",
+    "large_to_mature_follicle_ratio": "Large/mature follicle ratio",
+    "e2_per_mature_follicle": "E2 per mature follicle",
+    "e2_per_weighted_follicle": "E2 per weighted follicle",
+    "p_lh_ratio": "P/LH ratio",
+    "delta_p_per_day": "P change per day",
+    "delta_lh_per_day": "LH change per day",
+    "age": "Age",
     "bmi": "BMI",
-    "infertility_duration": "不孕年限",
+    "infertility_duration": "Infertility duration",
     "amh": "AMH",
     "afc": "AFC",
-    "initial_gn_dose": "起始 Gn 剂量",
-    "basal_fsh": "基础 FSH",
-    "basal_lh": "基础 LH",
-    "basal_e2": "基础 E2",
-    "basal_p": "基础 P",
-    "male_age": "男方年龄",
-    "male_factor_infertility_flag": "男方因素",
-    "treatment_count": "治疗次数",
-    "fresh_treatment_count": "既往鲜胚治疗次数",
-    "baseline_only_feature_row": "仅基础信息行",
+    "initial_gn_dose": "Initial Gn dose",
+    "basal_fsh": "Basal FSH",
+    "basal_lh": "Basal LH",
+    "basal_e2": "Basal E2",
+    "basal_p": "Basal P",
+    "male_age": "Male age",
+    "male_factor_infertility_flag": "Male factor",
+    "treatment_count": "Treatment count",
+    "fresh_treatment_count": "Prior fresh-embryo treatment count",
+    "baseline_only_feature_row": "Baseline-only row",
 }
 CLINICAL_DISPLAY_FEATURES = {
     "previous_fsh_daily_dose",
@@ -297,7 +297,7 @@ def _display_feature_value(feature: str, value: Any) -> str:
         "previous_lh_like_hmg_daily_dose",
         "previous_gn_dose",
     }:
-        return f"{_fmt_num(value)} IU/天"
+        return f"{_fmt_num(value)} IU/day"
     if name in {
         "total_follicle_count",
         "left_follicle_count",
@@ -313,7 +313,7 @@ def _display_feature_value(feature: str, value: Any) -> str:
         "medium_plus_follicle_count",
         "afc",
     }:
-        return f"{_fmt_num(value)} 个"
+        return f"{_fmt_num(value)}"
     if name in {
         "mature_follicle_share",
         "large_follicle_share",
@@ -322,16 +322,16 @@ def _display_feature_value(feature: str, value: Any) -> str:
     }:
         return _fmt_percent(value)
     if name in {"age", "male_age", "infertility_duration", "Day", "gn_day", "evaluation_day", "cycle_day"}:
-        unit = "岁" if name in {"age", "male_age"} else "年" if name == "infertility_duration" else "天"
+        unit = "years" if name in {"age", "male_age"} else "years" if name == "infertility_duration" else "days"
         return f"{_fmt_num(value)} {unit}"
     if name in {"monitoring_order", "visits_seen", "treatment_count", "fresh_treatment_count"}:
-        return f"{_fmt_num(value)} 次"
+        return f"{_fmt_num(value)} visits"
     if name == "bmi":
         return f"{_fmt_num(value, 1)} kg/m²"
     if name == "amh":
         return f"{_fmt_num(value, 2)} ng/mL"
     if name == "male_factor_infertility_flag":
-        return "是" if _safe_float(value, 0.0) >= 0.5 else "否"
+        return "Yes" if _safe_float(value, 0.0) >= 0.5 else "No"
     return _fmt_num(value, 2)
 
 
@@ -341,10 +341,10 @@ def _display_feature_name(feature: str, feature_name: str | None) -> str:
 
 def _direction(mean_shap: float) -> tuple[str, str, str]:
     if mean_shap > 0:
-        return "平均正向贡献", "w", "cw"
+        return "Average positive contribution", "w", "cw"
     if mean_shap < 0:
-        return "平均负向贡献", "t", "ct"
-    return "平均贡献接近 0", "", "cp"
+        return "Average negative contribution", "t", "ct"
+    return "Average contribution near 0", "", "cp"
 
 
 def _feature_group(feature: str) -> str:
@@ -513,8 +513,8 @@ def _patient_raw_feature_values(patient: Mapping[str, Any]) -> dict[str, float]:
     growing = f_10_12 + f_13_15 + f_16_18 + f_gt18
     medium_plus = large
     weighted = f_lt10 * 8.0 + f_10_12 * 11.0 + f_13_15 * 14.0 + f_16_18 * 17.0 + f_gt18 * 19.0
-    male_factor = str(_first_present(patient, "male_factor_infertility", default="否")).strip().lower()
-    male_flag = 0.0 if male_factor in {"", "0", "false", "no", "否", "无", "none", "nan"} else 1.0
+    male_factor = str(_first_present(patient, "male_factor_infertility", default="No")).strip().lower()
+    male_flag = 0.0 if male_factor in {"", "0", "false", "no", "none", "nan"} else 1.0
     values = {
         "age": age,
         "bmi": bmi,
@@ -609,7 +609,7 @@ def build_current_patient_dose_attribution_items(
     rows = list(grouped.values())
     for row in rows:
         value = float(row["mean_shap"])
-        row["direction"] = "局部正向" if value >= 0 else "局部负向"
+        row["direction"] = "Local positive" if value >= 0 else "Local negative"
         row["mean_abs_shap"] = abs(value)
     rows.sort(key=lambda row: abs(float(row["mean_shap"])), reverse=True)
     return rows
@@ -701,7 +701,7 @@ def _scaled_patient_values(raw_values: Mapping[str, float], stats: Mapping[str, 
 def _local_value_label(feature: str, raw_values: Mapping[str, float], fallback: Any) -> str:
     if feature in raw_values:
         return _display_feature_value(feature, raw_values[feature])
-    return f"匹配值 {_fmt_num(fallback)}"
+    return f"Matched value {_fmt_num(fallback)}"
 
 
 def _rank_local_display_rows(sample_rows: pd.DataFrame, target: str, limit: int) -> pd.DataFrame:
@@ -736,7 +736,7 @@ def _local_item_from_row(
         "feature": feature,
         "label": _display_feature_name(feature, str(row.get("feature_name", feature))),
         "value_label": _local_value_label(feature, raw_values, row.get("feature_value")),
-        "direction": direction.replace("平均", "局部"),
+        "direction": direction.replace("Average", "Local"),
         "width": max(24, min(88, width)),
         "fill": fill,
         "chip": chip,
@@ -922,6 +922,8 @@ def _strict_modsev_ohss(value: Any) -> bool | None:
     text = str(value).strip().lower()
     if not text:
         return False
+    # The Chinese tokens match the complication_text labels shipped in
+    # data/processed/successful_cycle_labels_v1.csv and must stay for matching.
     return any(token in text for token in ("moderate", "severe", "中度", "重度", "中重度"))
 
 
@@ -952,9 +954,9 @@ def build_knn_reference_rows(context_or_frame: Any, limit: int = 4) -> list[dict
         day = _fmt_num(row.get("gn_day", row.get("Day")))
         visit = _fmt_num(row.get("monitoring_order", row.get("visits_seen")))
         categories = (_dose_category("fsh", next_fsh), _dose_category("lh", next_lh), _dose_category("hmg", next_hmg))
-        trigger_label = "达标" if success is True else "未达标" if success is False else "不可评估"
+        trigger_label = "Met" if success is True else "Not met" if success is False else "Not evaluable"
         trigger_class = "ct" if success is True else "cw" if success is False else "cm"
-        ohss_label = "发生" if modsev is True else "未发生" if modsev is False else "--"
+        ohss_label = "Occurred" if modsev is True else "Not occurred" if modsev is False else "--"
         ohss_class = "cd" if modsev is True else "ct" if modsev is False else "cm"
         prepared.append(
             {
@@ -974,7 +976,7 @@ def build_knn_reference_rows(context_or_frame: Any, limit: int = 4) -> list[dict
                     "oocytes": _fmt_num(oocytes),
                     "mii": _fmt_num(mii),
                     "follicles_ge14": _fmt_num(follicles_ge14),
-                    "observed_outcome": f"获卵 {_fmt_num(oocytes)}",
+                    "observed_outcome": f"Oocytes {_fmt_num(oocytes)}",
                     "trigger_success": trigger_label,
                     "trigger_class": trigger_class,
                     "ohss_label": ohss_label,
